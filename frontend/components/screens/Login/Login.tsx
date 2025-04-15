@@ -43,7 +43,7 @@ const Login = () => {
     return (
         <div className="relative min-h-screen flex items-center justify-center ">
             {/* Background */}
-            <BackgroundBeams className="absolute inset-0 -z-10 bg-indigo-900" />
+            <BackgroundBeams className="absolute inset-0 -z-10 bg-indigo-950" />
 
             {/* Form Box */}
             <div className="w-full max-w-md p-6  shadow-xl bg-white dark:bg-gray-900">
@@ -59,11 +59,12 @@ const Login = () => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email <span className="text-red-500">*</span></FormLabel>
+                                    <FormLabel  className="text-black">Email <span className="text-red-500">*</span></FormLabel>
                                     <FormControl>
-                                        <Input type="email" placeholder="you@example.com" {...field} />
+                                        <Input type="text" placeholder="you@example.com" {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage  className="text-xs"/>
+
                                 </FormItem>
                             )}
                         />
@@ -74,7 +75,7 @@ const Login = () => {
                             name="password"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Password <span className="text-red-500">*</span></FormLabel>
+                                    <FormLabel className="text-black">Password <span className="text-red-500">*</span></FormLabel>
                                     <FormControl>
                                         <div className="relative">
                                             <Input
@@ -94,7 +95,8 @@ const Login = () => {
                                             </Link>
                                         </div>
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage  className="text-xs"/>
+
                                 </FormItem>
                             )}
                         />
