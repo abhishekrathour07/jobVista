@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginFormSchema } from "./validations/loginform.schema"
-import { BaggageClaim, Eye, EyeClosed } from "lucide-react"
+import {  Eye, EyeClosed } from "lucide-react"
 import { useState } from "react"
 import { BackgroundBeams } from "@/components/ui/background-beams"
 import CustomButton from "@/components/custom/CustomButton/CustomButton"
@@ -53,7 +53,6 @@ const Login = () => {
 
                 <Form {...form}>
                     <div className="space-y-5">
-                        {/* Email Field */}
                         <FormField
                             control={form.control}
                             name="email"
@@ -69,7 +68,6 @@ const Login = () => {
                             )}
                         />
 
-                        {/* Password Field */}
                         <FormField
                             control={form.control}
                             name="password"
@@ -110,7 +108,6 @@ const Login = () => {
                                 <p> Don't have an account? <span className="hover:underline text-indigo-500 hover:text-indigo-600">Signup</span></p>
                             </Link>
                             <h1 className="text-2xl  text-indigo-800 font-semibold ">JobVista</h1>
-                            {/* Copyright */}
                             <div className=" text-xs text-gray-500">
                                 © {new Date().getFullYear()} JobVista. All rights reserved.
                             </div>
