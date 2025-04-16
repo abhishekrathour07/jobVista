@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { BaggageClaim, Eye, EyeClosed } from "lucide-react"
+import {Eye, EyeClosed } from "lucide-react"
 import { useState } from "react"
 import { BackgroundBeams } from "@/components/ui/background-beams"
 import CustomButton from "@/components/custom/CustomButton/CustomButton"

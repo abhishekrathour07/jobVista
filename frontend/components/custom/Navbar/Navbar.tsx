@@ -12,7 +12,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-indigo-600 shadow-md border-b border-gray-300 sticky top-0 z-50">
+    <nav className="bg-indigo-800 shadow-md border-b border-gray-300 sticky top-0 z-50">
       <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 font-semibold text-lg text-white">
@@ -45,13 +45,13 @@ const Navbar = () => {
         {/* Desktop Buttons */}
         <div className="hidden md:flex items-center gap-4">
           <Link href="/dashboard">
-            <Button variant="ghost" size="sm" className="text-white hover:bg-indigo-500">
+            <Button variant="ghost" size="sm" className="text-white hover:bg-indigo-200">
               <LayoutDashboard className="h-4 w-4 mr-2" />
               Dashboard
             </Button>
           </Link>
           <Link href="/profile">
-            <Button variant="outline" size="sm" className="border-white text-white hover:bg-indigo-500">
+            <Button variant="outline" size="sm" className="border-white text-black hover:bg-indigo-500">
               <User className="h-4 w-4 mr-2" />
               Profile
             </Button>
@@ -75,39 +75,39 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-indigo-700 px-4 py-3 border-t border-gray-300 animate-fade-in">
+        <div className="md:hidden bg-white px-4 py-3 border-t border-gray-300 animate-fade-in">
           <div className="flex flex-col space-y-3">
             <Link 
               href="/" 
-              className="text-white py-2 hover:text-indigo-300 transition-colors"
+              className="text-black py-2 hover:text-indigo-300 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Home
             </Link>
             <Link 
               href="/jobs" 
-              className="text-white py-2 hover:text-indigo-300 transition-colors"
+              className="text-black py-2 hover:text-indigo-300 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Jobs
             </Link>
             <Link 
               href="/companies" 
-              className="text-white py-2 hover:text-indigo-300 transition-colors"
+              className="text-black py-2 hover:text-indigo-300 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Companies
             </Link>
             <Link 
               href="/dashboard" 
-              className="text-white py-2 hover:text-indigo-300 transition-colors"
+              className="text-black py-2 hover:text-indigo-300 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Dashboard
             </Link>
             <Link 
               href="/profile" 
-              className="text-white py-2 hover:text-indigo-300 transition-colors"
+              className="text-black py-2 sm:border transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Profile
