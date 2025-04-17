@@ -4,7 +4,7 @@ import DashboardTabs from './components/DashboardTabs'
 
 const UserDashboard = () => {
     return (
-        <div className='bg-indigo-50 h-[100vh] '>
+        <div className='bg-indigo-50 h-[100vh] overflow-y-scroll hide-scrollbar'>
             <Navbar />
             <div className=' p-8 fle flex-col space-y-5'>
             <div className='flex flex-col justify-center items-start gap-6'>

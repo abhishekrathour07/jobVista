@@ -26,7 +26,7 @@ const CustomPagination: React.FC<PaginationProps> = ({
       pages.push(
         <Button
           key={i}
-          className="mx-1 bg-indigo-800 hover:bg-indigo-900 text-white"
+          className={`mx-1  text-white ${currentPage===i?"bg-indigo-800 hover:bg-indigo-900":"bg-white border text-black hover:bg-slate-100"}`}
           onClick={() => handlePageClick(i)}
         >
           {i}

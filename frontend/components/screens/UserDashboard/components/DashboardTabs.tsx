@@ -46,7 +46,7 @@ const DashboardTabs = () => {
 
     return (
         <Tabs defaultValue={currentTab} value={currentTab} onValueChange={handleTabChange} className="w-full">
-            <TabsList className="bg-white border rounded-md mb-4 text-black">
+            <TabsList className="bg-white border border-indigo-700 rounded-md h-12 mb-4 text-black">
                 {tabsValue.map((tab:TabItem, index:number) => (
                     <TabsTrigger
                         key={index}
