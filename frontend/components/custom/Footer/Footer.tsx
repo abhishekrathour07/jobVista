@@ -10,7 +10,7 @@ function Footer() {
             <div className="mb-4 md:mb-0">
               <div className="flex items-center gap-2 font-semibold text-primary">
                 <Briefcase className="h-5 w-5" />
-                <span>FindFutureJobs</span>
+                <span className='text-indigo-700'>JobVista</span>
               </div>
               <p className="text-sm text-muted-foreground mt-2">
                 &copy; {new Date().getFullYear()} JobVista. All rights reserved.

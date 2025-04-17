@@ -38,7 +38,7 @@ export const jobs = [
   {
     id: 5,
     company: 'Meta',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Meta_Platforms_Inc._logo.svg',
+    logo: null,
     title: 'Data Scientist',
     status: 'Expired',
     location: 'Remote',
@@ -65,7 +65,7 @@ export const jobs = [
   {
     id: 8,
     company: 'Salesforce',
-    logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f9/Salesforce.com_logo.svg/1200px-Salesforce.com_logo.svg.png',
+    logo: null,
     title: 'Product Manager',
     status: 'Expired',
     location: 'Bangalore',
@@ -83,7 +83,7 @@ export const jobs = [
   {
     id: 10,
     company: 'Intel',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c9/Intel-logo.svg',
+    logo: null,
     title: 'Security Analyst',
     status: 'Expired',
     location: 'Gurgaon',
