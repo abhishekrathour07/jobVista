@@ -18,10 +18,10 @@ function Footer() {
             </div>
             
             <div className="flex gap-6">
-              <a href="#" className="text-muted-foreground hover:text-primary">About</a>
-              <a href="#" className="text-muted-foreground hover:text-primary">Contact</a>
-              <a href="#" className="text-muted-foreground hover:text-primary">Privacy</a>
-              <a href="#" className="text-muted-foreground hover:text-primary">Terms</a>
+              <a href="#" className="text-muted-foreground hover:text-indigo-700">About</a>
+              <a href="#" className="text-muted-foreground hover:text-indigo-700">Contact</a>
+              <a href="#" className="text-muted-foreground hover:text-indigo-700">Privacy</a>
+              <a href="#" className="text-muted-foreground hover:text-indigo-700">Terms</a>
             </div>
           </div>
         </div>

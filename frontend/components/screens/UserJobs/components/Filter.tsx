@@ -10,7 +10,7 @@ import React, { useState } from 'react'
 const FilterJobs = () => {
     const [category,setCategory] =useState("")
     return (
-        <div className='border px-6 py-8  space-y-6 rounded-lg w-full h-fit max-w-md'>
+        <div className='border px-6 py-10  space-y-5 rounded-lg w-full h-fit max-w-md'>
             <div className='flex justify-between'>
                 <div className='flex gap-2 items-center'>
                     <SlidersHorizontal className='h-5 w-5' />
@@ -48,6 +48,10 @@ const FilterJobs = () => {
             <div className='flex flex-col gap-4 w-full'>
                 <h2 className='text-lg text-black font-semibold'>Salary Range</h2>
                 <Slider />
+                <div className=' flex text-sm justify-between items-center mt-2'>
+                    <p>Start <span className='text-gray-500'>25k</span></p>
+                    <p> Upto <span className='text-gray-500'>250k</span></p>
+                </div>
             </div>
         </div>
     )

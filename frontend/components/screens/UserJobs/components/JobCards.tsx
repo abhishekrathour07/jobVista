@@ -15,7 +15,7 @@ type JobsProps = {
 
 const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location, description }) => {
   return (
-    <div className="p-6 border rounded-xl shadow-sm space-y-5 bg-white">
+    <div className="p-6 border rounded-xl shadow-sm space-y-5 h-fit bg-white">
       {/* Top Section */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
