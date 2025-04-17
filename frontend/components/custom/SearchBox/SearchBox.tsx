@@ -14,7 +14,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ placeholder, icon }) => {
       </span>
       <Input
         placeholder={placeholder}
-        className="pl-14 pr-4 py-2 max-w-lg w-full rounded-md border border-gray-300 focus:border-indigo-600 "
+        className="pl-14 pr-4 py-2 w-full rounded-md border border-gray-300 focus:border-indigo-600 "
       />
     </div>
   )

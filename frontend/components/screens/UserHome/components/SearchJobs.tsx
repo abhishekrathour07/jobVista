@@ -10,7 +10,7 @@ const SearchJobs = () => {
                 <h1 className='text-6xl font-bold'>Find Your <span className='text-indigo-600'>Dream Job</span> Today</h1>
                 <p className='text-gray-400'>Discover thousands of jobs in tech, design, marketing and more. Your next career move is just a few clicks away.</p>
             </div>
-           <div className='bg-white p-8 rounded-sm shadow-xl'>
+           <div className='bg-white p-8 rounded-sm w-full max-w-5xl shadow-xl'>
            <div className='flex gap-4'>
                 <SearchBox placeholder='Search any Job' icon={<Search />} />
                 <SearchBox placeholder='Search any location' icon={<MapPin />} />
