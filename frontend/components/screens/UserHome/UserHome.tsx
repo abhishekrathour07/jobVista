@@ -12,8 +12,6 @@ const UserHome = () => {
       <Navbar />
       <SearchJobs />
       <CompanyLogos />
-
-
       <CreateProfile />
       <Footer />
     </div>

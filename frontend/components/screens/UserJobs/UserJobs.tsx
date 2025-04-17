@@ -7,7 +7,7 @@ import FilterJobs from './components/Filter'
 import JobCards from './components/JobCards'
 import { jobs } from './data/jobdata'
 import Footer from '@/components/custom/Footer/Footer'
-import CustomPagination from '@/components/Pagination/Pagination'
+import CustomPagination from '@/components/custom/Pagination/Pagination'
 
 const UserJobs = () => {
     const [currentPage, setCurrentpage] = useState(1)
