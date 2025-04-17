@@ -50,12 +50,10 @@ const Navbar = () => {
               Dashboard
             </Button>
           </Link>
-          <Link href="/user/profile">
             <Button variant="outline" size="sm" className="border-white text-black hover:bg-indigo-500">
               <User className="h-4 w-4 mr-2" />
               Profile
             </Button>
-          </Link>
         </div>
 
         {/* Mobile Menu Button */}

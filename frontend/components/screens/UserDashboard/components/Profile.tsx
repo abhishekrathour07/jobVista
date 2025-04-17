@@ -1,6 +1,5 @@
 "use client"
 
-import CustomButton from '@/components/custom/CustomButton/CustomButton'
 import { Button } from '@/components/ui/button'
 import {
     Form,
@@ -14,6 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Edit } from 'lucide-react'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import ProfileCard from './ProfileCard'
 
 // ✅ Type definition for the form
 type aboutType = {
@@ -22,6 +22,7 @@ type aboutType = {
     location: string
     relationshipStatus: string
     phone: string
+    Resume:string
 }
 
 const sampleData: aboutType = {
@@ -29,7 +30,8 @@ const sampleData: aboutType = {
     email: 'BCA - Acharya College',
     location: 'Bangalore',
     relationshipStatus: 'Single',
-    phone: "9337474321"
+    phone: "9337474321",
+    Resume:"jfjjhfj"
 }
 
 const Profile = () => {
@@ -41,8 +43,9 @@ const Profile = () => {
             name: '',
             email: '',
             location: '',
+            phone: '',
+            Resume:"",
             relationshipStatus: '',
-            phone: ''
         },
     })
 
@@ -52,26 +55,25 @@ const Profile = () => {
     }
 
     return (
-        <div className='bg-white text-black border border-indigo-700 rounded-lg p-6 relative'>
-            <div>
-                <div className='flex justify-between'>
+        <div className='bg-white flex flex-col flex-1 w-full text-black border border-indigo-700 rounded-lg p-6 relative'>
+                <div className='flex justify-between w-full'>
                     <h1 className='text-2xl font-bold'>Personal Information</h1>
                     <Button
                         variant="ghost"
                         onClick={() => setIsEditing(!isEditing)}
+                        aria-label="Edit Personal Information"
                     >
                         <Edit className='h-5 w-5' /> Edit
                     </Button>
-
                 </div>
                 {!isEditing ? (
-                    <div className='space-y-4'>
+                    <div className='space-y-4 w-full'>
                         <div>
-                            <h3 className='text-gray-400'>name</h3>
+                            <h3 className='text-gray-400'>Name</h3>
                             <p>{data?.name || 'Not provided'}</p>
                         </div>
                         <div>
-                            <h3 className='text-gray-400'>email</h3>
+                            <h3 className='text-gray-400'>Email</h3>
                             <p>{data?.email || 'Not provided'}</p>
                         </div>
                         <div>
@@ -89,8 +91,8 @@ const Profile = () => {
                     </div>
                 ) : (
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-                            {['name', 'email', 'location', 'relationshipStatus', "phone"].map((fieldName) => (
+                        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 w-full'>
+                            {['name', 'email', 'location', 'relationshipStatus', "phone","Resume"].map((fieldName) => (
                                 <FormField
                                     key={fieldName}
                                     control={form.control}
@@ -108,10 +110,17 @@ const Profile = () => {
                             ))}
 
                             <div className='w-full flex gap-4 justify-start'>
-                                <CustomButton className='h-10 w-40' label='Save' onClick={form.handleSubmit(onSubmit)} />
                                 <Button
-                                    className='border h-10 w-40 bg-transparent text-black hover:bg-transparent'
+                                    className='h-10 w-40 bg-indigo-700 text-white hover:bg-indigo-800'
+                                    type="submit"
+                                    aria-label="Save Changes"
+                                >
+                                    Save
+                                </Button>
+                                <Button
+                                    className='border h-10 w-40 bg-transparent text-black hover:bg-gray-100'
                                     onClick={() => setIsEditing(false)}
+                                    aria-label="Cancel Editing"
                                 >
                                     Cancel
                                 </Button>
@@ -120,9 +129,18 @@ const Profile = () => {
                     </Form>
                 )}
             </div>
+    )
+}
 
+const ProfileMain = () => {
+    return (
+        <div className='flex gap-6'>
+            <ProfileCard />
+            <div className='w-full'>
+                <Profile />
+            </div>
         </div>
     )
 }
 
-export default Profile
+export default ProfileMain

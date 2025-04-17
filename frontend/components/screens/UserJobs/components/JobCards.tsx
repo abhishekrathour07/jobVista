@@ -1,8 +1,12 @@
 import CustomButton from '@/components/custom/CustomButton/CustomButton';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { DialogTitle } from '@radix-ui/react-dialog';
 import { MapPin } from 'lucide-react';
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import ApplyJobDrawer from '../../UserJobDetails/components/ApplyJobDrawer';
 
 type JobsProps = {
   company: string;
@@ -14,6 +18,9 @@ type JobsProps = {
 };
 
 const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location, description }) => {
+
+  const router = useRouter();
+  const [showUserInfo,setShowUserInfo] = useState(false)
   return (
     <div className="p-6 border rounded-xl shadow-sm space-y-5 h-fit bg-white">
       {/* Top Section */}
@@ -34,9 +41,8 @@ const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location,
           </div>
         </div>
         <span
-          className={`px-3 py-1 text-sm rounded-full ${
-            status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-          }`}
+          className={`px-3 py-1 text-sm rounded-full ${status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+            }`}
         >
           {status}
         </span>
@@ -50,10 +56,21 @@ const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location,
         <Button
           variant="outline"
           className="h-10 border-gray-300 text-gray-800 hover:bg-gray-100"
+          onClick={() => router.push("/user/jobs/detail")}
         >
           Learn More..
         </Button>
-        <CustomButton label="Apply Now" />
+        <Sheet open={showUserInfo} onOpenChange={setShowUserInfo}>
+          <SheetTrigger asChild>
+            <CustomButton label='Apply Now' />
+          </SheetTrigger>
+          <SheetContent side="right" className="bg-white text-black sm:w-[400px] w-full overflow-auto">
+            <div className="p-4 space-y-4">
+              <DialogTitle className="text-xl font-semibold">Apply for this Job</DialogTitle>
+              <ApplyJobDrawer />
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </div>
   );

@@ -7,12 +7,14 @@ import { BadgeCheckIcon, Bookmark, User } from 'lucide-react';
 import SavedJobs from './SavedJobs';
 import Profile from './Profile';
 import AppliedJobs from './AppliedJobs';
+import ProfileCard from './ProfileCard';
+import ProfileMain from './Profile';
 
 type TabItem = {
     name: React.ReactNode;
     value: string;
     content: React.ReactNode;
-  };
+};
 
 const DashboardTabs = () => {
     const router = useRouter();
@@ -20,21 +22,21 @@ const DashboardTabs = () => {
 
     const currentTab = searchParams.get('tabs') || 'profile';
 
-    const tabsValue= [
+    const tabsValue = [
         {
             name: <div className='flex gap-2 items-center'><User /> Profile</div>,
             value: 'profile',
-            content: <Profile/>,
+            content:<ProfileMain/>
         },
         {
             name: <div className='flex gap-2 items-center'><Bookmark /> Saved Jobs</div>,
             value: 'saved-jobs',
-            content:<SavedJobs/>,
+            content: <SavedJobs />,
         },
         {
             name: <div className='flex gap-2 items-center'><BadgeCheckIcon /> Applied Jobs</div>,
             value: 'applied-jobs',
-            content: <AppliedJobs/>,
+            content: <AppliedJobs />,
         },
     ];
 
@@ -47,7 +49,7 @@ const DashboardTabs = () => {
     return (
         <Tabs defaultValue={currentTab} value={currentTab} onValueChange={handleTabChange} className="w-full">
             <TabsList className="bg-white border border-indigo-700 rounded-md h-12 mb-4 text-black">
-                {tabsValue.map((tab:TabItem, index:number) => (
+                {tabsValue.map((tab: TabItem, index: number) => (
                     <TabsTrigger
                         key={index}
                         value={tab.value}
@@ -58,9 +60,9 @@ const DashboardTabs = () => {
                 ))}
             </TabsList>
 
-            {tabsValue.map((tab:TabItem, index:number) => (
+            {tabsValue.map((tab: TabItem, index: number) => (
                 <TabsContent key={index} value={tab.value} className="space-y-2">
-                    <div className="flex flex-col justify-between py-2">
+                    <div className="flex flex-col py-2">
                         <span>{tab.content}</span>
                     </div>
                 </TabsContent>
