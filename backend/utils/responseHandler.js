@@ -5,7 +5,7 @@ const responseHandler = (res, statusCode, message, data = null) => {
     const response = {
         success,
         message,
-        ...data(data && { data })
+        ...(data && { data })
 
     }
     return res.status(statusCode).json(response);

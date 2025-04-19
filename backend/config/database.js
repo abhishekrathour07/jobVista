@@ -6,6 +6,7 @@ export const ConnectedDatabase = async () => {
       console.log("connected to job Vista database")
    } catch (error) {
       console.log("Error while connected to database");
-      console.log(error)
+      console.error(error)
+      process.exit(1);
    }
 }
