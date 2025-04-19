@@ -145,7 +145,7 @@ const AdminAllJobsList = () => {
         "Status",
         "Actions"
     ];
-    const itemPerPage = 8;
+    const itemPerPage = 7;
     const totalpages = Math.ceil(jobs.length / itemPerPage)
     const startIndex = (currentPage - 1) * itemPerPage
     const endIndex = startIndex + itemPerPage

@@ -19,7 +19,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Eye } from "lucide-react";
+import { ArrowLeft, Eye } from "lucide-react";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 
@@ -64,7 +64,7 @@ const AdminApplicants = () => {
     ];
 
     const [currentPage, setCurrnetpage] = useState(1);
-    const itemPerPage = 8;
+    const itemPerPage = 7;
     const totalpages = Math.ceil(applicants.length / itemPerPage);
     const startIndex = (currentPage - 1) * itemPerPage;
     const endIndex = startIndex + itemPerPage;
@@ -73,8 +73,16 @@ const AdminApplicants = () => {
     return (
         <div className="bg-indigo-50 h-[100vh] overflow-y-scroll hide-scrollbar">
             <Navbar />
-            <div className="p-8 flex flex-col justify-center">
+
+            <div className="p-4 flex flex-col justify-center">
                 <div className="bg-white p-6 border rounded-lg space-y-6 shadow-sm">
+                        <button
+                            className='flex items-center gap-2 px-2 rounded-full border border-gray-300 bg-white shadow-sm hover:bg-gray-100 transition-all'
+                            onClick={() => router.back()}
+                        >
+                            <ArrowLeft className='w-4 h-4' />
+                            <span>Back</span>
+                        </button>
                     <h2 className="text-2xl font-bold text-purple-800">Applicants Application</h2>
 
                     <div className="bg-white rounded-lg overflow-hidden">

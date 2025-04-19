@@ -134,7 +134,7 @@ const Profile = () => {
 
 const ProfileMain = () => {
     return (
-        <div className='flex gap-6'>
+        <div className='flex flex-col md:flex-row gap-6'>
             <ProfileCard />
             <div className='w-full'>
                 <Profile />
