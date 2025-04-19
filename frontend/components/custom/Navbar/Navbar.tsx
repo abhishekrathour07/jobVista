@@ -1,6 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { BriefcaseBusiness, User, LayoutDashboard, Menu, X } from "lucide-react";
+import { BriefcaseBusiness, User, LayoutDashboard, Menu, X, CirclePlus, NotebookTabs } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -17,10 +17,10 @@ const Navbar = () => {
     <nav className="bg-indigo-800 shadow-md border-b border-gray-300 sticky top-0 z-50">
       <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 font-semibold text-lg text-white">
+        <div className="flex items-center gap-2 font-semibold text-lg text-white">
           <BriefcaseBusiness className="h-6 w-6 text-white" />
           <span className=" text-white">JobVista</span>
-        </Link>
+        </div>
 
         {/* Desktop Navigation */}
         {user === 'admin' ?
@@ -36,14 +36,16 @@ const Navbar = () => {
               </Link>
               <Link
                 href="/admin/post-job"
-                className="text-white hover:text-indigo-300 transition-colors"
+                className="text-white flex items-center gap-2 hover:text-indigo-300 transition-colors"
               >
+                <CirclePlus  className="h-4 w-4"  />
                 post Job
               </Link>
               <Link
                 href="/admin/all-jobs"
-                className="text-white hover:text-indigo-300 transition-colors"
+                className="text-white flex items-center gap-2 hover:text-indigo-300 transition-colors"
               >
+                <NotebookTabs className="h-4 w-4"  />
                 All jobs
               </Link>
             </div>
