@@ -9,7 +9,7 @@ import {
 
 const FAQquestions = () => {
   return (
-    <div className="w-full max-w-2xl mx-auto p-6">
+    <div className="w-full max-w-md h-fit rounded-lg border mx-auto p-4 bg-white">
       <h2 className="text-lg font-bold mb-6 text-center">Frequently Asked Questions</h2>
       <Accordion type="single" collapsible className="w-full space-y-2">
         <AccordionItem value="q1">

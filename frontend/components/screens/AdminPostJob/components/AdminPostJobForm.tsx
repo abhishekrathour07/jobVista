@@ -1,14 +1,17 @@
 "use client"
-import CustomButton from '@/components/custom/CustomButton/CustomButton';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { SelectTrigger, SelectValue } from '@radix-ui/react-select';
+
 import React from 'react'
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { jobFormSchema } from './validation/Addjob.validation';
+import CustomButton from '@/components/custom/CustomButton/CustomButton';
+
+import {
+    Form, FormControl, FormField, FormItem, FormLabel
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 const AdminPostJobForm = () => {
     const form = useForm({
@@ -26,31 +29,32 @@ const AdminPostJobForm = () => {
             salaryRange: '',
             experience: '',
             skills: '',
-            deadline: "",
+            deadline: undefined,
             workplace: 'remote',
-        }, resolver: yupResolver(jobFormSchema),
-    }
-    );
+        },
+        resolver: yupResolver(jobFormSchema),
+    });
 
-    const { handleSubmit, control } = form;
+    const { handleSubmit, control, setValue } = form;
 
     const onSubmit = (data: any) => {
         console.log('Job Data:', data);
     };
 
     return (
-        <div className=' bg-white border text-black overflow-y-scroll hide-scrollbar h-[80vh] rounded-lg'>
-            <div className="p-6">
-                <h2 className="text-2xl font-semibold mb-4">Post a New Job</h2>
+        <div className="bg-white border text-black h-[80vh] overflow-y-auto hide-scrollbar rounded-lg shadow-md">
+            <div className="p-6 space-y-6">
+                <h2 className="text-2xl font-semibold">Post a New Job</h2>
+
                 <Form {...form}>
-                    <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* First column */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Left Column */}
                         <FormField
                             control={control}
                             name="jobTitle"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Job Title</FormLabel>
+                                    <FormLabel>Job Title <span className='text-red-600'>*</span></FormLabel>
                                     <FormControl>
                                         <Input {...field} placeholder="e.g., Frontend Developer" />
                                     </FormControl>
@@ -63,9 +67,9 @@ const AdminPostJobForm = () => {
                             name="companyName"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Company Name</FormLabel>
+                                    <FormLabel>Company Name <span className='text-red-600'>*</span></FormLabel>
                                     <FormControl>
-                                        <Input {...field} placeholder="e.g., TechCorp" />
+                                        <Input {...field} placeholder="e.g., google" />
                                     </FormControl>
                                 </FormItem>
                             )}
@@ -76,21 +80,22 @@ const AdminPostJobForm = () => {
                             name="industryType"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Industry Type</FormLabel>
+                                    <FormLabel>Industry Type <span className='text-red-600'>*</span></FormLabel>
                                     <FormControl>
                                         <Input {...field} placeholder="e.g., IT Services" />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={control}
                             name="workplace"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Workplace Type</FormLabel>
+                                    <FormLabel>Workplace Type <span className='text-red-600'>*</span></FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
+                                        <FormControl className='w-full'>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select workplace" />
                                             </SelectTrigger>
@@ -110,7 +115,7 @@ const AdminPostJobForm = () => {
                             name="foundedAt"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Founded Year</FormLabel>
+                                    <FormLabel>Founded Year <span className='text-red-600'>*</span></FormLabel>
                                     <FormControl>
                                         <Input type="number" {...field} placeholder="e.g., 2012" />
                                     </FormControl>
@@ -123,7 +128,7 @@ const AdminPostJobForm = () => {
                             name="location"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Location</FormLabel>
+                                    <FormLabel>Location <span className='text-red-600'>*</span></FormLabel>
                                     <FormControl>
                                         <Input {...field} placeholder="e.g., Bangalore" />
                                     </FormControl>
@@ -136,9 +141,9 @@ const AdminPostJobForm = () => {
                             name="jobType"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Job Type</FormLabel>
+                                    <FormLabel>Job Type <span className='text-red-600'>*</span></FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
+                                        <FormControl className='w-full'>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select job type" />
                                             </SelectTrigger>
@@ -159,9 +164,9 @@ const AdminPostJobForm = () => {
                             name="jobStatus"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Job Status</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
+                                    <FormLabel>Job Status <span className='text-red-600'>*</span></FormLabel>
+                                    <Select  onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl className='w-full'>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select status" />
                                             </SelectTrigger>
@@ -180,7 +185,7 @@ const AdminPostJobForm = () => {
                             name="salaryRange"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Salary Range</FormLabel>
+                                    <FormLabel>Salary Range <span className='text-red-600'>*</span></FormLabel>
                                     <FormControl>
                                         <Input {...field} placeholder="e.g., ₹4-8 LPA" />
                                     </FormControl>
@@ -193,7 +198,7 @@ const AdminPostJobForm = () => {
                             name="experience"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Experience Required</FormLabel>
+                                    <FormLabel>Experience Required <span className='text-red-600'>*</span></FormLabel>
                                     <FormControl>
                                         <Input {...field} placeholder="e.g., 2+ years" />
                                     </FormControl>
@@ -206,7 +211,7 @@ const AdminPostJobForm = () => {
                             name="skills"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Skills</FormLabel>
+                                    <FormLabel>Skills <span className='text-red-600'>*</span></FormLabel>
                                     <FormControl>
                                         <Input {...field} placeholder="e.g., React, Node.js" />
                                     </FormControl>
@@ -219,21 +224,23 @@ const AdminPostJobForm = () => {
                             name="deadline"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Application Deadline</FormLabel>
-                                    <FormControl>
-                                        <Input type="date" {...field} />
-                                    </FormControl>
+                                    <FormLabel>Application Deadline <span className='text-red-600'>*</span></FormLabel>
+                                    {/* <DatePicker
+                                        selected={field.value}
+                                        onSelect={(date) => setValue("deadline", date)}
+                                    /> */}
                                 </FormItem>
                             )}
                         />
-                        <div className="md:col-span-2">
 
+                        {/* Full width fields */}
+                        <div className="md:col-span-2">
                             <FormField
                                 control={control}
                                 name="companySize"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Company Size</FormLabel>
+                                        <FormLabel>Company Size <span className='text-red-600'>*</span></FormLabel>
                                         <FormControl>
                                             <Input {...field} placeholder="e.g., 50-200 employees" />
                                         </FormControl>
@@ -241,13 +248,14 @@ const AdminPostJobForm = () => {
                                 )}
                             />
                         </div>
+
                         <div className="md:col-span-2">
                             <FormField
                                 control={control}
                                 name="companyInfo"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Company Info</FormLabel>
+                                        <FormLabel>Company Info <span className='text-red-600'>*</span></FormLabel>
                                         <FormControl>
                                             <Textarea {...field} placeholder="Brief description about the company" />
                                         </FormControl>
@@ -262,7 +270,7 @@ const AdminPostJobForm = () => {
                                 name="jobdescription"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Job Description</FormLabel>
+                                        <FormLabel>Job Description <span className='text-red-600'>*</span></FormLabel>
                                         <FormControl>
                                             <Textarea {...field} placeholder="Describe the responsibilities, expectations, etc." />
                                         </FormControl>
@@ -271,14 +279,12 @@ const AdminPostJobForm = () => {
                             />
                         </div>
 
-                        <div className="md:col-span-2 flex justify-end">
-                            <CustomButton label='Post job' className='w-full' />
-                        </div>
-                    </form>
+                    </div>
+                    <CustomButton label="Post Job" onClick={form.handleSubmit(onSubmit)} className="w-full" />
                 </Form>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default AdminPostJobForm;
