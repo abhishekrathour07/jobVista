@@ -20,17 +20,29 @@ const SavedJobCards: React.FC<SavedJobCardProps> = ({ title, company, location, 
         <div className='flex gap-2 items-center text-gray-500'>
           <p>{company} -</p>
           <p>{location}</p>
+          <div className='flex text-black text-sm items-center'>
+            <span>{minSalary}</span>
+            <p> - </p>
+            <span>{maxSalary}</span>
+          </div>
         </div>
-        <div className='flex gap-4'>
+        <div className='hidden sm:flex gap-4'>
           <p className='flex gap-2 text-sm text-gray-500 items-center'><Clock className='h-4 w-4' /> <span>Saved {savedAt}</span></p>
           <CustomButton label='View' />
           <Button className='flex h-10 gap-2'><X /> Remove</Button>
         </div>
       </div>
-      <div className='flex text-black text-sm items-center'>
+      <div className='hidden sm:flex text-black text-sm items-center'>
         <span>{minSalary}</span>
         <p> - </p>
         <span>{maxSalary}</span>
+      </div>
+      <div className='flex justify-between sm:hidden'>
+        <p className='flex gap-2 text-sm text-gray-500 items-center'><Clock className='h-4 w-4' /> <span>Saved {savedAt}</span></p>
+        <div className='flex gap-4'>
+          <CustomButton label='View' />
+          <Button className='flex h-10 gap-2'><X /> Remove</Button>
+        </div>
       </div>
     </div>
   )

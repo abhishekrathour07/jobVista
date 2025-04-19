@@ -15,7 +15,7 @@ import { ArrowRight } from 'lucide-react';
 const UserHome = () => {
   const [lastIndex, setlastindex] = useState(2)
   return (
-    <div className='text-center'>
+    <div >
       <Navbar />
       <SearchJobs />
       <JobDashboardStats />
