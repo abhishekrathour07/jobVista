@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { BriefcaseBusiness, User, LayoutDashboard, Menu, X, CirclePlus, NotebookTabs } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import LogoutDropdown from "../LogoutDropdown/LogoutDropdown";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,19 +75,16 @@ const Navbar = () => {
           )
         }
 
-
-        {/* Desktop Buttons */}
         <div className="hidden md:flex items-center gap-4">
-          <Link href="/user/dashboard">
+           {user!=="admin" &&
+            <Link href="/user/dashboard">
             <Button variant="ghost" size="sm" className="text-white hover:bg-indigo-200">
               <LayoutDashboard className="h-4 w-4 mr-2" />
               Dashboard
             </Button>
           </Link>
-          <Button variant="outline" size="sm" className="border-white text-black hover:bg-indigo-500">
-            <User className="h-4 w-4 mr-2" />
-            Profile
-          </Button>
+           }
+          <LogoutDropdown/>
         </div>
 
         {/* Mobile Menu Button */}

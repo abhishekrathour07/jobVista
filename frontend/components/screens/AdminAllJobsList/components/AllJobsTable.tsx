@@ -15,6 +15,7 @@ import { Edit, Trash2 } from "lucide-react";
 import { getStatusColor } from '@/components/custom/jobCommon/jobStatus';
 import CustomPagination from '@/components/custom/Pagination/Pagination';
 import { Button } from '@/components/ui/button';
+import { jobTableHeaders } from '@/components/custom/jobCommon/AdminJobCommon'
 
 
 const AllJobsTable = () => {
@@ -134,16 +135,6 @@ const AllJobsTable = () => {
         },
     ];
 
-
-    const jobTableHeaders = [
-        "Title",
-        "Location",
-        "Salary",
-        "Applicants",
-        "Posted Date",
-        "Status",
-        "Actions"
-    ];
     const itemPerPage = 7;
     const totalpages = Math.ceil(jobs.length / itemPerPage)
     const startIndex = (currentPage - 1) * itemPerPage

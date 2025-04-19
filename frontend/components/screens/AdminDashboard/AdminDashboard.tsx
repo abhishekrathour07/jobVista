@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BriefcaseBusiness, FileCheck, Users } from 'lucide-react';
 import React from 'react'
 import SearchJobs from '../UserHome/components/SearchJobs';
+import AllJobsTable from '../AdminAllJobsList/components/AllJobsTable';
 
 const AdminDashboard = () => {
 
@@ -27,8 +28,7 @@ const AdminDashboard = () => {
         },
     ]
     return (
-        <div>
-            <Navbar />
+        <div >
             <SearchJobs />
             <div className="grid p-6 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {stats.map((stat) => {
@@ -49,6 +49,10 @@ const AdminDashboard = () => {
                         </Card>
                     );
                 })}
+            </div>
+            <div className=' p-8'>
+                <AllJobsTable />
+
             </div>
         </div>
     )

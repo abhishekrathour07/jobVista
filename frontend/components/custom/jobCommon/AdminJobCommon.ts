@@ -13,3 +13,13 @@ export const applicantStatusOptions = [
     "accepted",
     "rejected",
 ];
+
+export const jobTableHeaders = [
+    "Title",
+    "Location",
+    "Salary",
+    "Applicants",
+    "Posted Date",
+    "Status",
+    "Actions"
+];

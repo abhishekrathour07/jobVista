@@ -45,6 +45,7 @@ const ApplicantsTable = () => {
         { name: "Nikhil Roy", email: "nikhil.roy@example.com", company: "Cognizant", appliedDate: "2024-03-28", status: "accepted" },
         { name: "Pooja Sinha", email: "pooja.sinha@example.com", company: "IBM", appliedDate: "2024-03-27", status: "pending" },
     ];
+    const router = useRouter()
 
 
     const [currentPage, setCurrnetpage] = useState(1);
@@ -53,7 +54,6 @@ const ApplicantsTable = () => {
     const startIndex = (currentPage - 1) * itemPerPage;
     const endIndex = startIndex + itemPerPage;
 
-    const router = useRouter()
     return (
         <div>
             <div className="bg-white rounded-lg overflow-hidden">
