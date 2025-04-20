@@ -55,7 +55,7 @@ const getPaginatedJobs = async (req, res) => {
 
         const jobs = await jobModel
             .find()
-            .select("companylogo jobtitle companyname location companyInfo status skills")
+            .select("companylogo jobtitle companyname location companyInfo status skills tags")
             .sort({ postedAt: -1 })
             .skip(skip)
             .limit(limit);
@@ -80,13 +80,10 @@ const getJobById = async (req, res) => {
         if (!jobId) {
             return responseHandler(res, 400, "Job ID is required");
         }
-
         const job = await jobModel.findById(jobId);
-
         if (!job) {
             return responseHandler(res, 404, "Job not found");
         }
-
         return responseHandler(res, 200, "Job fetched successfully", job);
     } catch (error) {
         return responseHandler(res, 500, "Failed to fetch job", { error: error.message });
