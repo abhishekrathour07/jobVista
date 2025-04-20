@@ -6,6 +6,7 @@ import { ConnectedDatabase } from "./config/database.js";
 import authMiddleware from "./middleware/AuthMiddlware.js";
 import authRouter from "./routes/authRoutes.js";
 import jobRouter from "./routes/jobRoutes.js";
+import applicationRouter from "./routes/applicationRouter.js";
 
 dotenv.config();
 const app = express();
@@ -26,6 +27,7 @@ app.use(express.json());
 // this are the all routes 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1", authMiddleware, jobRouter)
+app.use("/api/v1", authMiddleware, applicationRouter)
 
 
 
