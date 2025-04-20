@@ -31,7 +31,8 @@ const applyToJob = async (req, res) => {
         });
 
         const loggedInUser = await userModel.findById(loggedInUserId);
-        loggedInUser.appliedJobs.push({jobId})
+        loggedInUser.appliedJobs.push({ jobId })
+        loggedInUser.resumeUrl = resumeUrl;
         await loggedInUser.save();
 
         await jobModel.findByIdAndUpdate(jobId, {
@@ -46,4 +47,22 @@ const applyToJob = async (req, res) => {
     }
 }
 
-export { applyToJob }
+const getApplicationByJobId = async (req, res) => {
+    try {
+        const { jobId } = req.params;
+        const job = await jobModel.findById(jobId);
+        if (!job) {
+            return responseHandler(res, 404, "Job not found");
+        }
+
+        const applicantsDetail = await jobApplicationModel.find({ jobId })
+            .populate("applicantId", "name email profileImage skills location");
+
+        return responseHandler(res, 200, "Applicants detail fetched successfully", applicantsDetail)
+    } catch (error) {
+        return responseHandler(res, 500, "Error while applying job", error.message)
+
+    }
+}
+
+export { applyToJob, getApplicationByJobId }
