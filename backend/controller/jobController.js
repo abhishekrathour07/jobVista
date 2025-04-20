@@ -15,7 +15,7 @@ const postJob = async (req, res) => {
             return responseHandler(res, 403, "Permission Denied ");
         }
 
-        if (!jobtitle || !companyname  || !industryType || !location || !jobType || !salaryRange || !deadline) {
+        if (!jobtitle || !companyname || !industryType || !location || !jobType || !salaryRange || !deadline) {
             return responseHandler(res, 400, "All field are required")
         }
 
@@ -73,4 +73,24 @@ const getPaginatedJobs = async (req, res) => {
     }
 };
 
-export { postJob, getPaginatedJobs }
+const getJobById = async (req, res) => {
+    try {
+        const { jobId } = req.params;
+
+        if (!jobId) {
+            return responseHandler(res, 400, "Job ID is required");
+        }
+
+        const job = await jobModel.findById(jobId);
+
+        if (!job) {
+            return responseHandler(res, 404, "Job not found");
+        }
+
+        return responseHandler(res, 200, "Job fetched successfully", job);
+    } catch (error) {
+        return responseHandler(res, 500, "Failed to fetch job", { error: error.message });
+    }
+};
+
+export { postJob, getPaginatedJobs, getJobById }
