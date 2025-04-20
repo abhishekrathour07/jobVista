@@ -90,4 +90,71 @@ const getJobById = async (req, res) => {
     }
 };
 
-export { postJob, getPaginatedJobs, getJobById }
+const editJobById = async (req, res) => {
+    try {
+        const { jobId } = req.params;
+        const loggedInUserId = req.user._id;
+
+        const loggedInUser = await userModel.findById(loggedInUserId);
+        if (!loggedInUser || loggedInUser.role !== 'admin') {
+            return responseHandler(res, 403, "Permission Denied");
+        }
+
+        const job = await jobModel.findById(jobId);
+        if (!job) {
+            return responseHandler(res, 404, "Job not found");
+        }
+
+        if (!req.body || typeof req.body !== 'object') {
+            return responseHandler(res, 400, "Invalid request body");
+        }
+        Object.keys(req.body).forEach((key) => {
+            if (req.body[key] !== undefined) {
+                job[key] = req.body[key];
+            }
+        });
+
+        await job.save();
+
+        return responseHandler(res, 200, "Job updated successfully", job);
+
+    } catch (error) {
+        console.error(error);
+        return responseHandler(res, 500, "Failed to update job", { error: error.message });
+    }
+};
+
+
+
+
+const getAllAppliedJob = async (req, res) => {
+    try {
+        const loggedInUserId = req.user._id;
+
+        const user = await userModel.findById(loggedInUserId).populate({
+            path: 'appliedJobs.jobId',
+            select: 'jobtitle companyname location salaryRange jobType status'
+        })
+        if (!user) {
+            return responseHandler(res, 404, "User not found");
+        }
+
+        const appliedJobs = user.appliedJobs.map(job => ({
+            jobDetails: job.jobId, // Populated job details
+            status: job.status,
+            appliedAt: job.appliedAt
+        }));
+
+        return responseHandler(res, 200, "Applied jobs fetched successfully", appliedJobs);
+    } catch (error) {
+        console.error(error);
+        return responseHandler(res, 500, "Failed to fetch jobs", { error: error.message });
+    }
+};
+
+
+
+
+
+
+export { postJob, getPaginatedJobs, getJobById, getAllAppliedJob ,editJobById }

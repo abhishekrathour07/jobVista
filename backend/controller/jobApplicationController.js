@@ -31,8 +31,13 @@ const applyToJob = async (req, res) => {
         });
 
         const loggedInUser = await userModel.findById(loggedInUserId);
-        loggedInUser.appliedJobs.push({ jobId })
-        loggedInUser.resumeUrl = resumeUrl;
+        loggedInUser.appliedJobs.push(
+            {
+                jobId: jobId,
+                status: "applied",
+                appliedAt: new Date()
+            }
+        )
         await loggedInUser.save();
 
         await jobModel.findByIdAndUpdate(jobId, {
@@ -56,7 +61,7 @@ const getApplicationByJobId = async (req, res) => {
         }
 
         const applicantsDetail = await jobApplicationModel.find({ jobId })
-            .populate("applicantId", "name email profileImage skills location");
+            .populate("applicantId", "name status email profileImage skills location");
 
         return responseHandler(res, 200, "Applicants detail fetched successfully", applicantsDetail)
     } catch (error) {
