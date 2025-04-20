@@ -3,7 +3,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { ConnectedDatabase } from "./config/database.js";
+import authMiddleware from "./middleware/AuthMiddlware.js";
 import authRouter from "./routes/authRoutes.js";
+import jobRouter from "./routes/jobRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -11,21 +13,27 @@ const port = 4050;
 
 // Connect to DB
 ConnectedDatabase();
-
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:3000", 
+    origin: "http://localhost:3000",
     credentials: true
 }));
 app.use(express.json());
 
+
+
+
+// this are the all routes 
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1", authMiddleware, jobRouter)
+
+
+
+
+
 app.get("/", (req, res) => {
     res.send("API is working!");
 });
-
-// Routes
-app.use("/api/v1/auth", authRouter);
-
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
