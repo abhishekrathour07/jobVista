@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import ProfileMain from '../../UserDashboard/components/Profile'
+import ProfileMain from '../../Profile/components/ProfileMain'
 import Navbar from '@/components/custom/Navbar/Navbar'
 import { ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'

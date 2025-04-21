@@ -5,10 +5,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { BadgeCheckIcon, Bookmark, User } from 'lucide-react';
 import SavedJobs from './SavedJobs';
-import Profile from './Profile';
+import Profile from '../../Profile/components/ProfileMain';
 import AppliedJobs from './AppliedJobs';
-import ProfileCard from './ProfileCard';
-import ProfileMain from './Profile';
+import ProfileCard from '../../Profile/components/ProfileCard';
+import ProfileMain from '../../Profile/components/ProfileMain';
 
 type TabItem = {
     name: React.ReactNode;
@@ -20,14 +20,9 @@ const DashboardTabs = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const currentTab = searchParams.get('tabs') || 'profile';
+    const currentTab = searchParams.get('tabs') || 'saved-jobs';
 
     const tabsValue = [
-        {
-            name: <div className='flex gap-2 items-center'><User /> Profile</div>,
-            value: 'profile',
-            content:<ProfileMain/>
-        },
         {
             name: <div className='flex gap-2 items-center'><Bookmark /> Saved Jobs</div>,
             value: 'saved-jobs',
