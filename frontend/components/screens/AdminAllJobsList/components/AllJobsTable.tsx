@@ -177,8 +177,6 @@ const AllJobsTable = () => {
                                                     <Edit className="h-4 w-4" />
                                                 </Button>
                                             </SheetTrigger>
-
-
                                             <SheetContent
                                                 side="right"
                                                 className="bg-white text-black w-full overflow-auto"

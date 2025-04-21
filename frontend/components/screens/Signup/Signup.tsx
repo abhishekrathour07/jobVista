@@ -13,17 +13,24 @@ import { Button } from "@/components/ui/button"
 
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import {Eye, EyeClosed } from "lucide-react"
+import { Eye, EyeClosed } from "lucide-react"
 import { useState } from "react"
 import { BackgroundBeams } from "@/components/ui/background-beams"
 import CustomButton from "@/components/custom/CustomButton/CustomButton"
 import Link from "next/link"
 import { signupFormSchema } from "./validation/singup.validation"
+import { roleEnum } from "@/components/custom/jobCommon/AdminJobCommon"
+import { Checkbox } from "@/components/ui/checkbox"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { cn } from "@/lib/utils"
+
+
 
 type SignupFormValues = {
     name: string,
     email: string
     password: string
+    role: string
 
 }
 
@@ -35,6 +42,7 @@ const Signup = () => {
             name: "",
             email: "",
             password: "",
+            role: roleEnum.User
         },
         resolver: yupResolver(signupFormSchema),
     })
@@ -51,21 +59,21 @@ const Signup = () => {
             {/* Form Box */}
             <div className="w-full max-w-md p-6  shadow-xl bg-white dark:bg-gray-900">
                 <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800 dark:text-white">
-                   Register Account
+                    Register Account
                 </h2>
 
                 <Form {...form}>
-                    <div className="space-y-5">
+                    <div className="space-y-4">
                         <FormField
                             control={form.control}
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel  className="text-black ">Name <span className="text-red-500">*</span></FormLabel>
+                                    <FormLabel className="text-black ">Name <span className="text-red-500">*</span></FormLabel>
                                     <FormControl>
                                         <Input type="text" placeholder="Enter your name here" {...field} />
                                     </FormControl>
-                                    <FormMessage  className="text-xs"/>
+                                    <FormMessage className="text-xs" />
                                 </FormItem>
                             )}
                         />
@@ -74,11 +82,11 @@ const Signup = () => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel  className="text-black">Email <span className="text-red-500">*</span></FormLabel>
+                                    <FormLabel className="text-black">Email <span className="text-red-500">*</span></FormLabel>
                                     <FormControl>
                                         <Input type="text" placeholder="you@example.com" {...field} />
                                     </FormControl>
-                                    <FormMessage  className="text-xs"/>
+                                    <FormMessage className="text-xs" />
 
                                 </FormItem>
                             )}
@@ -90,7 +98,7 @@ const Signup = () => {
                             name="password"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel  className="text-black">Password <span className="text-red-500">*</span></FormLabel>
+                                    <FormLabel className="text-black">Password <span className="text-red-500">*</span></FormLabel>
                                     <FormControl>
                                         <div className="relative">
                                             <Input
@@ -105,10 +113,48 @@ const Signup = () => {
                                             >
                                                 {passwordVisible ? <Eye /> : <EyeClosed />}
                                             </button>
-                                            
+
                                         </div>
                                     </FormControl>
-                                    <FormMessage  className="text-xs"/>
+                                    <FormMessage className="text-xs" />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="role"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <RadioGroup
+                                            value={field.value}
+                                            onValueChange={field.onChange}
+                                            className="flex items-center justify-center gap-6"
+                                        >
+                                            {[
+                                                { label: "User", value: roleEnum.User, id: "user-role" },
+                                                { label: "Admin", value: roleEnum.Admin, id: "admin-role" }
+                                            ].map(({ label, value, id }) => (
+                                                <div
+                                                    key={id}
+                                                    className={cn(
+                                                        "flex items-center space-x-2 px-5 py-2 rounded-xl border transition-all duration-300 cursor-pointer",
+                                                        "text-lg",
+                                                        " hover:border-indigo-600",
+                                                        field.value === value
+                                                            ? " border-indigo-700"
+                                                            : "border-gray-300"
+                                                    )}
+                                                >
+                                                    <RadioGroupItem value={value} id={id} />
+                                                    <label htmlFor={id} className="cursor-pointer">
+                                                        {label}
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <FormMessage className="text-xs" />
                                 </FormItem>
                             )}
                         />

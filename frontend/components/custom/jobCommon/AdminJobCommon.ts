@@ -23,3 +23,8 @@ export const jobTableHeaders = [
     "Status",
     "Actions"
 ];
+
+export enum roleEnum {
+    Admin = "admin",
+    User = "user"
+}
