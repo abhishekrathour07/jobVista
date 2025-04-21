@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 const ProfileCard = () => {
     return (
-        <div className="w-full md:max-w-md  border border-indigo-600 mx-auto bg-white rounded-2xl p-6 shadow-md">
+        <div className="w-full md:max-w-md h-[80vh] border mx-auto bg-white rounded-2xl p-6 shadow-md">
             <div className="flex flex-col items-center space-y-2">
                 <Avatar className='w-20 h-20'>
                     <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />

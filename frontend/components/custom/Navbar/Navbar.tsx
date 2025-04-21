@@ -1,30 +1,44 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { BriefcaseBusiness, User, LayoutDashboard, Menu, X, CirclePlus, NotebookTabs } from "lucide-react";
+import { BriefcaseBusiness, User, LayoutDashboard, Menu, X, CirclePlus, NotebookTabs, Home, Building2 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LogoutDropdown from "../LogoutDropdown/LogoutDropdown";
+import profileService from "@/services/Profile.services";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [userData, setUserData] = useState<any>()
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const user = 'admin'
+  const getUserDetail = async () => {
+    try {
+      const response = await profileService.loggedinUserDetail();
+      setUserData(response?.data)
+
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message)
+    }
+  }
+  useEffect(() => {
+    getUserDetail()
+  }, [])
 
   return (
     <nav className="bg-indigo-800 shadow-md border-b border-gray-300 sticky top-0 z-50">
       <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2 font-semibold text-lg text-white">
-          <BriefcaseBusiness className="h-6 w-6 text-white" />
+          <img src="/image.png" className="h-8 w-8"/>
           <span className=" text-white">JobVista</span>
         </div>
 
         {/* Desktop Navigation */}
-        {user === 'admin' ?
+        {userData?.role === 'admin' ?
 
           (
             <div className="hidden md:flex items-center gap-6">
@@ -32,44 +46,47 @@ const Navbar = () => {
                 href="/admin/dashboard"
                 className="text-white flex items-center gap-2 hover:text-indigo-300 transition-colors"
               >
-              <LayoutDashboard className="h-4 w-4" />
+                <LayoutDashboard className="h-4 w-4" />
                 Dashboard
               </Link>
               <Link
                 href="/admin/post-job"
                 className="text-white flex items-center gap-2 hover:text-indigo-300 transition-colors"
               >
-                <CirclePlus  className="h-4 w-4"  />
+                <CirclePlus className="h-4 w-4" />
                 post Job
               </Link>
               <Link
                 href="/admin/all-jobs"
                 className="text-white flex items-center gap-2 hover:text-indigo-300 transition-colors"
               >
-                <NotebookTabs className="h-4 w-4"  />
+                <NotebookTabs className="h-4 w-4" />
                 All jobs
               </Link>
             </div>
           ) :
           (
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-8">
               <Link
                 href="/user/home"
-                className="text-white hover:text-indigo-300 transition-colors"
+                className="text-white flex gap-2 items-center hover:text-indigo-300 transition-colors"
               >
+                <Home className="h-6 w-6 text-white" />
                 Home
               </Link>
               <Link
                 href="/user/jobs"
-                className="text-white hover:text-indigo-300 transition-colors"
+                className="text-white flex gap-2 items-center hover:text-indigo-300 transition-colors"
               >
+                <BriefcaseBusiness className="h-6 w-6 text-white" />
 
                 Jobs
               </Link>
               <Link
                 href="/user/companies"
-                className="text-white hover:text-indigo-300 transition-colors"
+                className="text-white flex gap-2 items-center hover:text-indigo-300 transition-colors"
               >
+                <Building2  className="h-6 w-6 text-white"/>
                 Companies
               </Link>
             </div>
@@ -77,15 +94,15 @@ const Navbar = () => {
         }
 
         <div className="hidden md:flex items-center gap-4">
-           {user!=="admin" &&
+          {userData?.role !== "admin" &&
             <Link href="/user/dashboard">
-            <Button variant="ghost" size="sm" className="text-white hover:bg-indigo-200">
-              <LayoutDashboard className="h-4 w-4 mr-2" />
-              Dashboard
-            </Button>
-          </Link>
-           }
-          <LogoutDropdown/>
+              <Button variant="ghost" size="sm" className="text-white hover:bg-indigo-200">
+                <LayoutDashboard className="h-4 w-4 mr-2" />
+                Dashboard
+              </Button>
+            </Link>
+          }
+          <LogoutDropdown name={userData?.name} email={userData?.email} role={userData?.role} />
         </div>
 
         {/* Mobile Menu Button */}

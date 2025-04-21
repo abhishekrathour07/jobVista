@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "JobVista",
+  icons:"/image.png",
   description: "apply for job | get Your job now | apply for job | job dekho | find career path",
 };
 
