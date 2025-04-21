@@ -1,18 +1,21 @@
 import React from "react";
+import Loader from "../HashLoader/Loader";
 
 interface CustomButtonProps {
   label: string;
   onClick?: () => void;
-  className?: string
+  className?: string;
+  isloading?: boolean
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ label, onClick, className }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ label, onClick, className, isloading }) => {
   return (
     <button
       onClick={onClick}
       className={`bg-indigo-800 cursor-pointer text-white font-semibold py-2 px-4 rounded-md shadow-md ${className}`}
     >
-      {label}
+      {isloading ? <Loader /> : label}
+
     </button>
   );
 };

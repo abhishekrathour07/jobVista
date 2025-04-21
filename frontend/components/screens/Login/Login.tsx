@@ -14,21 +14,24 @@ import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginFormSchema } from "./validations/loginform.schema"
-import {  Eye, EyeClosed } from "lucide-react"
+import { Eye, EyeClosed } from "lucide-react"
 import { useState } from "react"
 import { BackgroundBeams } from "@/components/ui/background-beams"
 import CustomButton from "@/components/custom/CustomButton/CustomButton"
 import Link from "next/link"
+import { LoginFormValue } from "@/types/Authentication.type"
+import authService from "@/services/Auth.services"
+import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
+import { roleEnum } from "@/components/custom/jobCommon/AdminJobCommon"
 
-type LoginFormValues = {
-    email: string
-    password: string
-}
+
 
 const Login = () => {
-    const [passwordVisible, setPasswordVisible] = useState(false)
-
-    const form = useForm<LoginFormValues>({
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false)
+    const router = useRouter()
+    const form = useForm<LoginFormValue>({
         defaultValues: {
             email: "",
             password: "",
@@ -36,8 +39,22 @@ const Login = () => {
         resolver: yupResolver(loginFormSchema),
     })
 
-    const onSubmit = (data: LoginFormValues) => {
-        console.log("Login Data:", data)
+    const onSubmit = async (data: LoginFormValue) => {
+        setLoading(true)
+        try {
+            const response = await authService.login(data)
+            toast.success(response?.message)
+            form.reset();
+            if (response?.data?.role === roleEnum.User) {
+                router.push("/user/home")
+            } else {
+                router.push("/admin/home")
+            }
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -58,11 +75,11 @@ const Login = () => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel  className="text-black">Email <span className="text-red-500">*</span></FormLabel>
+                                    <FormLabel className="text-black">Email <span className="text-red-500">*</span></FormLabel>
                                     <FormControl>
                                         <Input type="text" placeholder="you@example.com" {...field} />
                                     </FormControl>
-                                    <FormMessage  className="text-xs"/>
+                                    <FormMessage className="text-xs" />
 
                                 </FormItem>
                             )}
@@ -93,14 +110,14 @@ const Login = () => {
                                             </Link>
                                         </div>
                                     </FormControl>
-                                    <FormMessage  className="text-xs"/>
+                                    <FormMessage className="text-xs" />
 
                                 </FormItem>
                             )}
                         />
 
 
-                        <CustomButton label="Login" onClick={form.handleSubmit(onSubmit)} className="w-full" />
+                        <CustomButton isloading={loading} label="Login" onClick={form.handleSubmit(onSubmit)} className="w-full" />
                         <Button className="w-full h-10 hover:bg-slate-400 bg-slate-300 text-black">Login with Google</Button>
 
                         <div className="flex flex-col gap-2 items-center justify-center">

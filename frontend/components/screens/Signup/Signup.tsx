@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Eye, EyeClosed } from "lucide-react"
@@ -20,24 +19,19 @@ import CustomButton from "@/components/custom/CustomButton/CustomButton"
 import Link from "next/link"
 import { signupFormSchema } from "./validation/singup.validation"
 import { roleEnum } from "@/components/custom/jobCommon/AdminJobCommon"
-import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { cn } from "@/lib/utils"
+import { SignupFormValue } from "@/types/Authentication.type"
+import toast from "react-hot-toast"
+import authService from "@/services/Auth.services"
+import { useRouter } from "next/navigation"
 
 
-
-type SignupFormValues = {
-    name: string,
-    email: string
-    password: string
-    role: string
-
-}
 
 const Signup = () => {
     const [passwordVisible, setPasswordVisible] = useState(false)
-
-    const form = useForm<SignupFormValues>({
+    const router = useRouter()
+    const form = useForm<SignupFormValue>({
         defaultValues: {
             name: "",
             email: "",
@@ -47,9 +41,19 @@ const Signup = () => {
         resolver: yupResolver(signupFormSchema),
     })
 
-    const onSubmit = (data: SignupFormValues) => {
-        console.log("Login Data:", data)
+    const onSubmit = async (data: SignupFormValue) => {
+        try {
+            const response = await authService.signup(data)
+            toast.success(response?.message)
+            form.reset();
+            router.push("/login")
+
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message);
+        }
     }
+
+
 
     return (
         <div className="relative min-h-screen flex items-center justify-center ">

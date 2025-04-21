@@ -63,7 +63,7 @@ const Navbar = () => {
                 href="/user/jobs"
                 className="text-white hover:text-indigo-300 transition-colors"
               >
-                
+
                 Jobs
               </Link>
               <Link
