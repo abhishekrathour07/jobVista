@@ -124,6 +124,24 @@ const editJobById = async (req, res) => {
     }
 };
 
+const deleteJobById = async (req, res) => {
+    try {
+        const { jobId } = req.params;
+        const job = await jobModel.findById(jobId);
+
+        if (!job) {
+            return responseHandler(res, 404, "Job not found");
+        }
+
+        await jobModel.findByIdAndDelete(jobId)
+        return responseHandler(res, 200, "Job deleted successfully")
+
+    } catch (error) {
+        console.error(error);
+        return responseHandler(res, 500, "Failed to delete job", { error: error.message });
+    }
+}
+
 
 
 
@@ -157,4 +175,4 @@ const getAllAppliedJob = async (req, res) => {
 
 
 
-export { postJob, getPaginatedJobs, getJobById, getAllAppliedJob ,editJobById }
+export { postJob, getPaginatedJobs, getJobById, getAllAppliedJob, editJobById, deleteJobById }
