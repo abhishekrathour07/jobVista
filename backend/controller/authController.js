@@ -75,18 +75,6 @@ const logout = async (req, res) => {
     }
 }
 
-const loginUserDetail = async (req, res) => {
-    try {
-        const loggedInUserId = req.user._id;
 
-        const userDetail = await userModel.findById(loggedInUserId).select("-password");
 
-        return responseHandler(res, 200, "user detail fetched successfully", userDetail);
-
-    } catch (error) {
-        console.log(error)
-        responseHandler(res, 500, "Internal server Error", error);
-    }
-}
-
-export { login, signup, logout, loginUserDetail }
+export { login, signup, logout }
