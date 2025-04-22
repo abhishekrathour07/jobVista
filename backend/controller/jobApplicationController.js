@@ -9,9 +9,14 @@ const applyToJob = async (req, res) => {
         const loggedInUserId = req.user._id;
         const { jobId } = req.params;
         const { resumeUrl, coverLetter } = req.body;
+        const loggedInUser = await userModel.findById(loggedInUserId);
 
         if (!jobId || !resumeUrl) {
             return responseHandler(res, 400, "Job ID and Resume URL are required.");
+        }
+
+        if (loggedInUser.role === "admin") {
+            return responseHandler(res, 403, "Admin is not allowed to applied in job")
         }
 
         const jobExists = await jobModel.findById(jobId);
@@ -30,7 +35,6 @@ const applyToJob = async (req, res) => {
             coverLetter
         });
 
-        const loggedInUser = await userModel.findById(loggedInUserId);
         loggedInUser.appliedJobs.push(
             {
                 jobId: jobId,
@@ -61,12 +65,11 @@ const getApplicationByJobId = async (req, res) => {
         }
 
         const applicantsDetail = await jobApplicationModel.find({ jobId })
-            .populate("applicantId", "name status email profileImage skills location");
+            .populate("applicantId jobId", "name companyname status email profileImage skills location");
 
         return responseHandler(res, 200, "Applicants detail fetched successfully", applicantsDetail)
     } catch (error) {
         return responseHandler(res, 500, "Error while applying job", error.message)
-
     }
 }
 
