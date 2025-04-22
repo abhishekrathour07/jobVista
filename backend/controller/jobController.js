@@ -62,7 +62,7 @@ const getPaginatedJobs = async (req, res) => {
 
         const jobs = await jobModel
             .find()
-            .select("companyLogo jobtitle companyname location companyInfo status skills tags applicationCount")
+            .select("companyLogo jobtitle companyname location companyInfo status skills tags salaryRange postedAt applicationCount deadline")
             .sort({ postedAt: -1 })
             .skip(skip)
             .limit(limit);
