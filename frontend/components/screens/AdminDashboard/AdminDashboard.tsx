@@ -29,7 +29,7 @@ const AdminDashboard = () => {
     ]
     return (
         <div >
-            <SearchJobs />
+            <SearchJobs title='Welcome to Admin ' highlight='Dashboard' subTitle='Efficiently manage job postings, track applicant activity, and oversee platform operations—all from one centralized hub.'/>
             <div className="grid p-6 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {stats.map((stat) => {
                     const Icon = stat.icon;

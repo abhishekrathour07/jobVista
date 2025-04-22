@@ -129,7 +129,7 @@ const ApplicantsTable = () => {
                                             variant="ghost"
                                             size="icon"
                                             className="text-purple-600 hover:text-purple-800 hover:bg-purple-100"
-                                            onClick={() => router.push(`/admin/all-jobs/applicants/${application._id}`)}
+                                            onClick={() => router.push(`/admin/all-jobs/applicants-detail/${application?.applicantId._id}`)}
                                         >
                                             <Eye className="h-4 w-4" />
                                         </Button>
