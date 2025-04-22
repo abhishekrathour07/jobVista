@@ -2,6 +2,7 @@ export const applicantHeader = [
     "Name",
     "Email",
     "Company",
+    "Resume",
     "Applied Date",
     "Status",
     "Action",

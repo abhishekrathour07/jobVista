@@ -8,8 +8,8 @@ const override: CSSProperties = {
   borderColor: "red",
 };
 
-const Loader = () => {
-  let [color, setColor] = useState("#fff");
+const Loader = (props: any) => {
+  let [color, setColor] = useState(props.color ? props.color: "#fff");
 
   return (
     <div className="sweet-loading">
@@ -17,10 +17,11 @@ const Loader = () => {
         color={color}
         loading={true}
         cssOverride={override}
-        size={25}
+        size={props.size? props.size : 25}
         aria-label="Loading Spinner"
         data-testid="loader"
       />
+      {/*  0118D8 */}
     </div>
   );
 }
