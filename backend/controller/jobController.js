@@ -1,6 +1,7 @@
 import jobModel from "../models/jobModel.js";
 import responseHandler from "../utils/responseHandler.js";
 import userModel from "../models/UserModel.js";
+import { uploadFileToCloudinary } from "../config/cloudanary.js";
 
 
 const postJob = async (req, res) => {
@@ -10,6 +11,12 @@ const postJob = async (req, res) => {
         const { jobtitle, companyname, companyLogo, companyUrl, companyInfo, industryType, workplaceType, foundedYear, location, status, jobType, skills, salaryRange, deadline, experience, jobDescription, requirements, tags } = req.body;
 
         const loggedInUser = await userModel.findById(loggedInUserId)
+
+        let mediaUrl = null;
+        if (req.file) {
+            const uploadToCloudinary = await uploadFileToCloudinary(req.file);
+            mediaUrl = uploadToCloudinary?.secure_url;
+        }
 
         if (loggedInUser.role !== 'admin') {
             return responseHandler(res, 403, "Permission Denied ");
@@ -22,7 +29,7 @@ const postJob = async (req, res) => {
         const newJob = await jobModel.create({
             jobtitle,
             companyname,
-            companyLogo,
+            companyLogo: mediaUrl,
             companyUrl,
             companyInfo,
             industryType,
@@ -43,7 +50,7 @@ const postJob = async (req, res) => {
 
         return responseHandler(res, 200, "Job created successfully", newJob)
     } catch (error) {
-        responseHandler(res, 500, "Internal server error", error)
+        responseHandler(res, 500, "Internal server error", { error: error.message })
     }
 };
 
@@ -55,7 +62,7 @@ const getPaginatedJobs = async (req, res) => {
 
         const jobs = await jobModel
             .find()
-            .select("companylogo jobtitle companyname location companyInfo status skills tags applicationCount")
+            .select("companyLogo jobtitle companyname location companyInfo status skills tags applicationCount")
             .sort({ postedAt: -1 })
             .skip(skip)
             .limit(limit);

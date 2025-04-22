@@ -39,7 +39,7 @@ const editProfileById = async (req, res) => {
             return responseHandler(res, 404, "User not found");
         }
         Object.keys(req.body).forEach((key) => {
-            if (key === 'password' || key === 'role') {
+            if (key === 'password') {
                 return responseHandler(res, 403, "You cannot update password or role directly");
             }
             else if (req.body[key] !== undefined) {
