@@ -58,7 +58,7 @@ const AllJobsTable = () => {
                     <TableBody >
                         {data?.jobs?.map((job: any) => (
                             <TableRow key={job.id} className="hover:bg-purple-50 dark:hover:bg-gray-700 ">
-                                <TableCell className="font-medium cursor-pointer" onClick={() => router.push("/admin/all-jobs/applicants")}>{job.companyname}</TableCell>
+                                <TableCell className="font-medium cursor-pointer" onClick={() => router.push(`/admin/all-jobs/applicants/${job.id}`)}>{job.companyname}</TableCell>
                                 <TableCell>{job?.jobtitle}</TableCell>
                                 <TableCell>{job?.location}</TableCell>
                                 <TableCell className='text-indigo-700'>{job?.salaryRange}</TableCell>

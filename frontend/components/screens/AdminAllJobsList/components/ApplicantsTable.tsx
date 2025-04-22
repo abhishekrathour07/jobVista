@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomPagination from "@/components/custom/Pagination/Pagination";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,41 +18,36 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Eye } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { applicantHeader, applicantStatusOptions } from '@/components/custom/jobCommon/AdminJobCommon';
+import toast from 'react-hot-toast';
+import applicantServices from '@/services/Applicants.services';
 
 const ApplicantsTable = () => {
 
-    const applicants = [
-        { name: "Aarav Patel", email: "aarav.patel@example.com", company: "TCS", appliedDate: "2024-04-10", status: "pending" },
-        { name: "Meera Sharma", email: "meera.sharma@example.com", company: "Infosys", appliedDate: "2024-04-12", status: "reviewed" },
-        { name: "Rohan Verma", email: "rohan.verma@example.com", company: "Wipro", appliedDate: "2024-04-09", status: "accepted" },
-        { name: "Sneha Iyer", email: "sneha.iyer@example.com", company: "Capgemini", appliedDate: "2024-04-11", status: "rejected" },
-        { name: "Karan Singh", email: "karan.singh@example.com", company: "Cognizant", appliedDate: "2024-04-14", status: "pending" },
-        { name: "Priya Desai", email: "priya.desai@example.com", company: "IBM", appliedDate: "2024-04-13", status: "reviewed" },
-        { name: "Aditya Joshi", email: "aditya.joshi@example.com", company: "TCS", appliedDate: "2024-04-10", status: "accepted" },
-        { name: "Isha Nair", email: "isha.nair@example.com", company: "HCL", appliedDate: "2024-04-08", status: "rejected" },
-        { name: "Vikram Chauhan", email: "vikram.chauhan@example.com", company: "Wipro", appliedDate: "2024-04-07", status: "pending" },
-        { name: "Divya Kapoor", email: "divya.kapoor@example.com", company: "Infosys", appliedDate: "2024-04-06", status: "reviewed" },
-        { name: "Raj Mehta", email: "raj.mehta@example.com", company: "Capgemini", appliedDate: "2024-04-05", status: "accepted" },
-        { name: "Nikita Rao", email: "nikita.rao@example.com", company: "Cognizant", appliedDate: "2024-04-04", status: "rejected" },
-        { name: "Arjun Bhat", email: "arjun.bhat@example.com", company: "HCL", appliedDate: "2024-04-03", status: "pending" },
-        { name: "Riya Malhotra", email: "riya.malhotra@example.com", company: "IBM", appliedDate: "2024-04-02", status: "reviewed" },
-        { name: "Manav Dixit", email: "manav.dixit@example.com", company: "TCS", appliedDate: "2024-04-01", status: "accepted" },
-        { name: "Anjali Reddy", email: "anjali.reddy@example.com", company: "Wipro", appliedDate: "2024-03-31", status: "rejected" },
-        { name: "Yash Gupta", email: "yash.gupta@example.com", company: "Capgemini", appliedDate: "2024-03-30", status: "pending" },
-        { name: "Sara Khan", email: "sara.khan@example.com", company: "Infosys", appliedDate: "2024-03-29", status: "reviewed" },
-        { name: "Nikhil Roy", email: "nikhil.roy@example.com", company: "Cognizant", appliedDate: "2024-03-28", status: "accepted" },
-        { name: "Pooja Sinha", email: "pooja.sinha@example.com", company: "IBM", appliedDate: "2024-03-27", status: "pending" },
-    ];
+    const [data, setData] = useState<any>()
     const router = useRouter()
-
+    const params = useParams();
+    const jobId = params.id;
+    console.log(jobId)
 
     const [currentPage, setCurrnetpage] = useState(1);
     const itemPerPage = 7;
-    const totalpages = Math.ceil(applicants.length / itemPerPage);
+    const totalpages = Math.ceil(data?.length / itemPerPage);
     const startIndex = (currentPage - 1) * itemPerPage;
     const endIndex = startIndex + itemPerPage;
+
+    const handleGetApplicants = async () => {
+        try {
+            const response = await applicantServices.getapplicantsByJobId(jobId as string)
+            setData(response?.data)
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message)
+        }
+    }
+    useEffect(() => {
+        handleGetApplicants()
+    }, [])
 
     return (
         <div>
@@ -68,13 +63,13 @@ const ApplicantsTable = () => {
                         </TableRow>
                     </TableHeader>
 
-                    <TableBody >
-                        {applicants.slice(startIndex, endIndex).map((application) => (
-                            <TableRow key={application.email} className="hover:bg-purple-50 dark:hover:bg-gray-700">
-                                <TableCell>{application.name}</TableCell>
-                                <TableCell className="w-[300px]">{application.email}</TableCell>
-                                <TableCell>{application.company}</TableCell>
-                                <TableCell>{application.appliedDate}</TableCell>
+                    <TableBody>
+                        {data && data?.slice(startIndex, endIndex).map((application: any) => (
+                            <TableRow key={application._id} className="hover:bg-purple-50 dark:hover:bg-gray-700">
+                                <TableCell>{application.applicantId?.name}</TableCell>
+                                <TableCell className="w-[300px]">{application.applicantId?.email}</TableCell>
+                                <TableCell>{application.applicantId?.location || "N/A"}</TableCell>
+                                <TableCell>{new Date(application.createdAt).toLocaleDateString()}</TableCell>
                                 <TableCell>
                                     <Select defaultValue={application.status}>
                                         <SelectTrigger className="w-[130px]">
@@ -94,7 +89,7 @@ const ApplicantsTable = () => {
                                         variant="ghost"
                                         size="icon"
                                         className="text-purple-600 hover:text-purple-800 hover:bg-purple-100"
-                                        onClick={() => router.push(`/admin/all-jobs/applicants/${application.name}`)}
+                                        onClick={() => router.push(`/admin/all-jobs/applicants/${application._id}`)}
                                     >
                                         <Eye className="h-4 w-4" />
                                     </Button>
