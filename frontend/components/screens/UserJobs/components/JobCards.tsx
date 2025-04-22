@@ -10,6 +10,7 @@ import ApplyJobDrawer from '../../UserJobDetails/components/ApplyJobDrawer';
 import { getStatusColor } from '@/components/custom/jobCommon/jobStatus';
 
 type JobsProps = {
+  jobId:string,
   company: string;
   logo: string | null;
   title: string;
@@ -18,7 +19,7 @@ type JobsProps = {
   description: string;
 };
 
-const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location, description }) => {
+const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location, description,jobId }) => {
 
   const router = useRouter();
   const [showUserInfo,setShowUserInfo] = useState(false)
@@ -56,7 +57,7 @@ const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location,
         <Button
           variant="outline"
           className="h-10 border-gray-300 text-gray-800 hover:bg-gray-100"
-          onClick={() => router.push("/user/jobs/detail")}
+          onClick={() => router.push(`/user/jobs/${jobId}`)}
         >
           Learn More..
         </Button>

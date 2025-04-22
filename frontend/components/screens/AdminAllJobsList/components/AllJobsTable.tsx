@@ -1,8 +1,7 @@
 "use client"
+
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { DialogTitle } from '@radix-ui/react-dialog'
 import {
     Table,
     TableBody,
@@ -11,17 +10,30 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, Loader2 } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { DialogTitle } from '@radix-ui/react-dialog'
+import { Button } from '@/components/ui/button';
 import { getStatusColor } from '@/components/custom/jobCommon/jobStatus';
 import CustomPagination from '@/components/custom/Pagination/Pagination';
-import { Button } from '@/components/ui/button';
 import { jobTableHeaders } from '@/components/custom/jobCommon/AdminJobCommon'
 import jobServices from '@/services/Job.services'
 import moment from 'moment'
-import { Loader2 } from 'lucide-react'
 import Loader from '@/components/custom/HashLoader/Loader'
 import EmptyState from '@/components/custom/EmptyState/EmptyState'
+import toast from 'react-hot-toast'
 
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const AllJobsTable = () => {
     const router = useRouter()
@@ -29,6 +41,7 @@ const AllJobsTable = () => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState<any>();
     const [currentPage, setCurrentpage] = useState(1);
+    const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
     const jobsPerPage = 7;
 
     const handleGetAllJobs = async () => {
@@ -43,20 +56,40 @@ const AllJobsTable = () => {
         }
     }
 
+    const handleDelete = async (jobId: string) => {
+        try {
+          const response =   await jobServices.deleteJob(jobId); 
+            toast.success(response?.message);
+            handleGetAllJobs(); 
+        } catch (error) {
+            toast.error("Failed to delete job");
+            console.error(error);
+        }
+    }
+    const handleEditJob = async (jobId: string) => {
+        try {
+          const response =   await jobServices.deleteJob(jobId); 
+            toast.success(response?.message);
+            handleGetAllJobs(); 
+        } catch (error) {
+            toast.error("Failed to delete job");
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         handleGetAllJobs()
     }, [currentPage])
-
 
     return (
         <div>
             <div className="bg-white rounded-lg overflow-hidden">
                 {loading ? (
                     <div className="flex justify-center items-center min-h-[400px]">
-                        <Loader size={50} color={"#0118D8"}/>
+                        <Loader size={50} color={"#0118D8"} />
                     </div>
                 ) : data?.jobs?.length === 0 ? (
-                    <EmptyState/>
+                    <EmptyState />
                 ) : (
                     <Table>
                         <TableHeader className="bg-purple-50 px-4">
@@ -99,13 +132,40 @@ const AllJobsTable = () => {
                                                     className="bg-white text-black w-full overflow-auto"
                                                 >
                                                     <div className="p-4 space-y-4">
-                                                        <DialogTitle className="text-xl font-semibold">Apply for this Job</DialogTitle>
+                                                        <DialogTitle className="text-xl font-semibold">Edit Job</DialogTitle>
                                                     </div>
                                                 </SheetContent>
                                             </Sheet>
-                                            <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-700 hover:bg-red-100">
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
+
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="text-red-500 hover:text-red-700 hover:bg-red-100"
+                                                        onClick={() => setSelectedJobId(job.id)}
+                                                    >
+                                                        <Trash2 className="h-4 w-4" />
+                                                    </Button>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            This action cannot be undone. This will permanently delete this job post.
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                        <AlertDialogAction
+                                                            className="bg-red-600 hover:bg-red-700 text-white"
+                                                            onClick={() => selectedJobId && handleDelete(selectedJobId)}
+                                                        >
+                                                            Delete
+                                                        </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
                                         </div>
                                     </TableCell>
                                 </TableRow>

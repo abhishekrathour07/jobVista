@@ -36,7 +36,9 @@ const UserJobs = () => {
                 <FilterJobs />
                 <div className='grid grid-cols-2 gap-6'>
                     {data?.jobs?.map((job: any) => (
-                        <JobCards key={job.id} title={job.jobtitle}
+                        <JobCards key={job.id}
+                            jobId = {job.id}
+                            title={job.jobtitle}
                             description={job.companyInfo}
                             location={job.location}
                             logo={job.companyLogo}
