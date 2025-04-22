@@ -2,14 +2,7 @@
 
 import AllJobsTable from "./components/AllJobsTable";
 
-
-
-
-
 const AdminAllJobsList = () => {
-
-
-
 
     return (
         <div className=" p-6 flex flex-col justify-center">

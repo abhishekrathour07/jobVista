@@ -7,6 +7,7 @@ import { MapPin } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import ApplyJobDrawer from '../../UserJobDetails/components/ApplyJobDrawer';
+import { getStatusColor } from '@/components/custom/jobCommon/jobStatus';
 
 type JobsProps = {
   company: string;
@@ -41,8 +42,7 @@ const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location,
           </div>
         </div>
         <span
-          className={`px-3 py-1 text-sm rounded-full ${status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-            }`}
+          className={`px-3 py-1 text-sm rounded-full ${getStatusColor(status)}`}
         >
           {status}
         </span>
