@@ -1,6 +1,6 @@
 "use client"
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import {
@@ -16,135 +16,36 @@ import { getStatusColor } from '@/components/custom/jobCommon/jobStatus';
 import CustomPagination from '@/components/custom/Pagination/Pagination';
 import { Button } from '@/components/ui/button';
 import { jobTableHeaders } from '@/components/custom/jobCommon/AdminJobCommon'
+import jobServices from '@/services/Job.services'
+import moment from 'moment'
 
 
 const AllJobsTable = () => {
     const router = useRouter()
-    const [currentPage, setCurrnetpage] = useState(1)
     const [showUserInfo, setShowUserInfo] = useState(false)
 
+    const [data, setData] = useState<any>()
+    const [currentPage, setCurrentpage] = useState(1)
+    const jobsPerPage = 7;
 
-    const jobs = [
-        {
-            id: 1,
-            title: "Senior Software Engineer",
-            location: "San Francisco",
-            applicants: 12,
-            status: "active",
-            salary: "$120k - $150k",
-            posted: "2024-04-15",
-        },
-        {
-            id: 2,
-            title: "Product Manager",
-            location: "New York",
-            applicants: 8,
-            status: "expired",
-            salary: "$100k - $130k",
-            posted: "2024-04-14",
-        },
-        {
-            id: 3,
-            title: "UI/UX Designer",
-            location: "Remote",
-            applicants: 5,
-            status: "active",
-            salary: "$70k - $90k",
-            posted: "2024-04-13",
-        },
-        {
-            id: 4,
-            title: "Data Scientist",
-            location: "Seattle",
-            applicants: 15,
-            status: "active",
-            salary: "$110k - $140k",
-            posted: "2024-04-12",
-        },
-        {
-            id: 5,
-            title: "DevOps Engineer",
-            location: "Austin",
-            applicants: 10,
-            status: "expired",
-            salary: "$105k - $125k",
-            posted: "2024-04-10",
-        },
-        {
-            id: 6,
-            title: "Mobile App Developer",
-            location: "Los Angeles",
-            applicants: 7,
-            status: "active",
-            salary: "$95k - $115k",
-            posted: "2024-04-09",
-        },
-        {
-            id: 7,
-            title: "QA Engineer",
-            location: "Chicago",
-            applicants: 6,
-            status: "active",
-            salary: "$85k - $100k",
-            posted: "2024-04-08",
-        },
-        {
-            id: 8,
-            title: "Technical Recruiter",
-            location: "Remote",
-            applicants: 9,
-            status: "expired",
-            salary: "$60k - $80k",
-            posted: "2024-04-07",
-        },
-        {
-            id: 9,
-            title: "Backend Developer",
-            location: "Denver",
-            applicants: 11,
-            status: "active",
-            salary: "$100k - $120k",
-            posted: "2024-04-06",
-        },
-        {
-            id: 10,
-            title: "Frontend Developer",
-            location: "Remote",
-            applicants: 14,
-            status: "active",
-            salary: "$95k - $110k",
-            posted: "2024-04-05",
-        },
-        {
-            id: 11,
-            title: "IT Support Specialist",
-            location: "Miami",
-            applicants: 4,
-            status: "expired",
-            salary: "$50k - $65k",
-            posted: "2024-04-04",
-        },
-        {
-            id: 12,
-            title: "Cybersecurity Analyst",
-            location: "Boston",
-            applicants: 13,
-            status: "active",
-            salary: "$105k - $135k",
-            posted: "2024-04-03",
-        },
-    ];
+    const handleGetAllJobs = async () => {
+        try {
+            const response = await jobServices.getAllJobs(currentPage, jobsPerPage);
+            setData(response?.data || []);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    useEffect(() => {
+        handleGetAllJobs()
+    }, [currentPage])
 
-    const itemPerPage = 7;
-    const totalpages = Math.ceil(jobs.length / itemPerPage)
-    const startIndex = (currentPage - 1) * itemPerPage
-    const endIndex = startIndex + itemPerPage
 
     return (
         <div>
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <Table>
-                    <TableHeader className="bg-purple-50">
+            <div className="bg-white  rounded-lg shadow-md overflow-hidden">
+                <Table >
+                    <TableHeader className="bg-purple-50 px-4">
                         <TableRow >
                             {jobTableHeaders.map((header) => (
                                 <TableHead key={header} className="text-purple-900 py-4">
@@ -155,13 +56,14 @@ const AllJobsTable = () => {
 
                     </TableHeader>
                     <TableBody >
-                        {jobs.slice(startIndex, endIndex).map((job) => (
-                            <TableRow key={job.id} className="hover:bg-purple-50 dark:hover:bg-gray-700">
-                                <TableCell className="font-medium cursor-pointer" onClick={() => router.push("/admin/all-jobs/applicants")}>{job.title}</TableCell>
-                                <TableCell>{job.location}</TableCell>
-                                <TableCell>{job.salary}</TableCell>
-                                <TableCell>{job.applicants}</TableCell>
-                                <TableCell>{job.posted}</TableCell>
+                        {data?.jobs?.map((job: any) => (
+                            <TableRow key={job.id} className="hover:bg-purple-50 dark:hover:bg-gray-700 ">
+                                <TableCell className="font-medium cursor-pointer" onClick={() => router.push("/admin/all-jobs/applicants")}>{job.companyname}</TableCell>
+                                <TableCell>{job?.jobtitle}</TableCell>
+                                <TableCell>{job?.location}</TableCell>
+                                <TableCell className='text-indigo-700'>{job?.salaryRange}</TableCell>
+                                <TableCell>{job?.applicationCount}</TableCell>
+                                <TableCell>{moment(job?.postedAt).format("MMM DD, YYYY")}</TableCell>
                                 <TableCell>
                                     <span className={`${getStatusColor(job.status)} px-4 py-1 rounded-full`}>{job.status}</span>
                                 </TableCell>
@@ -200,9 +102,9 @@ const AllJobsTable = () => {
             </div>
             <div className="flex justify-end">
                 <CustomPagination
-                    totalPages={totalpages}
+                    totalPages={data?.totalPages}
                     currentPage={currentPage}
-                    onPageChange={setCurrnetpage}
+                    onPageChange={setCurrentpage}
                 />
             </div>
         </div>

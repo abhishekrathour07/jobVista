@@ -17,6 +17,7 @@ import ProfileCard from './ProfileCard'
 import profileService from '@/services/Profile.services'
 import toast from 'react-hot-toast'
 import { Textarea } from '@/components/ui/textarea'
+import SelectFile from '@/components/custom/SelectFile/SelectFile'
 
 type aboutType = {
     name: string
@@ -32,16 +33,16 @@ const ProfileMain = () => {
     const [isEditing, setIsEditing] = useState(false)
     const [data, setData] = useState<aboutType | null>(null)
     const [loading, setLoading] = useState(true)
+    const [resumeUrl, setresumeUrl] = useState<File | null>(null)
+    const [profilePic, setprofilePic] = useState<File | null>(null)
 
     const form = useForm<aboutType>({
         defaultValues: {
-            name: data?.name || '',
-            email: data?.email || '',
-            location: data?.location || '',
-            phone: data?.phone || '',
-            resumeUrl: data?.resumeUrl || '',
-            profileImage: data?.profileImage || '',
-            skills: data?.skills || '',
+            name: '',
+            email: '',
+            location: '',
+            phone: '',
+            skills: '',
         },
     })
     console.log(data)
@@ -53,7 +54,7 @@ const ProfileMain = () => {
                 setData(response?.data)
                 form.reset(response?.data)
             } catch (error: any) {
-                toast.error(error?.response?.data?.message)
+                toast.error(error?.response?.data?.message || "Something went wrong")
             } finally {
                 setLoading(false)
             }
@@ -62,25 +63,36 @@ const ProfileMain = () => {
         fetchData()
     }, [form])
 
-
     const onSubmit = async (values: aboutType) => {
         setLoading(true)
-
-        const skills = values.skills
-            .split(',')
-            .map(skill => skill.trim())
-
-        const payload = {
-            ...values,
-            skills: skills
-        }
-
         try {
-            const response = await profileService.editUserDetail(payload)
+            const formData = new FormData()
+            if (typeof values.skills === "string") {
+                const skillsArray = values.skills.split(',').map(skill => skill.trim());
+                skillsArray.forEach(skill => {
+                    formData.append("skills", skill);
+                });
+            }
+
+            if (profilePic) {
+                formData.append("profileImage", profilePic)
+            }
+            if (resumeUrl) {
+                formData.append("resumeUrl", resumeUrl) // match backend field name
+            }
+            formData.append("location", values.location)
+            formData.append("name", values.name)
+            formData.append("email", values.email)
+            formData.append("phone", values.phone)
+
+
+
+            const response = await profileService.editUserDetail(formData)
             setData(response?.data)
+            toast.success("Profile updated")
             setIsEditing(false)
         } catch (error: any) {
-            toast.error(error?.response?.data?.message)
+            toast.error(error?.response?.data?.message || "Update failed")
         } finally {
             setLoading(false)
         }
@@ -106,7 +118,6 @@ const ProfileMain = () => {
     }
 
     return (
-
         <div className="flex flex-col md:flex-row gap-6">
             <ProfileCard {...data as any} />
             <div className="w-full">
@@ -129,8 +140,7 @@ const ProfileMain = () => {
                                 { label: 'Email', value: data?.email },
                                 { label: 'Location', value: data?.location },
                                 { label: 'Phone', value: data?.phone },
-                                { label: 'Resume URL', value: data?.resumeUrl },
-                                { label: 'Profile Image', value: data?.profileImage },
+                                { label: 'Skills', value: data?.skills },
                             ].map((item, idx) => (
                                 <div key={idx}>
                                     <h3 className="text-sm font-semibold text-gray-500">{item.label}</h3>
@@ -141,14 +151,7 @@ const ProfileMain = () => {
                     ) : (
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                                {[
-                                    'name',
-                                    'email',
-                                    'location',
-                                    'phone',
-                                    'profileImage',
-                                    'skills',
-                                ].map((field) => (
+                                {['name', 'email', 'location', 'phone', 'skills'].map((field) => (
                                     <FormField
                                         key={field}
                                         control={form.control}
@@ -156,8 +159,7 @@ const ProfileMain = () => {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="text-sm font-semibold text-black">
-                                                    {field.name === 'profileImage' ? 'Profile Image' :
-                                                        field.name.charAt(0).toUpperCase() + field.name.slice(1)}
+                                                    {field.name.charAt(0).toUpperCase() + field.name.slice(1)}
                                                     <span className='text-red-600'>*</span>
                                                 </FormLabel>
                                                 <FormControl>
@@ -172,24 +174,15 @@ const ProfileMain = () => {
                                         )}
                                     />
                                 ))}
-                                <FormField
-                                    control={form.control}
-                                    name='resumeUrl'
-                                    render={({ field: { onChange, value, ...rest } }) => (
-                                        <FormItem>
-                                            <FormLabel>Resume (PDF/DOCX)  <span className='text-red-600'>*</span></FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    type="file"
-                                                    accept=".pdf,.doc,.docx"
-                                                    onChange={(e) => onChange(e.target.files?.[0])}
-                                                    {...rest}
-                                                />
-                                            </FormControl>
-                                            <FormMessage className='text-sm text-red-600' />
 
-                                        </FormItem>
-                                    )} />
+                                <div className='flex flex-col'>
+                                    <h2 className="font-semibold mb-1">Resume (PDF/DOCX)</h2>
+                                    <SelectFile id="resume-upload" selectedFile={resumeUrl} setSelectedFile={setresumeUrl} />
+                                </div>
+                                <div className='flex flex-col'>
+                                    <h2 className="font-semibold mb-1">Profile Pic</h2>
+                                    <SelectFile id='profile-pic' selectedFile={profilePic} setSelectedFile={setprofilePic} />
+                                </div>
 
                                 <div className="flex gap-4">
                                     <Button type="submit" className="bg-indigo-600 text-white hover:bg-indigo-700">
@@ -213,4 +206,3 @@ const ProfileMain = () => {
 }
 
 export default ProfileMain
-

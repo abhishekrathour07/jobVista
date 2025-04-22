@@ -48,7 +48,7 @@ const Login = () => {
             if (response?.data?.role === roleEnum.User) {
                 router.push("/user/home")
             } else {
-                router.push("/admin/home")
+                router.push("/admin/dashboard")
             }
         } catch (error: any) {
             toast.error(error?.response?.data?.message);

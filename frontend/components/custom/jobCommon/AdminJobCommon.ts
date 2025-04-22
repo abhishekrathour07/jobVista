@@ -15,7 +15,8 @@ export const applicantStatusOptions = [
 ];
 
 export const jobTableHeaders = [
-    "Title",
+    "Company Name",
+    "Job Title",
     "Location",
     "Salary",
     "Applicants",

@@ -1,14 +1,16 @@
 "use client"
-import { Upload } from 'lucide-react'
-import React, { useState } from 'react'
+import { Upload } from "lucide-react"
+import { useState } from "react"
 
 type UploadFileProps = {
     selectedFile?: File | null,
     setSelectedFile: React.Dispatch<React.SetStateAction<File | null>>,
+    id: string, // <-- Add this
 }
 const SelectFile: React.FC<UploadFileProps> = ({
     selectedFile,
     setSelectedFile,
+    id, 
 }) => {
     const [preview, setPreview] = useState<string | null>(null)
 
@@ -30,12 +32,12 @@ const SelectFile: React.FC<UploadFileProps> = ({
         ${preview ? 'bg-indigo-100' : 'hover:bg-indigo-50'}`}>
                 <input
                     type="file"
-                    accept="image/*"
+                    accept="image/*,.pdf,.doc,.docx"
                     onChange={handleFileChange}
                     className='hidden'
-                    id="file-upload"
+                    id={id} // 🔧 Use dynamic id
                 />
-                <label htmlFor="file-upload" className='cursor-pointer'>
+                <label htmlFor={id} className='cursor-pointer'>
                     {preview ? (
                         <div className='flex flex-col items-center gap-4'>
                             <img src={preview} alt="Preview" className='max-h-28 rounded-lg object-contain' />
@@ -52,7 +54,6 @@ const SelectFile: React.FC<UploadFileProps> = ({
                     )}
                 </label>
             </div>
-
         </div>
     )
 }

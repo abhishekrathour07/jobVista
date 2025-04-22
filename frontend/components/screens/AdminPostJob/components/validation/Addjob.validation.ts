@@ -1,15 +1,14 @@
 import * as yup from 'yup';
 
 export const jobFormSchema = yup.object({
-  jobTitle: yup.string().required('Job title is required'),
-  companyName: yup.string().required('Company name is required'),
-  companyLogo: yup.string().required('Company logo is required'),
+  jobtitle: yup.string().required('Job title is required'),
+  companyname: yup.string().required('Company name is required'),
   companyUrl: yup.string().notRequired(),
   companyInfo: yup.string().min(10, 'Company info must be at least 10 characters').required(),
   industryType: yup.string().required('Industry type is required'),
   companySize: yup.string().required('Company size is required'),
   foundedAt: yup
-    .string()
+    .number()
     .min(1800, 'Invalid year')
     .max(new Date().getFullYear(), 'Cannot be a future year')
     .required('Founded year is required'),

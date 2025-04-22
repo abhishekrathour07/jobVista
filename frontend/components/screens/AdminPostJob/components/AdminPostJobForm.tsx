@@ -28,7 +28,7 @@ const AdminPostJobForm = () => {
             companyInfo: '',
             industryType: '',
             companySize: '',
-            foundedAt: undefined,
+            foundedAt: '',
             location: '',
             jobType: "fulltime",
             jobStatus: 'active',
@@ -36,7 +36,7 @@ const AdminPostJobForm = () => {
             salaryRange: '',
             experience: '',
             skills: '',
-            deadline: undefined,
+            deadline: '',
             requirements: '',
             tags: '',
             jobDescription: '',
@@ -261,7 +261,7 @@ const AdminPostJobForm = () => {
                         </div>
                         <div className="md:col-span-2">
                             <FormLabel>Company Logo <span className='text-red-600'>*</span></FormLabel>
-                            <SelectFile setSelectedFile={setSelectedFile} selectedFile={selectedFile} />
+                            <SelectFile id='logo' setSelectedFile={setSelectedFile} selectedFile={selectedFile} />
                         </div>
                     </div>
 

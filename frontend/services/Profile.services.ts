@@ -15,12 +15,15 @@ const profileService = {
         });
         return response.data;
     },
-    editUserDetail: async (data: any) => {
-        const response = await axios.put(`${API_URL}/user-detail/edit`, data, {
-            withCredentials: true
+    editUserDetail: async (formData: FormData) => {
+        const response = await axios.put(`${API_URL}/user-detail/edit`, formData, {
+            withCredentials: true,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
         });
         return response.data;
-    },
+    }
 }
 
 
