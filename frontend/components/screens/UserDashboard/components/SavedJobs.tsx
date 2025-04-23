@@ -1,22 +1,36 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SavedJobCards from './SavedJobCards'
-import { savedJobs } from '../data/SavedData'
 import CustomPagination from '@/components/custom/Pagination/Pagination'
+import saveJobService from '@/services/savedJob.services'
+import toast from 'react-hot-toast'
 
 const SavedJobs = () => {
-     const [currentPage, setCurrentpage] = useState(1)
-        const jobsPerPage = 4;
-        const totalPages = Math.ceil(savedJobs.length / jobsPerPage);
-        const startIndex = (currentPage - 1) * jobsPerPage;
-        const endIndex = startIndex + jobsPerPage;
+    const [currentPage, setCurrentpage] = useState(1)
+    const [jobData, setJobsData] = useState<any>();
+    const jobsPerPage = 4;
+
+    const getAllSavedJob = async () => {
+        try {
+            const response = await saveJobService.getallSavedJob(currentPage, jobsPerPage);
+            setJobsData(response?.data)
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message)
+        }
+    }
+
+    useEffect(() => {
+        getAllSavedJob()
+    }, [currentPage])
+
+    console.log(jobData);
     return (
         <div className='flex flex-col border border-indigo-700 rounded-md bg-white space-y-5 p-6'>
             <h1 className='text-2xl font-bold'>Saved Jobs</h1>
-            {savedJobs.slice(startIndex,endIndex).map((job, index) => (
-                <SavedJobCards key={index} {...job} />
+            {jobData?.savedData?.map((data:any,) => (
+                <SavedJobCards key={data} {...data} />
             ))}
-            <CustomPagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentpage}/>  
+            <CustomPagination totalPages={jobData?.totalPages} currentPage={currentPage} onPageChange={setCurrentpage} />
         </div>
     )
 }

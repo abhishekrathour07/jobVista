@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
     const token = request.cookies.get('auth_token')?.value || ''
 
     if (isPublicPath && token) {
-        return NextResponse.redirect(new URL('/home', request.url))
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url))
     }
 
     if (!isPublicPath && !token) {
