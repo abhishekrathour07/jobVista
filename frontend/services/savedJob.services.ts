@@ -9,7 +9,7 @@ const saveJobService = {
         return response.data
     },
     saveUnsaveJobs: async (jobId: string) => {
-        const response = await axios.post(`${API_URL}/saved-job`, jobId, {
+        const response = await axios.post(`${API_URL}/saved-job`, { jobId }, {
             withCredentials: true
         });
         return response.data

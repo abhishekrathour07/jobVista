@@ -13,10 +13,11 @@ import toast from 'react-hot-toast'
 import moment from 'moment'
 import Skills from '../Profile/components/Skills'
 import Loader from '@/components/custom/HashLoader/Loader'
+import saveJobService from '@/services/savedJob.services'
 
 const JobDetail = () => {
   const router = useRouter()
-  const params = useParams();
+  const { id } = useParams();
   const [jobDetailData, setJobDetailData] = useState<any>()
   const [showUserInfo, setShowUserInfo] = useState(false)
   const [loading, setloading] = useState(false)
@@ -24,7 +25,7 @@ const JobDetail = () => {
   const fetchJobDetailData = async () => {
     setloading(true);
     try {
-      const response = await jobServices.getJobById(params.id as string)
+      const response = await jobServices.getJobById(id as string)
       setJobDetailData(response?.data)
     } catch (error: any) {
       toast.error(error?.response?.data?.message)
@@ -33,9 +34,18 @@ const JobDetail = () => {
     }
   }
 
+  const handlSaveUnsaveJobs = async (jobId: string) => {
+    try {
+      const response = await saveJobService.saveUnsaveJobs(jobId)
+      toast.success(response?.message)
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message)
+    }
+  }
   useEffect(() => {
     fetchJobDetailData()
   }, [])
+
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -112,7 +122,7 @@ const JobDetail = () => {
                   </div>
                 </SheetContent>
               </Sheet>
-              <Button variant="outline" className="w-full flex gap-2 items-center"><Bookmark className="h-4 w-4" /> Save</Button>
+              <Button variant="outline" className="w-full flex gap-2 items-center" onClick={() => handlSaveUnsaveJobs(jobDetailData._id)}><Bookmark className="h-4 w-4" /> Save</Button>
             </div>
 
             {/* Company Info */}

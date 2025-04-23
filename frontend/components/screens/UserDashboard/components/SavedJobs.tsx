@@ -27,10 +27,13 @@ const SavedJobs = () => {
     return (
         <div className='flex flex-col border border-indigo-700 rounded-md bg-white space-y-5 p-6'>
             <h1 className='text-2xl font-bold'>Saved Jobs</h1>
-            {jobData?.savedData?.map((data:any,) => (
-                <SavedJobCards key={data} {...data} />
+            {jobData?.savedData?.map((data: any,) => (
+                <SavedJobCards key={data.id} {...data} />
             ))}
-            <CustomPagination totalPages={jobData?.totalPages} currentPage={currentPage} onPageChange={setCurrentpage} />
+            {jobData?.totalPages === 1 && (
+                <CustomPagination totalPages={jobData?.totalPages} currentPage={currentPage} onPageChange={setCurrentpage} />
+
+            )}
         </div>
     )
 }

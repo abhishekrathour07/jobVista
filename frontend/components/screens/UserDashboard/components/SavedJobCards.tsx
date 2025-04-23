@@ -1,53 +1,58 @@
-import CustomButton from '@/components/custom/CustomButton/CustomButton'
-import { getStatusColor } from '@/components/custom/jobCommon/jobStatus'
-import { Button } from '@/components/ui/button'
-import { Clock, X } from 'lucide-react'
-import moment from 'moment'
+"use client"
 import React from 'react'
+import { Briefcase, MapPin, Building2, CalendarDays, DollarSign, X } from 'lucide-react'
+import { getStatusColor } from '@/components/custom/jobCommon/jobStatus'
+import CustomButton from '@/components/custom/CustomButton/CustomButton'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
+import saveJobService from '@/services/savedJob.services'
+import toast from 'react-hot-toast'
 
-type SavedJobCardProps = {
-  jobtitle: string
-  companyname: string
-  location: string
-  updatedAt: string
-  salaryRange: string
-  maxSalary: string
-  status: "active" | "closed"
-}
+const SavedJobCards = ({
+  jobtitle,
+  companyname,
+  location,
+  status,
+  jobType,
+  workplaceType,
+  salaryRange,
+  deadline,
+  _id
+}: any) => {
+  const router = useRouter()
 
-const SavedJobCards: React.FC<SavedJobCardProps> = ({ jobtitle, status, companyname, location, updatedAt, salaryRange }) => {
+  const handlSaveUnsaveJobs = async (jobId: string) => {
+    try {
+      const response = await saveJobService.saveUnsaveJobs(jobId)
+      toast.success(response?.message)
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message)
+    }
+  }
   return (
-    <div className='p-4 space-y-2 border rounded-md'>
-      <div className='flex justify-between items-center'>
-        <h1 className='text-lg text-start capitalize'>{jobtitle}</h1>
-        <h1 className={`text-sm px-3 py-1 rounded-full text-start mb-4 ${getStatusColor(status)}`}>{status}</h1>
-      </div>
-
-      <div className='flex justify-between items-center'>
-        <div className='flex gap-2 items-center text-gray-500'>
-          <p className='text-indigo-600'>{companyname} -</p>
-          <p>{location}</p>
-          <div className='flex text-black text-sm items-center'>
-            <p> - </p>
-            <span>{salaryRange}</span>
+    <div className="p-5 rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition-all bg-white flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-800 capitalize">{jobtitle}</h2>
+          <p className="text-sm text-indigo-500 font-bold capitalize mt-2">{companyname}</p>
+        </div>
+        <div className='flex justify-center flex-col items-end'>
+          <span className={`text-sm font-medium px-3 py-1 rounded-full ${getStatusColor(status)}`}>
+            {status}
+          </span>
+          <div className='flex gap-2 mt-4'>
+            <CustomButton label='View' onClick={() => { router.push(`/user/jobs/${_id}`) }} />
+            <Button className='flex h-10 gap-2' onClick={() => handlSaveUnsaveJobs(_id)}><X /> Remove</Button>
           </div>
         </div>
-        <div className='hidden sm:flex gap-4'>
-          <p className='flex gap-2 text-sm text-gray-500 items-center'><Clock className='h-4 w-4' /> <span>Saved {moment(updatedAt).fromNow()}</span></p>
-          <CustomButton label='View' />
-          <Button className='flex h-10 gap-2'><X /> Remove</Button>
-        </div>
       </div>
-      <div className='hidden sm:flex text-black text-sm items-center'>
 
-        <span className='flex md:hidden'>{salaryRange}</span>
-      </div>
-      <div className='flex justify-between sm:hidden'>
-        <p className='flex gap-2 text-sm text-gray-500 items-center'><Clock className='h-4 w-4' /> <span>Saved {moment(updatedAt).fromNow()}</span></p>
-        <div className='flex gap-4'>
-          <CustomButton label='View' />
-          <Button className='flex h-10 gap-2'><X /> Remove</Button>
-        </div>
+      <div className="flex flex-wrap gap-4 text-gray-600 text-sm">
+        <span className="flex items-center gap-1 capitalize"><MapPin className="w-4 h-4" /> {location}</span>
+        <span className="flex items-center gap-1 capitalize"><Building2 className="w-4 h-4" /> {workplaceType}</span>
+        <span className="flex items-center gap-1 capitalize"><Briefcase className="w-4 h-4" /> {jobType}</span>
+        <span className="flex items-center gap-1 capitalize"><DollarSign className="w-4 h-4" /> {salaryRange}</span>
+        <span className="flex items-center gap-1 capitalize"><CalendarDays className="w-4 h-4" /> Deadline: {new Date(deadline).toLocaleDateString()}</span>
       </div>
     </div>
   )
