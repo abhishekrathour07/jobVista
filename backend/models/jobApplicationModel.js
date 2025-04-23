@@ -7,6 +7,7 @@ const jobApplicationSchema = new mongoose.Schema(
         status: { type: String, enum: ['pending', 'accepted', 'rejected', 'under review'], default: 'pending' },
         resumeUrl: { type: String, required: true },
         coverLetter: { type: String },
+        alreadyApplied: { type: Boolean, default: false }
     },
     {
         timestamps: true,

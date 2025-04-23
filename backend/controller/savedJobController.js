@@ -5,7 +5,7 @@ import responseHandler from "../utils/responseHandler.js";
 const savedjob = async (req, res) => {
     try {
         const loggedInUserId = req.user._id;
-        const { jobId } = req.body;
+        const  {jobId}  = req.body;
 
         const userDetail = await userModel.findById(loggedInUserId);
         const job = await jobModel.findById(jobId);
