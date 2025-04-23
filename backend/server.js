@@ -8,6 +8,7 @@ import authRouter from "./routes/authRoutes.js";
 import jobRouter from "./routes/jobRoutes.js";
 import applicationRouter from "./routes/applicationRouter.js";
 import profileRouter from "./routes/profileRoutes.js";
+import savedRouter from "./routes/savedJobs.js";
 
 dotenv.config();
 const app = express();
@@ -30,6 +31,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1", authMiddleware, jobRouter)
 app.use("/api/v1", authMiddleware, applicationRouter)
 app.use("/api/v1", authMiddleware, profileRouter)
+app.use("/api/v1", authMiddleware, savedRouter)
 
 
 
