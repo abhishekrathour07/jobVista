@@ -41,8 +41,8 @@ const UserHome = () => {
               <h1 className='text-2xl font-bold'>Saved Jobs</h1>
               <Link href={"/user/dashboard?tabs=saved-jobs"} className='text-sm hover:underline font-bold flex items-center  text-indigo-800'>View all Saved job <ArrowRight className='h-4 w-4' /></Link>
             </div>
-            {jobData?.savedData?.slice(0, lastIndex).map((job: any) => (
-              <SavedJobCards key={job.savedData._id} {...job} />
+            {jobData?.savedData?.slice(0, lastIndex).map((job: any,index:number) => (
+              <SavedJobCards key={index} {...job} />
             ))}
             <p className={`text-indigo-800 text-lg text-semibold hover:underline cursor-pointer ${lastIndex === 4 ? "hidden" : "block"}`} onClick={() => setlastindex(4)}>See more</p>
           </div>

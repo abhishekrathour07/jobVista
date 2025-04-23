@@ -47,7 +47,13 @@ const FilterJobs = () => {
             </div>
             <div className='flex flex-col gap-4 w-full'>
                 <h2 className='text-lg text-black font-semibold'>Salary Range</h2>
-                <Slider />
+                <Slider
+                    // value={salaryRange}
+                    // onValueChange={(value) => setSalaryRange(value as [number, number])}
+                    min={25000}
+                    max={250000}
+                    step={5000}
+                />
                 <div className=' flex text-sm justify-between items-center mt-2'>
                     <p>Start <span className='text-gray-500'>25k</span></p>
                     <p> Upto <span className='text-gray-500'>250k</span></p>

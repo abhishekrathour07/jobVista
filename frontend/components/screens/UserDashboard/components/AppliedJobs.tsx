@@ -34,9 +34,9 @@ const AppliedJobs = () => {
         <EmptyState title='No applied job found' subtitle='Please navigate to job section and applied for new job' />
         :
         <div className="space-y-4">
-          {data?.map((job: any) => (
+          {data?.map((job: any,index:any) => (
             <div
-              key={job?.jobDetails._id}
+              key={index}
               className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white border rounded-md p-4 shadow-sm"
             >
               <div className="flex flex-col gap-1">

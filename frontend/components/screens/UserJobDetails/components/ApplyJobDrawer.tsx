@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '@/components/ui/button'
@@ -8,116 +8,74 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { applySchema } from './validation/ApplyjobForm.validation'
+import toast from 'react-hot-toast'
+import applicantServices from '@/services/Applicants.services'
+import SelectFile from '@/components/custom/SelectFile/SelectFile'
+import Loader from '@/components/custom/HashLoader/Loader'
 
+const ApplyJobDrawer = ({ jobId, onClose, showUserInfo }: { jobId: string; onClose: Dispatch<SetStateAction<boolean>>, showUserInfo: boolean }) => {
 
-
-
-
-const ApplyJobDrawer = () => {
+    const [selectedFile, setSelectedFile] = useState<File | any>()
+    const [loading, setloading] = useState<boolean>(false)
     const form = useForm<any>({
         resolver: yupResolver(applySchema),
         defaultValues: {
-            fullName: '',
-            email: '',
-            resume: undefined,
-            message: '',
-            phone: ''
+            resume: '',
+            message: ''
         }
     })
 
-    const onSubmit = (data: any) => {
-        console.log('Form Submitted:', data)
+    const onSubmit = async (data: any) => {
+        setloading(true)
+        try {
+            const formData = new FormData()
+            if (!selectedFile) {
+                toast.error("select a file please")
+            }
+            formData.append("coverLetter", data.message)
+            formData.append("resumeUrl", selectedFile)
+
+
+            const response = await applicantServices.applyToJOb(jobId, formData)
+            toast.success(response?.message || "Application submitted!")
+            onClose(!showUserInfo)
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message || "Something went wrong")
+        } finally {
+            setloading(false)
+        }
     }
 
     return (
         <Form {...form}>
             <div className="space-y-4">
-                <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Full Name <span className='text-red-600'>*</span></FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter your full name" {...field} />
-                            </FormControl>
-                            <FormMessage className='text-sm text-red-600' />
-
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Email Address  <span className='text-red-600'>*</span></FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter your email" type="email" {...field} />
-                            </FormControl>
-                            <FormMessage className='text-sm text-red-600' />
-
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="resume"
-                    render={({ field: { onChange, value, ...rest } }) => (
-                        <FormItem>
-                            <FormLabel>Resume (PDF/DOCX)  <span className='text-red-600'>*</span></FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="file"
-                                    accept=".pdf,.doc,.docx"
-                                    onChange={(e) => onChange(e.target.files?.[0])}
-                                    {...rest}
-                                />
-                            </FormControl>
-                            <FormMessage className='text-sm text-red-600' />
-
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Phone  <span className='text-red-600'>*</span></FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="text"
-                                    placeholder='Enter your contact number'
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage className='text-sm text-red-600' />
-                        </FormItem>
-                    )}
-                />
+                <div>
+                    <h1>Resume File</h1>
+                    <SelectFile setSelectedFile={setSelectedFile} selectedFile={selectedFile} id='job-applied' />
+                </div>
 
                 <FormField
                     control={form.control}
                     name="message"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Message</FormLabel>
+                            <FormLabel>Cover Letter</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="Add a message or cover letter (max 500 chars)" {...field} />
+                                <Textarea placeholder="Write a message (optional)" {...field} />
                             </FormControl>
                             <FormMessage className='text-sm text-red-600' />
-
                         </FormItem>
                     )}
                 />
 
                 <div className='fixed bottom-4 flex gap-4'>
-                    <Button className="w-full">Cancel</Button>
-                    <Button className="w-full bg-indigo-800 hover:bg-indigo-900 text-white" onClick={form.handleSubmit(onSubmit)}>Submit</Button>
+                    <Button className="w-full" onClick={() => onClose(!showUserInfo)}>Cancel</Button>
+                    <Button className="w-full bg-indigo-800 hover:bg-indigo-900 text-white" onClick={form.handleSubmit(onSubmit)} >
+                        {loading ? <Loader /> : "Submit"}
+
+                    </Button>
                 </div>
+
             </div>
         </Form>
     )

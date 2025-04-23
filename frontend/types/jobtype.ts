@@ -1,9 +1,9 @@
 export const JOB_TYPES = [
-    { label: "Full-time", value: "Full-time" },
-    { label: "Part-time", value: "Part-time" },
-    { label: "Contract", value: "Contract" },
-    { label: "Remote", value: "Remote" },
-    { label: "Internship", value: "Internship" },
+    { label: "Full-time", value: "fulltime" },
+    { label: "Part-time", value: "parttime" },
+    { label: "Contract", value: "contract" },
+    { label: "Remote", value: "remote" },
+    { label: "Internship", value: "internship" },
   ];
   
   // Categories for filter

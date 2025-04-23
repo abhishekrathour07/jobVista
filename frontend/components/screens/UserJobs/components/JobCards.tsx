@@ -68,7 +68,7 @@ const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location,
           <SheetContent side="right" className="bg-white text-black sm:w-[400px] w-full overflow-auto">
             <div className="p-4 space-y-4">
               <DialogTitle className="text-xl font-semibold">Apply for this Job</DialogTitle>
-              <ApplyJobDrawer />
+              <ApplyJobDrawer jobId={jobId} onClose={setShowUserInfo} showUserInfo={showUserInfo} />
             </div>
           </SheetContent>
         </Sheet>

@@ -15,7 +15,14 @@ const applicantServices = {
             withCredentials: true,
         });
         return response.data
+    },
+    applyToJOb: async (jobId: string, payload: any) => {
+        const response = await axios.post(`${API_URL}/apply/${jobId}`, payload, {
+            withCredentials: true
+        })
+        return response.data;
     }
+
 }
 
 export default applicantServices
