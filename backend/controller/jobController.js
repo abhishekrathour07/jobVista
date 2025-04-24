@@ -8,7 +8,7 @@ const postJob = async (req, res) => {
     try {
 
         const loggedInUserId = req.user._id;
-        const { jobtitle, companyname, companyLogo, companyUrl, companyInfo, industryType, workplaceType, foundedYear, location, status, jobType, skills, salaryRange, deadline, experience, jobDescription, requirements, tags } = req.body;
+        const { jobtitle, companyname, companyUrl, companyInfo, industryType, workplaceType, foundedYear, location, status, jobType, skills, salaryRange, deadline, experience, jobDescription, requirements, tags } = req.body;
 
         const loggedInUser = await userModel.findById(loggedInUserId)
 
@@ -104,7 +104,7 @@ const getJobById = async (req, res) => {
         const response = {
             job,
             isApplied: isApplied,
-            isSaved:isSaved
+            isSaved: isSaved
         }
 
         return responseHandler(res, 200, "Job fetched successfully", response);
@@ -119,6 +119,8 @@ const editJobById = async (req, res) => {
         const loggedInUserId = req.user._id;
 
         const loggedInUser = await userModel.findById(loggedInUserId);
+
+
         if (!loggedInUser || loggedInUser.role !== 'admin') {
             return responseHandler(res, 403, "Permission Denied");
         }
@@ -128,9 +130,15 @@ const editJobById = async (req, res) => {
             return responseHandler(res, 404, "Job not found");
         }
 
-        if (!req.body || typeof req.body !== 'object') {
-            return responseHandler(res, 400, "Invalid request body");
+        if (req.file) {
+            if (req.files.companyLogo && req.files.companyLogo[0]) {
+                const uploadedLogo = await uploadFileToCloudinary(req.files.companyLogo[0]);
+                if (uploadedLogo?.secure_url) {
+                    job.companyLogo = uploadedLogo.secure_url;
+                }
+            }
         }
+
         Object.keys(req.body).forEach((key) => {
             if (req.body[key] !== undefined) {
                 job[key] = req.body[key];

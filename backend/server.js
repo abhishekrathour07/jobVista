@@ -17,7 +17,10 @@ const port = 4050;
 // Connect to DB
 ConnectedDatabase();
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+}));
 app.use(express.json());
 
 // this are the all routes 

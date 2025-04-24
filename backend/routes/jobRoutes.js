@@ -9,7 +9,7 @@ jobRouter.post("/post-job",multerMiddleware.single("companyLogo"), postJob);
 jobRouter.get("/jobs", getPaginatedJobs);
 jobRouter.get("/jobs/:jobId", getJobById);
 jobRouter.get("/user-detail/applied", getAllAppliedJob);
-jobRouter.put("/edit-job/:jobId", editJobById)
+jobRouter.put("/edit-job/:jobId",multerMiddleware.single("companyLogo"), editJobById)
 jobRouter.delete("/delete-job/:jobId", deleteJobById)
 
 export default jobRouter
