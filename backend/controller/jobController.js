@@ -59,21 +59,26 @@ const getPaginatedJobs = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 6;
         const skip = (page - 1) * limit;
+        const loggedInUserId = req.user._id;
 
         const jobs = await jobModel
             .find()
-            .select("companyLogo jobtitle companyname location companyInfo status skills tags salaryRange postedAt applicationCount deadline")
+            .select("companyLogo jobtitle companyname location companyInfo status skills tags salaryRange applicants postedAt applicationCount deadline")
             .sort({ postedAt: -1 })
             .skip(skip)
             .limit(limit);
 
         const totalJobs = await jobModel.countDocuments();
+        const jobApplicants = jobs.map(data => {
+            const isApplied = data.applicants.some(id => id.toString() === loggedInUserId.toString());
+            return { ...data._doc, isApplied };
+        });
 
         return responseHandler(res, 200, "Jobs fetched successfully", {
             totalJobs,
             currentPage: page,
             totalPages: Math.ceil(totalJobs / limit),
-            jobs,
+            jobs: jobApplicants,
         });
     } catch (error) {
         return responseHandler(res, 500, "Failed to fetch jobs", error.message);
@@ -83,6 +88,7 @@ const getPaginatedJobs = async (req, res) => {
 const getJobById = async (req, res) => {
     try {
         const { jobId } = req.params;
+        const loggedInUserId = req.user._id;
 
         if (!jobId) {
             return responseHandler(res, 400, "Job ID is required");
@@ -91,7 +97,17 @@ const getJobById = async (req, res) => {
         if (!job) {
             return responseHandler(res, 404, "Job not found");
         }
-        return responseHandler(res, 200, "Job fetched successfully", job);
+        const isApplied = job.applicants.includes(loggedInUserId)
+        const userDetail = await userModel.findById(loggedInUserId)
+        const isSaved = userDetail.savedJobs.includes(jobId)
+
+        const response = {
+            job,
+            isApplied: isApplied,
+            isSaved:isSaved
+        }
+
+        return responseHandler(res, 200, "Job fetched successfully", response);
     } catch (error) {
         return responseHandler(res, 500, "Failed to fetch job", { error: error.message });
     }

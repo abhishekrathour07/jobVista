@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
         appliedJobs: [{
             jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
             status: { type: String, enum: ['applied', 'accepted', 'rejected'], default: 'applied' },
+            isapplied:{type:Boolean,default:false},
             appliedAt: { type: Date, default: Date.now }
         }],
         savedJobs: [{

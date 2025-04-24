@@ -42,12 +42,13 @@ const applyToJob = async (req, res) => {
             applicantId: loggedInUserId,
             resumeUrl: mediaUrl,
             coverLetter,
-            alreadyApplied:true
+            alreadyApplied: true
         })
 
         loggedInUser.appliedJobs.push({
             jobId: jobId,
             status: 'applied',
+            isapplied: true,
             appliedAt: new Date()
         })
         await loggedInUser.save()
@@ -81,4 +82,28 @@ const getApplicationByJobId = async (req, res) => {
     }
 }
 
-export { applyToJob, getApplicationByJobId }
+const userStatsData = async (req, res) => {
+    try {
+        const loggedInUserId = req.user._id;
+        const userDetail = await userModel.findById(loggedInUserId);
+        const totalAppliedJobs = userDetail.appliedJobs.length;
+        const totalSavedJobs = userDetail.savedJobs.length;
+        const totalJobs = await jobModel.countDocuments();
+
+
+        const stats = {
+            totalJobs: totalJobs,
+            totalAppliedJobs: totalAppliedJobs,
+            totalSavedJob: totalSavedJobs
+        }
+        return responseHandler(res, 200, 'Stats data fetched successfully', stats)
+
+
+    } catch (error) {
+        return responseHandler(res, 500, "Error while applying job", error.message)
+
+    }
+
+}
+
+export { applyToJob, getApplicationByJobId, userStatsData }
