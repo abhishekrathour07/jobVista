@@ -20,19 +20,12 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 
-
-
-
 // this are the all routes 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1", authMiddleware, jobRouter)
 app.use("/api/v1", authMiddleware, applicationRouter)
 app.use("/api/v1", authMiddleware, profileRouter)
 app.use("/api/v1", authMiddleware, savedRouter)
-
-
-
-
 
 app.get("/", (req, res) => {
     res.send("API is working!");
