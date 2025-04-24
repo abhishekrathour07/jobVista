@@ -17,10 +17,7 @@ const port = 4050;
 // Connect to DB
 ConnectedDatabase();
 app.use(cookieParser());
-app.use(cors({
-    origin: "*",
-    credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 
@@ -40,6 +37,6 @@ app.use("/api/v1", authMiddleware, savedRouter)
 app.get("/", (req, res) => {
     res.send("API is working!");
 });
-
-
-module.exports = app;
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+});
