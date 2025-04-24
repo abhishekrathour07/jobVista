@@ -40,6 +40,6 @@ app.use("/api/v1", authMiddleware, savedRouter)
 app.get("/", (req, res) => {
     res.send("API is working!");
 });
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-});
+
+
+module.exports = app;
