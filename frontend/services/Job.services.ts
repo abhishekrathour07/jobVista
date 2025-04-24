@@ -28,7 +28,12 @@ const jobServices = {
 
     //    It is used to edit existing jon it open job edit drawer
     editJob: async (id: string, jobData: object) => {
-        const response = await axios.put(`$${API_URL}/edit-job/${id}`, jobData);
+        const response = await axios.put(`${API_URL}/edit-job/${id}`, jobData, {
+            withCredentials: true,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
         return response.data;
     },
 

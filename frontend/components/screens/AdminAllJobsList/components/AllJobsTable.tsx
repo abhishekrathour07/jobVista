@@ -10,7 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Edit, Trash2, Loader2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import { Button } from '@/components/ui/button';
@@ -34,6 +34,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import EditJobDrawer from './EditjobDrawer';
 
 const AllJobsTable = () => {
     const router = useRouter()
@@ -58,19 +59,9 @@ const AllJobsTable = () => {
 
     const handleDelete = async (jobId: string) => {
         try {
-          const response =   await jobServices.deleteJob(jobId); 
+            const response = await jobServices.deleteJob(jobId);
             toast.success(response?.message);
-            handleGetAllJobs(); 
-        } catch (error) {
-            toast.error("Failed to delete job");
-            console.error(error);
-        }
-    }
-    const handleEditJob = async (jobId: string) => {
-        try {
-          const response =   await jobServices.deleteJob(jobId); 
-            toast.success(response?.message);
-            handleGetAllJobs(); 
+            handleGetAllJobs();
         } catch (error) {
             toast.error("Failed to delete job");
             console.error(error);
@@ -80,7 +71,6 @@ const AllJobsTable = () => {
     useEffect(() => {
         handleGetAllJobs()
     }, [currentPage])
-
     return (
         <div>
             <div className="bg-white rounded-lg overflow-hidden">
@@ -102,9 +92,9 @@ const AllJobsTable = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {data?.jobs?.map((job: any) => (
-                                <TableRow key={job.id} className="hover:bg-purple-50 dark:hover:bg-gray-700">
-                                    <TableCell className="font-medium cursor-pointer" onClick={() => router.push(`/admin/all-jobs/applicants/${job.id}`)}>
+                            {data?.jobs?.map((job: any, index: number) => (
+                                <TableRow key={index} className="hover:bg-purple-50 dark:hover:bg-gray-700">
+                                    <TableCell className="font-medium cursor-pointer" onClick={() => router.push(`/admin/all-jobs/applicants/${job._id}`)}>
                                         {job.companyname}
                                     </TableCell>
                                     <TableCell>{job?.jobtitle}</TableCell>
@@ -123,6 +113,7 @@ const AllJobsTable = () => {
                                                         variant="ghost"
                                                         size="icon"
                                                         className="text-purple-600 hover:text-purple-800 hover:bg-purple-100"
+                                                        onClick={() => setSelectedJobId(job?._id)}
                                                     >
                                                         <Edit className="h-4 w-4" />
                                                     </Button>
@@ -132,7 +123,8 @@ const AllJobsTable = () => {
                                                     className="bg-white text-black w-full overflow-auto"
                                                 >
                                                     <div className="p-4 space-y-4">
-                                                        <DialogTitle className="text-xl font-semibold">Edit Job</DialogTitle>
+                                                        <DialogTitle className="text-xl text-center font-semibold">Edit Job Detail</DialogTitle>
+                                                        <EditJobDrawer jobId={selectedJobId} setShowUserInfo={setShowUserInfo as any} showUserInfo={showUserInfo} />
                                                     </div>
                                                 </SheetContent>
                                             </Sheet>
@@ -143,7 +135,7 @@ const AllJobsTable = () => {
                                                         variant="ghost"
                                                         size="icon"
                                                         className="text-red-500 hover:text-red-700 hover:bg-red-100"
-                                                        onClick={() => setSelectedJobId(job.id)}
+                                                        onClick={() => setSelectedJobId(job?._id)}
                                                     >
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>

@@ -51,7 +51,6 @@ const JobDetail = () => {
     fetchJobDetailData()
   }, [])
 
-  console.log(jobDetailData)
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <p className='text-indigo-700 cursor-pointer flex items-center gap-1 mb-6' onClick={() => router.back()}><ArrowLeft /> Back to Jobs</p>

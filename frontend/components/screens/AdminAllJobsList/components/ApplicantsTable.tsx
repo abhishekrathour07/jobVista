@@ -89,8 +89,8 @@ const ApplicantsTable = () => {
                         </TableHeader>
 
                         <TableBody>
-                            {data.slice(startIndex, endIndex).map((application: any) => (
-                                <TableRow key={application._id} className="hover:bg-purple-50 dark:hover:bg-gray-700">
+                            {data.slice(startIndex, endIndex).map((application: any, index: number) => (
+                                <TableRow key={index} className="hover:bg-purple-50 dark:hover:bg-gray-700">
                                     <TableCell className='flex gap-2 items-center'>
                                         <Avatar className="w-8 h-8">
                                             <AvatarImage
@@ -106,7 +106,7 @@ const ApplicantsTable = () => {
                                     <TableCell className="w-[300px]">{application.applicantId?.email}</TableCell>
                                     <TableCell className='font-semibold'>{application?.jobId?.companyname || "N/A"}</TableCell>
                                     <TableCell className='flex gap-2 items-center '>
-                                        {application?.resumeUrl}
+                                        <span className='w-40  truncate overflow-hidden whitespace-nowrap'> {application?.resumeUrl}</span>
                                         <DownloadCloud className='w-5 text-indigo-600 h-5 cursor-pointer' onClick={() => handleDownload(application?.resumeUrl)} />
                                     </TableCell>
                                     <TableCell className='ml-4'>{moment(application.createdAt).format("MMM-DD-YY")}</TableCell>
