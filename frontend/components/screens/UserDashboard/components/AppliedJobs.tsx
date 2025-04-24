@@ -30,7 +30,10 @@ const AppliedJobs = () => {
   return (
     <div className="p-6 border border-indigo-700 rounded-lg bg-white">
       <h2 className="text-xl font-semibold mb-4">Applied Jobs</h2>
-      {data?.length === 0 ?
+
+      {
+      
+      data?.length === 0 ?
         <EmptyState title='No applied job found' subtitle='Please navigate to job section and applied for new job' />
         :
         <div className="space-y-4">

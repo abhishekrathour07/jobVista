@@ -10,18 +10,27 @@ const applicantServices = {
         })
         return response.data
     },
+    // it fetched all the applied job for the user 
     getAppliedJobs: async () => {
         const response = await axios.get(`${API_URL}/user-detail/applied`, {
             withCredentials: true,
         });
         return response.data
     },
+    // it open the drawer where the api is called to apply in particular job
     applyToJOb: async (jobId: string, payload: any) => {
         const response = await axios.post(`${API_URL}/apply/${jobId}`, payload, {
             withCredentials: true
         })
         return response.data;
-    }
+    },
+    userStats: async () => {
+        const response = await axios.get(`${API_URL}/user/stats`, {
+            withCredentials: true,
+        });
+        return response.data
+    },
+
 
 }
 

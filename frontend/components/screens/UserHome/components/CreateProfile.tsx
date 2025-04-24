@@ -12,7 +12,7 @@ const CreateProfile = () => {
             Create your profile, upload your resume and let the right job find you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/user/dashboard">
+            <Link href="/user/profile">
               <Button variant="secondary" size="lg">
                 Create Profile
               </Button>

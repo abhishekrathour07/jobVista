@@ -29,9 +29,7 @@ const ApplyJobDrawer = ({ jobId, onClose, showUserInfo }: { jobId: string; onClo
         setloading(true)
         try {
             const formData = new FormData()
-            if (!selectedFile) {
-                toast.error("select a file please")
-            }
+          
             formData.append("coverLetter", data.message)
             formData.append("resumeUrl", selectedFile)
 

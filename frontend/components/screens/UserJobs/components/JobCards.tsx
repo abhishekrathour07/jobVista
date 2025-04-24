@@ -8,21 +8,24 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import ApplyJobDrawer from '../../UserJobDetails/components/ApplyJobDrawer';
 import { getStatusColor } from '@/components/custom/jobCommon/jobStatus';
+import { TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip } from '@radix-ui/react-tooltip';
 
 type JobsProps = {
-  jobId:string,
+  jobId: string,
   company: string;
   logo: string | null;
   title: string;
   status: string;
   location: string;
   description: string;
+  isApplied: boolean
 };
 
-const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location, description,jobId }) => {
+const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location, description, jobId, isApplied }) => {
 
   const router = useRouter();
-  const [showUserInfo,setShowUserInfo] = useState(false)
+  const [showUserInfo, setShowUserInfo] = useState(false)
   return (
     <div className="p-6 border rounded-xl shadow-sm space-y-5 h-fit bg-white">
       {/* Top Section */}
@@ -63,7 +66,16 @@ const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location,
         </Button>
         <Sheet open={showUserInfo} onOpenChange={setShowUserInfo}>
           <SheetTrigger asChild>
-            <CustomButton label='Apply Now' />
+            {isApplied ?
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger disabled={isApplied} className='border px-3 py-2 rounded-lg cursor-pointer bg-gray-300'>Applied</TooltipTrigger>
+                  <TooltipContent>
+                    <p>Application submitted</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              : <CustomButton label='Apply Now' />}
           </SheetTrigger>
           <SheetContent side="right" className="bg-white text-black sm:w-[400px] w-full overflow-auto">
             <div className="p-4 space-y-4">
