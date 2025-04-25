@@ -98,7 +98,6 @@ const userStatsData = async (req, res) => {
         }
         return responseHandler(res, 200, 'Stats data fetched successfully', stats)
 
-
     } catch (error) {
         return responseHandler(res, 500, "Error while applying job", error.message)
 
@@ -106,4 +105,40 @@ const userStatsData = async (req, res) => {
 
 }
 
-export { applyToJob, getApplicationByJobId, userStatsData }
+const changeApplicantStatus = async (req, res) => {
+    try {
+        const { jobId } = req.params;
+        const { status, applicationId } = req.body;
+
+        const job = await jobModel.findById(jobId);
+        if (!job) {
+            return responseHandler(res, 404, "Job not found");
+        }
+
+        const jobApplicationDetail = await jobApplicationModel.findById(applicationId);
+        if (!jobApplicationDetail) {
+            return responseHandler(res, 404, "Job application not found");
+        }
+
+        jobApplicationDetail.status = status;
+        await jobApplicationDetail.save();
+
+        const user = await userModel.findById(jobApplicationDetail.applicantId);
+        if (!user) {
+            return responseHandler(res, 404, "User not found");
+        }
+
+        const jobEntry = user.appliedJobs.find(entry => entry.jobId.toString() === jobId.toString());
+        if (jobEntry) {
+            jobEntry.status = status;
+            await user.save();
+        }
+
+        return responseHandler(res, 200, `Applicant's status changed to ${status}`);
+    } catch (error) {
+        return responseHandler(res, 500, "Error while changing status", error.message);
+    }
+};
+
+
+export { applyToJob, getApplicationByJobId, userStatsData, changeApplicantStatus }

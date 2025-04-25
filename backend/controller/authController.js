@@ -20,7 +20,6 @@ const signup = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error)
         responseHandler(res, 500, "Internal server Error", error);
     }
 }
@@ -59,7 +58,6 @@ const login = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error)
         responseHandler(res, 500, "Internal server Error", error);
     }
 }
@@ -70,7 +68,6 @@ const logout = async (req, res) => {
         return responseHandler(res, 200, "Logout Successfully");
 
     } catch (error) {
-        console.log(error)
         responseHandler(res, 500, "Internal server Error", error);
     }
 }

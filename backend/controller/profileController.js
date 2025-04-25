@@ -12,7 +12,6 @@ const loginUserDetail = async (req, res) => {
         return responseHandler(res, 200, "user detail fetched successfully", userDetail);
 
     } catch (error) {
-        console.log(error)
         responseHandler(res, 500, "Internal server Error", error);
     }
 }
@@ -25,7 +24,6 @@ const getUserDetailById = async (req, res) => {
 
         return responseHandler(res, 200, "User data fetched successfully", userDetail);
     } catch (error) {
-        console.log(error)
         responseHandler(res, 500, "Internal server Error", error);
     }
 }
@@ -68,7 +66,6 @@ const editProfileById = async (req, res) => {
         return responseHandler(res, 200, "Profile updated successfully", userDetail);
 
     } catch (error) {
-        console.log(error);
         return responseHandler(res, 500, "Internal server error", { error: error.message });
     }
 };
