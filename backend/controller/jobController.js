@@ -119,8 +119,6 @@ const editJobById = async (req, res) => {
         const loggedInUserId = req.user._id;
 
         const loggedInUser = await userModel.findById(loggedInUserId);
-
-
         if (!loggedInUser || loggedInUser.role !== 'admin') {
             return responseHandler(res, 403, "Permission Denied");
         }
@@ -130,12 +128,10 @@ const editJobById = async (req, res) => {
             return responseHandler(res, 404, "Job not found");
         }
 
-        if (req.file) {
-            if (req.files.companyLogo && req.files.companyLogo[0]) {
-                const uploadedLogo = await uploadFileToCloudinary(req.files.companyLogo[0]);
-                if (uploadedLogo?.secure_url) {
-                    job.companyLogo = uploadedLogo.secure_url;
-                }
+        if (req.files && req.files.companyLogo && req.files.companyLogo[0]) {
+            const uploadedLogo = await uploadFileToCloudinary(req.files.companyLogo[0]);
+            if (uploadedLogo?.secure_url) {
+                job.companyLogo = uploadedLogo.secure_url;
             }
         }
 
@@ -154,6 +150,7 @@ const editJobById = async (req, res) => {
         return responseHandler(res, 500, "Failed to update job", { error: error.message });
     }
 };
+
 
 const deleteJobById = async (req, res) => {
     try {

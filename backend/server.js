@@ -9,6 +9,7 @@ import jobRouter from "./routes/jobRoutes.js";
 import applicationRouter from "./routes/applicationRouter.js";
 import profileRouter from "./routes/profileRoutes.js";
 import savedRouter from "./routes/savedJobs.js";
+import settingRouter from "./routes/settingRouter.js";
 
 dotenv.config();
 const app = express();
@@ -29,6 +30,7 @@ app.use("/api/v1", authMiddleware, jobRouter)
 app.use("/api/v1", authMiddleware, applicationRouter)
 app.use("/api/v1", authMiddleware, profileRouter)
 app.use("/api/v1", authMiddleware, savedRouter)
+app.use("/api/v1", authMiddleware, settingRouter)
 
 app.get("/", (req, res) => {
     res.send("API is working!");
