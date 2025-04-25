@@ -30,6 +30,12 @@ const applicantServices = {
         });
         return response.data
     },
+    changeApplicantStatus: async (jobId: string, data: any) => {
+        const response = await axios.put(`${API_URL}/applicants/status/${jobId}`, data, {
+            withCredentials: true,
+        });
+        return response.data
+    },
 
 
 }

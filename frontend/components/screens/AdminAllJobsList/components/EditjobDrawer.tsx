@@ -79,7 +79,6 @@ const EditJobDrawer: React.FC<EditJobDrawerProps> = ({ jobId, setShowUserInfo, s
         // resolver: yupResolver(jobFormSchema),
     });
     const { control } = form;
-    console.log(jobDetailData)
 
     const onSubmit = async (data: JobFormValues) => {
         try {

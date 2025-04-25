@@ -24,7 +24,6 @@ import toast from 'react-hot-toast';
 import applicantServices from '@/services/Applicants.services';
 import moment from 'moment';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Loader2 } from "lucide-react";
 import Loader from '@/components/custom/HashLoader/Loader';
 import EmptyState from '@/components/custom/EmptyState/EmptyState';
 
@@ -51,7 +50,21 @@ const ApplicantsTable = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }
+
+    const handleChangeStatus = async (status: string, applicationId: string) => {
+        try {
+            const data = {
+                status: status,
+                applicationId: applicationId,
+            }
+            const response = await applicantServices.changeApplicantStatus(jobId as string, data)
+            toast.success(response?.message);
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message || "Failed to change status of job.");
+
+        }
+    }
 
     useEffect(() => {
         handleGetApplicants();
@@ -111,7 +124,8 @@ const ApplicantsTable = () => {
                                     </TableCell>
                                     <TableCell className='ml-4'>{moment(application.createdAt).format("MMM-DD-YY")}</TableCell>
                                     <TableCell>
-                                        <Select defaultValue={application.status}>
+                                        <Select defaultValue={application.status} onValueChange={(value) => handleChangeStatus(value, application?._id)
+                                        } >
                                             <SelectTrigger className="w-[130px]">
                                                 <SelectValue placeholder="Select status" />
                                             </SelectTrigger>

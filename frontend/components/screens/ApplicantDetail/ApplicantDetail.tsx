@@ -14,14 +14,12 @@ const ApplicantDetail = () => {
     const [loading, setLoading] = useState(false);
     const params = useParams();
     const id = params.userId
-    console.log(id)
     const router = useRouter()
 
     const fetchData = async () => {
         setLoading(true);
         try {
             const response = await profileService.getUserById(id as string);
-            console.log(response)
             setData(response?.data);
         } catch (error: any) {
             toast.error(error?.response?.data?.message || "Something went wrong");

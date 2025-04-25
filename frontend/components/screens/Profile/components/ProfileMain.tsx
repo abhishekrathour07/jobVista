@@ -45,7 +45,6 @@ const ProfileMain = () => {
             skills: '',
         },
     })
-    console.log(data)
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)

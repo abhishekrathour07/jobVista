@@ -72,8 +72,7 @@ const AllJobsTable = () => {
     useEffect(() => {
         handleGetAllJobs()
     }, [currentPage])
-    console.log(data)
-    console.log(todayDate)
+    
     return (
         <div>
             <div className="bg-white rounded-lg overflow-hidden">

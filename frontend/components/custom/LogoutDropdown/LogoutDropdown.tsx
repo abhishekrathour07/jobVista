@@ -51,7 +51,7 @@ const LogoutDropdown: React.FC<logoutDropdownTypes> = ({ name, email, role }) =>
                         Profile
                         <DropdownMenuShortcut><User2 /></DropdownMenuShortcut>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer"  onClick={() => role === roleEnum.User ? router.push('/user/settings') : router.push('/admin/setting')}>
+                    <DropdownMenuItem className="cursor-pointer"  onClick={() => role === roleEnum.User ? router.push('/user/settings') : router.push('/admin/settings')}>
                         Settings
                         <DropdownMenuShortcut><Settings /></DropdownMenuShortcut>
                     </DropdownMenuItem>

@@ -33,7 +33,6 @@ const UserJobs = () => {
         handleGetAllJobs()
     }, [currentPage])
 
-    console.log("data is", data?.jobs)
     return (
         <div>
             <Navbar />

@@ -10,7 +10,6 @@ export const applicantHeader = [
 
 export const applicantStatusOptions = [
     "pending",
-    "reviewed",
     "accepted",
     "rejected",
 ];

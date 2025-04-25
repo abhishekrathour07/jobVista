@@ -23,7 +23,6 @@ const SavedJobs = () => {
         getAllSavedJob()
     }, [currentPage])
 
-    console.log(jobData);
     return (
         <div className='flex flex-col border border-indigo-700 rounded-md bg-white space-y-5 p-6'>
             <h1 className='text-2xl font-bold'>Saved Jobs</h1>
