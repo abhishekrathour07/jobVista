@@ -44,6 +44,7 @@ const AllJobsTable = () => {
     const [currentPage, setCurrentpage] = useState(1);
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
     const jobsPerPage = 7;
+    const todayDate = new Date().toISOString();
 
     const handleGetAllJobs = async () => {
         setLoading(true);
@@ -71,6 +72,8 @@ const AllJobsTable = () => {
     useEffect(() => {
         handleGetAllJobs()
     }, [currentPage])
+    console.log(data)
+    console.log(todayDate)
     return (
         <div>
             <div className="bg-white rounded-lg overflow-hidden">
@@ -103,7 +106,7 @@ const AllJobsTable = () => {
                                     <TableCell>{job?.applicationCount}</TableCell>
                                     <TableCell>{moment(job?.postedAt).format("MMM DD, YYYY")}</TableCell>
                                     <TableCell>
-                                        <span className={`${getStatusColor(job.status)} px-4 py-1 rounded-full`}>{job.status}</span>
+                                        <span className={`${getStatusColor(job?.deadline < todayDate ? "closed" : job.status)} px-4 py-1 rounded-full`}>{job?.deadline < todayDate ? "closed" : job.status}</span>
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex gap-2">
@@ -120,7 +123,7 @@ const AllJobsTable = () => {
                                                 </SheetTrigger>
                                                 <SheetContent
                                                     side="right"
-                                                    className="bg-white text-black w-full overflow-auto"
+                                                    className="bg-white text-black w-full overflow-y-scroll hide-scrollbar"
                                                 >
                                                     <div className="p-4 space-y-4">
                                                         <DialogTitle className="text-xl text-center font-semibold">Edit Job Detail</DialogTitle>
