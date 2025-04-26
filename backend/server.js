@@ -19,12 +19,21 @@ const port = 4050;
 ConnectedDatabase();
 
 app.use(cookieParser());
-app.use(cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
-}));
+const allowedOrigins = [
+    "http://localhost:3000", 
+    "https://job-vista-frontend.vercel.app" 
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  }));
 app.use(express.json());
 
 // Routes
