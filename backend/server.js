@@ -13,28 +13,32 @@ import settingRouter from "./routes/settingRouter.js";
 
 dotenv.config();
 const app = express();
-const port = 4050;
+const port = process.env.PORT || 4050;
 
 // Connect to DB
 ConnectedDatabase();
 
+// Middlewares
 app.use(cookieParser());
-const allowedOrigins = [
-    "http://localhost:3000", 
-    "https://job-vista-frontend.vercel.app" 
-  ];
-  
-  app.use(cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  }));
 app.use(express.json());
+
+// Correct CORS setup
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://job-vista-frontend.vercel.app"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); 
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed"));
+    }
+  },
+  credentials: true,
+}));
 
 // Routes
 app.use("/api/v1/auth", authRouter);
@@ -44,11 +48,12 @@ app.use("/api/v1", authMiddleware, profileRouter);
 app.use("/api/v1", authMiddleware, savedRouter);
 app.use("/api/v1", authMiddleware, settingRouter);
 
+// Default Route
 app.get("/", (req, res) => {
-    res.send("API is working!");
+  res.send("API is working fine!");
 });
 
+// Start server
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
 });
-
