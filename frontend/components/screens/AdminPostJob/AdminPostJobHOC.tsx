@@ -6,7 +6,7 @@ const AdminPostJob = dynamic(() => import("./AdminPostJob"))
 
 const AdminPostJobHOC = () => {
     return (
-        <div className='h-[100vh] bg-indigo-50'>
+        <div className=' h-full md:h-[100vh] bg-indigo-50'>
             <Navbar/>
             <AdminPostJob />
         </div>

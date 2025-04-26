@@ -43,10 +43,15 @@ const login = async (req, res) => {
             { expiresIn: "24h" }
         );
 
+        const isProduction = process.env.NODE_ENV === 'production';
+
         res.cookie('auth_token', token, {
             httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+            secure: isProduction,
+            sameSite: isProduction ? 'None' : 'Lax',
+            maxAge: 24 * 60 * 60 * 1000,
         });
+
 
         return responseHandler(res, 200, "Login Successfully", {
             userId: existUser._id,

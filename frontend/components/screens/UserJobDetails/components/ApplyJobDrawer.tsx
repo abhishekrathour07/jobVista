@@ -21,7 +21,7 @@ const ApplyJobDrawer = ({ jobId, onClose, showUserInfo }: { jobId: string; onClo
     const form = useForm<ApplyFormValues>({
         resolver: yupResolver(applySchema),
         defaultValues: {
-            resume: undefined as unknown as File,
+            resume: "",
             message: ""
         }
     });

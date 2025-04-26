@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import authService from "@/services/Auth.services"
-import { LogOutIcon, Mail, Settings, User, User2 } from "lucide-react"
+import { Bug, LogOutIcon, Mail, Settings, User, User2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { roleEnum } from "../jobCommon/AdminJobCommon"
@@ -34,7 +34,7 @@ const LogoutDropdown: React.FC<logoutDropdownTypes> = ({ name, email, role }) =>
             toast.error(err?.response?.data?.message || "Something went wrong");
         }
     }
-   
+
     return (
         <div className="relative">
             <DropdownMenu>
@@ -55,9 +55,13 @@ const LogoutDropdown: React.FC<logoutDropdownTypes> = ({ name, email, role }) =>
                         Profile
                         <DropdownMenuShortcut><User2 /></DropdownMenuShortcut>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer"  onClick={() => role === roleEnum.User ? router.push('/user/settings') : router.push('/admin/settings')}>
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => role === roleEnum.User ? router.push('/user/settings') : router.push('/admin/settings')}>
                         Settings
                         <DropdownMenuShortcut><Settings /></DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => router.push('/about-us')}>
+                        Creators
+                        <DropdownMenuShortcut><Bug /></DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="text-red-600 cursor-pointer" onClick={handleLogOut}>

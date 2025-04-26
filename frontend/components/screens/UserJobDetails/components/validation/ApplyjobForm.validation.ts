@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 export const applySchema = yup.object({
   resume: yup
-    .mixed<File>()
+    .mixed()
     .required('Resume is required'),
   message: yup
     .string()

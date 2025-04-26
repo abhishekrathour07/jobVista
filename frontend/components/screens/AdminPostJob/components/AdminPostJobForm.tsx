@@ -19,6 +19,7 @@ import SelectFile from '@/components/custom/SelectFile/SelectFile';
 const AdminPostJobForm = () => {
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
+    const [loading, setLoading] = useState(false)
 
     const form = useForm<any>({
         defaultValues: {
@@ -28,15 +29,15 @@ const AdminPostJobForm = () => {
             companyInfo: '',
             industryType: '',
             companySize: '',
-            foundedAt: '',
+            foundedAt: 2012,
             location: '',
-            jobType: "fulltime",
-            jobStatus: 'active',
-            workplace: 'hybrid',
+            jobType: 'fulltime',
+            status: 'active',           // <-- changed from jobStatus to status
+            workplaceType: 'hybrid',     // <-- changed from workplace to workplaceType
             salaryRange: '',
             experience: '',
             skills: '',
-            deadline: '',
+            deadline: new Date(),
             requirements: '',
             tags: '',
             jobDescription: '',
@@ -44,9 +45,11 @@ const AdminPostJobForm = () => {
         resolver: yupResolver(jobFormSchema),
     });
 
+
     const { control, handleSubmit } = form;
 
     const onSubmit = async (data: JobFormValues) => {
+        setLoading(true)
         try {
             const formData = new FormData();
             if (selectedFile) {
@@ -59,8 +62,12 @@ const AdminPostJobForm = () => {
 
             const response = await jobServices.createJob(formData);
             toast.success(response?.message);
+            form.reset()
+            setSelectedFile(null)
         } catch (error: any) {
             toast.error(error?.response?.data?.message || "Something went wrong");
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -139,7 +146,7 @@ const AdminPostJobForm = () => {
                             <FormItem>
                                 <FormLabel>Job Type <span className='text-red-600'>*</span></FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl  className='w-full'>
+                                    <FormControl className='w-full'>
                                         <SelectTrigger><SelectValue placeholder="Select job type" /></SelectTrigger>
                                     </FormControl>
                                     <SelectContent className='w-full'>
@@ -156,10 +163,10 @@ const AdminPostJobForm = () => {
                             <FormItem>
                                 <FormLabel>Job Status <span className='text-red-600'>*</span></FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl  className='w-full'>
+                                    <FormControl className='w-full'>
                                         <SelectTrigger><SelectValue placeholder="Select status" /></SelectTrigger>
                                     </FormControl>
-                                    <SelectContent  className='w-full'>
+                                    <SelectContent className='w-full'>
                                         <SelectItem value="active">Active</SelectItem>
                                         <SelectItem value="closed">Closed</SelectItem>
                                     </SelectContent>
@@ -171,10 +178,10 @@ const AdminPostJobForm = () => {
                             <FormItem>
                                 <FormLabel>Workplace Type <span className='text-red-600'>*</span></FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl  className='w-full'>
+                                    <FormControl className='w-full'>
                                         <SelectTrigger><SelectValue placeholder="Select workplace" /></SelectTrigger>
                                     </FormControl>
-                                    <SelectContent  className='w-full'>
+                                    <SelectContent className='w-full'>
                                         <SelectItem value="remote">Remote</SelectItem>
                                         <SelectItem value="onsite">On-site</SelectItem>
                                         <SelectItem value="hybrid">Hybrid</SelectItem>
@@ -265,7 +272,7 @@ const AdminPostJobForm = () => {
                         </div>
                     </div>
 
-                    <CustomButton label="Post Job" onClick={handleSubmit(onSubmit)} className="w-full mt-6" />
+                    <CustomButton label="Post Job" isloading={loading} onClick={handleSubmit(onSubmit)} className="w-full mt-6" />
                 </Form>
             </div>
         </div>

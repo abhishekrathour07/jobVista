@@ -53,8 +53,8 @@ const UserHome = () => {
       <SearchJobs />
       <JobDashboardStats data={statsData as statesTypes} />
       {jobData?.totalsavedJobs !== 0 && (
-        <div className='p-6'>
-          <div className='flex flex-col border border-indigo-700 rounded-md bg-white space-y-5 p-6'>
+        <div className='p-2 md:p-6'>
+          <div className='flex flex-col border md:border-indigo-700 rounded-md bg-indigo-100 md:bg-white  space-y-5 p-6'>
             <div className='flex justify-between items-center px-2'>
               <h1 className='text-2xl font-bold'>Saved Jobs</h1>
               <Link href={"/user/dashboard?tabs=saved-jobs"} className='text-sm hover:underline font-bold flex items-center  text-indigo-800'>View all Saved job <ArrowRight className='h-4 w-4' /></Link>

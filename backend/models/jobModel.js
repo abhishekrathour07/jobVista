@@ -14,7 +14,8 @@ const jobSchema = new mongoose.Schema(
             default: 'remote',
             lowercase: true
         },
-        foundedYear: { type: String },
+        companySize: { type: String },
+        foundedAt: { type: String },
         location: { type: String, required: true },
         status: {
             type: String,

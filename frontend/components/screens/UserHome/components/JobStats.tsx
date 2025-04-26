@@ -24,7 +24,7 @@ const JobStatsCard: React.FC<JobStatType> = ({ label, value, icon }) => {
   }, [value, count])
 
   return (
-    <div className="flex flex-col hover:border hover:border-indigo-600 border space-y-4 p-6 items-center max-w-sm bg-indigo-50 rounded-lg">
+    <div className="flex flex-col hover:border hover:border-indigo-600 border space-y-4 p-6 w-full items-center  bg-indigo-50 rounded-lg">
       <div className="p-4 rounded-full bg-indigo-100 text-indigo-700 shadow-md">
         {icon}
       </div>
@@ -56,7 +56,7 @@ const JobDashboardStats: React.FC<JobDashboardStatsProps> = ({ data }) => {
   ]
 
   return (
-    <div className="grid p-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid p-8 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       {stats.map((stat, index) => (
         <JobStatsCard key={index} {...stat} />
       ))}

@@ -31,7 +31,7 @@ const AppliedJobs = () => {
   }, []);
 
   return (
-    <div className="p-6 border border-indigo-700 rounded-lg bg-white">
+    <div className="p-2 sm:p-6 border border-indigo-700 rounded-lg bg-white">
       <h2 className="text-xl font-semibold mb-4">Applied Jobs</h2>
 
       {

@@ -15,7 +15,7 @@ const Settings = () => {
     return (
         <>
             <Navbar />
-            <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8 overflow-y-scroll h-[90vh]">
+            <div className="max-w-4xl mx-auto py-12 bg-indigo-100 px-4 sm:px-6 lg:px-8 overflow-y-scroll h-[90vh]">
                 <h1 className="text-3xl font-bold mb-6 text-gray-800">Settings</h1>
 
                 {/* Profile Settings */}

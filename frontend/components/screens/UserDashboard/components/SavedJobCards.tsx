@@ -32,30 +32,43 @@ const SavedJobCards = ({
       toast.error(err?.response?.data?.message || "Something went wrong");
     }
   }
+
   return (
-    <div className="p-5 rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition-all bg-white flex flex-col gap-4">
-      <div className="flex items-center justify-between">
+    <div className="p-4 rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition-all bg-white flex flex-col gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-gray-800 capitalize">{jobtitle}</h2>
-          <p className="text-sm text-indigo-500 font-bold capitalize mt-2">{companyname}</p>
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 capitalize">{jobtitle}</h2>
+          <p className="text-sm sm:text-base text-indigo-500 font-bold capitalize mt-2">{companyname}</p>
         </div>
-        <div className='flex justify-center flex-col items-end'>
-          <span className={`text-sm font-medium px-3 py-1 rounded-full ${getStatusColor(status)}`}>
+        <div className="flex flex-col  sm:items-end gap-2">
+          <span className={`text-sm sm:text-base w-fit font-medium px-3 py-1 rounded-full ${getStatusColor(status)}`}>
             {status}
           </span>
-          <div className='flex gap-2 mt-4'>
-            <CustomButton label='View' onClick={() => { router.push(`/user/jobs/${_id}`) }} />
-            <Button className='flex h-10 gap-2' onClick={() => handlSaveUnsaveJobs(_id)}><X /> Remove</Button>
+          <div className="flex flex-col md:flex-row  flex-wrap gap-2 mt-2">
+            <CustomButton label="View" onClick={() => { router.push(`/user/jobs/${_id}`) }} />
+            <Button className="flex h-10 gap-2" onClick={() => handlSaveUnsaveJobs(_id)}>
+              <X /> Remove
+            </Button>
           </div>
         </div>
       </div>
 
       <div className="flex flex-wrap gap-4 text-gray-600 text-sm">
-        <span className="flex items-center gap-1 capitalize"><MapPin className="w-4 h-4" /> {location}</span>
-        <span className="flex items-center gap-1 capitalize"><Building2 className="w-4 h-4" /> {workplaceType}</span>
-        <span className="flex items-center gap-1 capitalize"><Briefcase className="w-4 h-4" /> {jobType}</span>
-        <span className="flex items-center gap-1 capitalize"><DollarSign className="w-4 h-4" /> {salaryRange}</span>
-        <span className="flex items-center gap-1 capitalize"><CalendarDays className="w-4 h-4" /> Deadline: {new Date(deadline).toLocaleDateString()}</span>
+        <span className="flex items-center gap-1 capitalize">
+          <MapPin className="w-4 h-4" /> {location}
+        </span>
+        <span className="flex items-center gap-1 capitalize">
+          <Building2 className="w-4 h-4" /> {workplaceType}
+        </span>
+        <span className="flex items-center gap-1 capitalize">
+          <Briefcase className="w-4 h-4" /> {jobType}
+        </span>
+        <span className="flex items-center gap-1 capitalize">
+          <DollarSign className="w-4 h-4" /> {salaryRange}
+        </span>
+        <span className="flex items-center gap-1 capitalize">
+          <CalendarDays className="w-4 h-4" /> Deadline: {new Date(deadline).toLocaleDateString()}
+        </span>
       </div>
     </div>
   )

@@ -13,7 +13,7 @@ const companies = [
 
 const CompanyLogos = () => {
   return (
-    <section className="py-6 bg-indigo-100">
+    <section className="py-6 mt-6 bg-indigo-100">
       <div className="container mx-auto">
         {/* Section Title */}
         <div className="text-center mb-8">

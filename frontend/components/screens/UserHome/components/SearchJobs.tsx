@@ -16,13 +16,13 @@ const SearchJobs: React.FC<searchJobsProps> = ({ title
             {title && subTitle && highlight ? 
                 (
                     <div className='flex flex-col gap-2'>
-                        <h1 className='text-6xl font-bold'>{title} <span className='text-indigo-600'>{highlight}</span></h1>
+                        <h1 className='text-2xl sm:text-4xl md:text-6xl  font-bold'>{title} <span className='text-indigo-600'>{highlight}</span></h1>
                         <p className='text-gray-400'>{subTitle}</p>
                     </div>
                 )
                  :
                ( <div className='flex flex-col gap-2'>
-                    <h1 className='text-6xl font-bold'>Find Your <span className='text-indigo-600'>Dream Job</span> Today</h1>
+                    <h1 className='text-3xl sm:text-4xl md:text-6xl font-bold'>Find Your <span className='text-indigo-600'>Dream Job</span> Today</h1>
                     <p className='text-gray-400'>Discover thousands of jobs in tech, design, marketing and more. Your next career move is just a few clicks away.</p>
                 </div>)
                 }

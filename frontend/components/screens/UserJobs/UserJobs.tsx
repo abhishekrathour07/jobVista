@@ -41,9 +41,9 @@ const UserJobs = () => {
             </div> :
                 <div>
                     <PreferJobs />
-                    <div className='flex gap-8 p-8'>
+                    <div className='flex flex-col md:flex-row overflow-y-scroll h-[60vh] hide-scrollbar  gap-8 p-8'>
                         <FilterJobs />
-                        <div className='grid grid-cols-2 gap-6'>
+                        <div className='grid grid-cols-1 gap-6'>
                             {data?.jobs?.map((job: JobTypes, index: number) => (
                                 <JobCards key={index}
                                     jobId={job._id}
