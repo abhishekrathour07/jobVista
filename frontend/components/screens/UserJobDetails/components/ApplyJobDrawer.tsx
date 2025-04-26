@@ -4,34 +4,38 @@ import React, { Dispatch, SetStateAction, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { applySchema } from './validation/ApplyjobForm.validation'
+import { ApplyFormValues, applySchema } from './validation/ApplyjobForm.validation'
 import toast from 'react-hot-toast'
 import applicantServices from '@/services/Applicants.services'
 import SelectFile from '@/components/custom/SelectFile/SelectFile'
 import Loader from '@/components/custom/HashLoader/Loader'
 
+
 const ApplyJobDrawer = ({ jobId, onClose, showUserInfo }: { jobId: string; onClose: Dispatch<SetStateAction<boolean>>, showUserInfo: boolean }) => {
 
-    const [selectedFile, setSelectedFile] = useState<File | any>()
+    const [selectedFile, setSelectedFile] = useState<File | undefined>()
     const [loading, setloading] = useState<boolean>(false)
-    const form = useForm<any>({
+    const form = useForm<ApplyFormValues>({
         resolver: yupResolver(applySchema),
         defaultValues: {
-            resume: '',
-            message: ''
+            resume: undefined as unknown as File,
+            message: ""
         }
-    })
+    });
 
-    const onSubmit = async (data: any) => {
+
+    const onSubmit = async (data: ApplyFormValues) => {
         setloading(true)
         try {
             const formData = new FormData()
-          
+
             formData.append("coverLetter", data.message)
-            formData.append("resumeUrl", selectedFile)
+            if (selectedFile) {
+                formData.append("resumeUrl", selectedFile)
+
+            }
 
 
             const response = await applicantServices.applyToJOb(jobId, formData)

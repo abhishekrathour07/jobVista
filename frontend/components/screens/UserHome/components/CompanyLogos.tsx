@@ -1,5 +1,4 @@
 "use client"
-import { useEffect, useState } from "react";
 
 const companies = [
   { id: 1, name: "Google", logo: "https://placehold.co/200x100?text=Google" },

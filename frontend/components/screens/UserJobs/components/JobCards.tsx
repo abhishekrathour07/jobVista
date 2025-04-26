@@ -10,19 +10,11 @@ import ApplyJobDrawer from '../../UserJobDetails/components/ApplyJobDrawer';
 import { getStatusColor } from '@/components/custom/jobCommon/jobStatus';
 import { TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Tooltip } from '@radix-ui/react-tooltip';
+import { JobsRequestTypes } from '@/types/getPaginatedjobTypes';
 
-type JobsProps = {
-  jobId: string,
-  company: string;
-  logo: string | null;
-  title: string;
-  status: string;
-  location: string;
-  description: string;
-  isApplied: boolean
-};
 
-const JobCards: React.FC<JobsProps> = ({ company, logo, title, status, location, description, jobId, isApplied }) => {
+
+const JobCards: React.FC<JobsRequestTypes> = ({ company, logo, title, status, location, description, jobId, isApplied }) => {
 
   const router = useRouter();
   const [showUserInfo, setShowUserInfo] = useState(false)

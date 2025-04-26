@@ -4,7 +4,7 @@ import { MoveLeft, MoveRight } from 'lucide-react';
 
 type PaginationProps = {
   currentPage: number;
-  totalPages: number;
+  totalPages: number ;
   onPageChange: (page: number) => void;
 };
 

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import saveJobService from '@/services/savedJob.services'
 import toast from 'react-hot-toast'
+import { SavedData } from '@/types/savedJobTypes'
 
 const SavedJobCards = ({
   jobtitle,
@@ -18,7 +19,7 @@ const SavedJobCards = ({
   salaryRange,
   deadline,
   _id
-}: any) => {
+}: SavedData) => {
   const router = useRouter()
 
   const handlSaveUnsaveJobs = async (jobId: string) => {

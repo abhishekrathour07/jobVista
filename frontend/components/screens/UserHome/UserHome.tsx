@@ -13,11 +13,12 @@ import { ArrowRight } from 'lucide-react';
 import saveJobService from '@/services/savedJob.services';
 import toast from 'react-hot-toast';
 import applicantServices from '@/services/Applicants.services';
+import { SavedData, savedJobResponseType, statesTypes } from '@/types/savedJobTypes';
 
 const UserHome = () => {
   const [lastIndex, setlastindex] = useState(2);
-  const [jobData, setJobsData] = useState<any>();
-  const [statsData, setStatsData] = useState<any>();
+  const [jobData, setJobsData] = useState<savedJobResponseType>();
+  const [statsData, setStatsData] = useState<statesTypes>();
 
 
   const getAllSavedJob = async () => {
@@ -47,7 +48,7 @@ const UserHome = () => {
     <div >
       <Navbar />
       <SearchJobs />
-      <JobDashboardStats data={statsData} />
+      <JobDashboardStats data={statsData as statesTypes} />
       {jobData?.totalsavedJobs !== 0 && (
         <div className='p-6'>
           <div className='flex flex-col border border-indigo-700 rounded-md bg-white space-y-5 p-6'>
@@ -55,7 +56,7 @@ const UserHome = () => {
               <h1 className='text-2xl font-bold'>Saved Jobs</h1>
               <Link href={"/user/dashboard?tabs=saved-jobs"} className='text-sm hover:underline font-bold flex items-center  text-indigo-800'>View all Saved job <ArrowRight className='h-4 w-4' /></Link>
             </div>
-            {jobData?.savedData?.slice(0, lastIndex).map((job: any, index: number) => (
+            {jobData?.savedData?.slice(0, lastIndex).map((job: SavedData, index: number) => (
               <SavedJobCards key={index} {...job} />
             ))}
             <p className={`text-indigo-800 text-lg text-semibold hover:underline cursor-pointer ${lastIndex === 4 ? "hidden" : "block"}`} onClick={() => setlastindex(4)}>See more</p>

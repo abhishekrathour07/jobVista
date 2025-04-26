@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { ArrowLeft, Bookmark, CalendarDays, Clock, DollarSign, Globe, MapPin, Briefcase } from 'lucide-react'
+import { ArrowLeft, Bookmark, CalendarDays, Clock, DollarSign, Globe, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import CustomButton from '@/components/custom/CustomButton/CustomButton'
 import { useParams, useRouter } from 'next/navigation'
@@ -14,11 +14,12 @@ import moment from 'moment'
 import Skills from '../Profile/components/Skills'
 import Loader from '@/components/custom/HashLoader/Loader'
 import saveJobService from '@/services/savedJob.services'
+import { JobDetailTypes, userJobDetailResponseTypes } from '@/types/jobDetail.types'
 
 const JobDetail = () => {
   const router = useRouter()
   const { id } = useParams();
-  const [jobDetailData, setJobDetailData] = useState<any>()
+  const [jobDetailData, setJobDetailData] = useState<userJobDetailResponseTypes>()
   const [showUserInfo, setShowUserInfo] = useState(false)
   const [loading, setloading] = useState(false)
 

@@ -1,5 +1,4 @@
 "use client"
-
 import React, { useEffect, useState } from 'react'
 import Navbar from '@/components/custom/Navbar/Navbar'
 import PreferJobs from './components/PreferJobs'
@@ -9,10 +8,11 @@ import Footer from '@/components/custom/Footer/Footer'
 import CustomPagination from '@/components/custom/Pagination/Pagination'
 import jobServices from '@/services/Job.services'
 import Loader from '@/components/custom/HashLoader/Loader'
+import { JobTypes, PaginatedJobsResponseTypes } from '@/types/getPaginatedjobTypes'
 
 const UserJobs = () => {
 
-    const [data, setData] = useState<any>()
+    const [data, setData] = useState<PaginatedJobsResponseTypes>()
     const [currentPage, setCurrentpage] = useState(1)
     const [loading, setloading] = useState(false)
     const jobsPerPage = 4;
@@ -36,7 +36,7 @@ const UserJobs = () => {
     return (
         <div>
             <Navbar />
-            {loading ?<div className='h-[70vh] flex items-center justify-center'>
+            {loading ? <div className='h-[70vh] flex items-center justify-center'>
                 <Loader size={50} color="#0118D8" />
             </div> :
                 <div>
@@ -44,7 +44,7 @@ const UserJobs = () => {
                     <div className='flex gap-8 p-8'>
                         <FilterJobs />
                         <div className='grid grid-cols-2 gap-6'>
-                            {data?.jobs?.map((job: any, index: number) => (
+                            {data?.jobs?.map((job: JobTypes, index: number) => (
                                 <JobCards key={index}
                                     jobId={job._id}
                                     title={job.jobtitle}
@@ -60,7 +60,7 @@ const UserJobs = () => {
                     </div>
                     <CustomPagination
                         currentPage={currentPage}
-                        totalPages={data?.totalPages}
+                        totalPages={data?.totalPages as number}
                         onPageChange={(page) => setCurrentpage(page)}
                     />
                 </div>

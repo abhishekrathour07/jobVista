@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Briefcase, Bookmark, Send } from 'lucide-react'
 import { animate, useMotionValue } from 'framer-motion'
+import { JobDashboardStatsProps } from '@/types/savedJobTypes'
 
 type JobStatType = {
   label: string
@@ -33,13 +34,7 @@ const JobStatsCard: React.FC<JobStatType> = ({ label, value, icon }) => {
   )
 }
 
-type JobDashboardStatsProps = {
-  data: {
-    totalJobs: number
-    totalAppliedJobs: number
-    totalSavedJob: number
-  }
-}
+
 
 const JobDashboardStats: React.FC<JobDashboardStatsProps> = ({ data }) => {
   const stats = [

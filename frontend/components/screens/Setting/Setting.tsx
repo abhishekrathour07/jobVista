@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
-import { toast } from "react-hot-toast"
 import Navbar from "@/components/custom/Navbar/Navbar"
 import PasswordSettingsForm from "./components/UpdatePassword"
 import DeleteAccount from "./components/DeleteAccount"
@@ -12,11 +11,6 @@ import DeleteAccount from "./components/DeleteAccount"
 const Settings = () => {
     const [emailNotifs, setEmailNotifs] = useState(true)
     const [inAppNotifs, setInAppNotifs] = useState(false)
-
-
-    const handleDeleteAccount = () => {
-        toast.error("Account deletion not implemented yet!")
-    }
 
     return (
         <>

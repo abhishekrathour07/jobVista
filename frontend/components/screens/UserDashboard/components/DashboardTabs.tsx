@@ -3,12 +3,9 @@
 import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { BadgeCheckIcon, Bookmark, User } from 'lucide-react';
+import { BadgeCheckIcon, Bookmark } from 'lucide-react';
 import SavedJobs from './SavedJobs';
-import Profile from '../../Profile/components/ProfileMain';
 import AppliedJobs from './AppliedJobs';
-import ProfileCard from '../../Profile/components/ProfileCard';
-import ProfileMain from '../../Profile/components/ProfileMain';
 
 type TabItem = {
     name: React.ReactNode;

@@ -8,11 +8,12 @@ import moment from 'moment'
 import { useRouter } from 'next/navigation'
 import EmptyState from '@/components/custom/EmptyState/EmptyState'
 import { getStatusColor } from '@/components/custom/jobCommon/jobStatus'
+import { AppliedJob, appliedJobsResponseTypes } from '@/types/appliedJobs.types'
 
 
 const AppliedJobs = () => {
 
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<appliedJobsResponseTypes>([]);
 
   const router = useRouter()
   const getAppliedJob = async () => {
@@ -37,7 +38,7 @@ const AppliedJobs = () => {
           <EmptyState title='No applied job found' subtitle='Please navigate to job section and applied for new job' />
           :
           <div className="space-y-4">
-            {data?.map((job: any, index: any) => (
+            {data?.map((job: AppliedJob, index: any) => (
               <div
                 key={index}
                 className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white border rounded-md p-4 shadow-sm"

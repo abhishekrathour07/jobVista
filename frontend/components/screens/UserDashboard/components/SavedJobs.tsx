@@ -4,10 +4,11 @@ import SavedJobCards from './SavedJobCards'
 import CustomPagination from '@/components/custom/Pagination/Pagination'
 import saveJobService from '@/services/savedJob.services'
 import toast from 'react-hot-toast'
+import { savedJobResponseType } from '@/types/savedJobTypes'
 
 const SavedJobs = () => {
     const [currentPage, setCurrentpage] = useState(1)
-    const [jobData, setJobsData] = useState<any>();
+    const [jobData, setJobsData] = useState<savedJobResponseType>();
     const jobsPerPage = 4;
 
     const getAllSavedJob = async () => {
