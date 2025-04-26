@@ -13,15 +13,15 @@ import settingRouter from "./routes/settingRouter.js";
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 4050;  
+const port = 4050;
 
 // Connect to DB
 ConnectedDatabase();
 
 app.use(cookieParser());
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:3000", 
-  credentials: true,
+    origin: "http://localhost:3000",  
+    credentials: true,              
 }));
 app.use(express.json());
 
@@ -34,10 +34,10 @@ app.use("/api/v1", authMiddleware, savedRouter);
 app.use("/api/v1", authMiddleware, settingRouter);
 
 app.get("/", (req, res) => {
-  res.send("API is working!");
+    res.send("API is working!");
 });
 
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+    console.log(`Server is running at http://localhost:${port}`);
 });
 
