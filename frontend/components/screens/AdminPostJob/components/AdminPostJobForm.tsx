@@ -41,7 +41,7 @@ const AdminPostJobForm = () => {
             tags: '',
             jobDescription: '',
         },
-        // resolver: yupResolver(jobFormSchema),
+        resolver: yupResolver(jobFormSchema),
     });
 
     const { control, handleSubmit } = form;
