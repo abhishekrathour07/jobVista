@@ -1,7 +1,7 @@
 import { SignupFormValue } from '@/types/Authentication.type';
 import axios from 'axios'
-import {API_URL} from "@/backendRoutes"
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const authService = {
 
     //this api is used for signup for new user with their role

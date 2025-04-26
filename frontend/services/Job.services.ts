@@ -1,6 +1,6 @@
-import { API_URL } from '@/backendRoutes';
-import axios from 'axios';
 
+import axios from 'axios';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const jobServices = {
     // Fetch all jobs are avilable it shows limited detail about job

@@ -1,6 +1,7 @@
-import { API_URL } from "@/backendRoutes"
+
 import axios from "axios"
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const saveJobService = {
     getallSavedJob: async (page?: number, limit?: number) => {
         const response = await axios.get(`${API_URL}/get/saved-job?page${page}&limit${limit}`, {
