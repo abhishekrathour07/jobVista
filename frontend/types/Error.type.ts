@@ -1,5 +1,7 @@
-export interface ResponseError {
-    message: string; 
-    error?: string; 
-    details?: Record<string, any>; 
-}
+export type ApiError = {
+    response?: {
+        data?: {
+            message?: string;
+        };
+    };
+};

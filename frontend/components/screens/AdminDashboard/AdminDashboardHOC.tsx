@@ -7,7 +7,6 @@ const AdminDashboardHOC = () => {
   return (
     <div>
       <Navbar />
-
       <AdminDashboard />
     </div>
   )

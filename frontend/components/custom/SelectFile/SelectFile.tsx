@@ -4,11 +4,10 @@ import { useState } from "react"
 
 type UploadFileProps = {
     selectedFile?: File | null,
-    setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>,
+    setSelectedFile: React.Dispatch<React.SetStateAction<File | null>>,
     id: string, // <-- Add this
 }
 const SelectFile: React.FC<UploadFileProps> = ({
-    selectedFile,
     setSelectedFile,
     id, 
 }) => {

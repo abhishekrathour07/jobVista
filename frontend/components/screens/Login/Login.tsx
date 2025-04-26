@@ -122,7 +122,7 @@ const Login = () => {
 
                         <div className="flex flex-col gap-2 items-center justify-center">
                             <Link href={"/signup"} className="text-sm">
-                                <p> Don't have an account? <span className="hover:underline text-indigo-500 hover:text-indigo-600">Signup</span></p>
+                                <p> Don&apos;t have an account? <span className="hover:underline text-indigo-500 hover:text-indigo-600">Signup</span></p>
                             </Link>
                             <h1 className="text-2xl  text-indigo-800 font-semibold ">JobVista</h1>
                             <div className=" text-xs text-gray-500">

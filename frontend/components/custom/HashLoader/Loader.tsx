@@ -1,5 +1,5 @@
 "use client"
-import { useState, CSSProperties } from "react";
+import { CSSProperties } from "react";
 import HashLoader from "react-spinners/HashLoader";
 
 const override: CSSProperties = {
@@ -8,16 +8,19 @@ const override: CSSProperties = {
   borderColor: "red",
 };
 
-const Loader = (props: any) => {
-  let [color, setColor] = useState(props.color ? props.color: "#fff");
-
+type Loadertypes = {
+  color?: string,
+  size?: number
+}
+const Loader: React.FC<Loadertypes> = ({ color, size }) => {
+  const colorValue = color || "#fff"
   return (
     <div className="sweet-loading">
       <HashLoader
-        color={color}
+        color={colorValue}
         loading={true}
         cssOverride={override}
-        size={props.size? props.size : 25}
+        size={size ? size : 25}
         aria-label="Loading Spinner"
         data-testid="loader"
       />

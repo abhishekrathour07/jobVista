@@ -4,7 +4,8 @@ import SavedJobCards from './SavedJobCards'
 import CustomPagination from '@/components/custom/Pagination/Pagination'
 import saveJobService from '@/services/savedJob.services'
 import toast from 'react-hot-toast'
-import { savedJobResponseType } from '@/types/savedJobTypes'
+import { SavedData, savedJobResponseType } from '@/types/savedJobTypes'
+import { ApiError } from '@/types/Error.type'
 
 const SavedJobs = () => {
     const [currentPage, setCurrentpage] = useState(1)
@@ -15,8 +16,9 @@ const SavedJobs = () => {
         try {
             const response = await saveJobService.getallSavedJob(currentPage, jobsPerPage);
             setJobsData(response?.data)
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message)
+        } catch (error: unknown) {
+            const err = error as ApiError;
+            toast.error(err?.response?.data?.message || "Something went wrong");
         }
     }
 
@@ -27,7 +29,7 @@ const SavedJobs = () => {
     return (
         <div className='flex flex-col border border-indigo-700 rounded-md bg-white space-y-5 p-6'>
             <h1 className='text-2xl font-bold'>Saved Jobs</h1>
-            {jobData?.savedData?.map((data: any,) => (
+            {jobData?.savedData?.map((data: SavedData,) => (
                 <SavedJobCards key={data.id} {...data} />
             ))}
             {jobData?.totalPages === 1 && (

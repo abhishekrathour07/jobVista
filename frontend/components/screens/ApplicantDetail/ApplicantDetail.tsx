@@ -3,7 +3,7 @@ import profileService from '@/services/Profile.services';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
-import { ArrowLeft, Calendar, Mail, MapPin, Phone, User, UserCircle } from 'lucide-react'
+import { ArrowLeft, Calendar, Mail, MapPin, Phone, UserCircle } from 'lucide-react'
 import Skills from '../Profile/components/Skills';
 import moment from 'moment';
 import Navbar from '@/components/custom/Navbar/Navbar';

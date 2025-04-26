@@ -1,4 +1,3 @@
-import Navbar from '@/components/custom/Navbar/Navbar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BriefcaseBusiness, FileCheck, Users } from 'lucide-react';
 import React from 'react'

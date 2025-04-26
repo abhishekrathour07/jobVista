@@ -22,6 +22,7 @@ import toast from "react-hot-toast"
 import { deleteAccountSchema } from "./validation/deleteAccount.validation"
 import settingServices from "@/services/Settings.services"
 import { useRouter } from "next/navigation"
+import { ApiError } from "@/types/Error.type"
 
 type DeleteAccountFormData = {
     confirm: string
@@ -43,8 +44,9 @@ const DeleteAccount = () => {
             toast.success(response?.message)
             form.reset();
             router.push("/login");
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message)
+        } catch (error: unknown) {
+            const err = error as ApiError;
+      toast.error(err?.response?.data?.message || "Something went wrong");
         }
     }
 

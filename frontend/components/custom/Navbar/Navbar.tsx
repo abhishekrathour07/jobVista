@@ -1,15 +1,17 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { BriefcaseBusiness, User, LayoutDashboard, Menu, X, CirclePlus, NotebookTabs, Home, Building2 } from "lucide-react";
+import { BriefcaseBusiness, LayoutDashboard, Menu, X, CirclePlus, NotebookTabs, Home, Building2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import LogoutDropdown from "../LogoutDropdown/LogoutDropdown";
 import profileService from "@/services/Profile.services";
 import toast from "react-hot-toast";
+import { applicantsDetailResponseType } from "@/types/applicantsDetail.types";
+import { ApiError } from "@/types/Error.type";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userData, setUserData] = useState<any>()
+  const [userData, setUserData] = useState<applicantsDetailResponseType>()
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -20,8 +22,9 @@ const Navbar = () => {
       const response = await profileService.loggedinUserDetail();
       setUserData(response?.data)
 
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message)
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      toast.error(err?.response?.data?.message || "Something went wrong");
     }
   }
   useEffect(() => {
@@ -33,7 +36,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2 font-semibold text-lg text-white">
-          <img src="/image.png" className="h-8 w-8"/>
+          <img src="/image.png" className="h-8 w-8"  alt="logo"/>
           <span className=" text-white">JobVista</span>
         </div>
 
@@ -86,7 +89,7 @@ const Navbar = () => {
                 href="/user/companies"
                 className="text-white flex gap-2 items-center hover:text-indigo-300 transition-colors"
               >
-                <Building2  className="h-6 w-6 text-white"/>
+                <Building2 className="h-6 w-6 text-white" />
                 Companies
               </Link>
             </div>
@@ -102,7 +105,7 @@ const Navbar = () => {
               </Button>
             </Link>
           }
-          <LogoutDropdown name={userData?.name} email={userData?.email} role={userData?.role} />
+          <LogoutDropdown name={userData?.name as string} email={userData?.email as string} role={userData?.role as string} />
         </div>
 
         {/* Mobile Menu Button */}

@@ -18,6 +18,7 @@ import { passwordSchema } from "./validation/Updatepassword.validation";
 import settingServices from "@/services/Settings.services";
 import CustomButton from "@/components/custom/CustomButton/CustomButton";
 import { useState } from "react";
+import { ApiError } from "@/types/Error.type";
 
 type PasswordFormValues = {
     currentPassword: string;
@@ -43,8 +44,9 @@ const PasswordSettingsForm = () => {
             const response = await settingServices.updatePassword(data);
             toast.success(response?.message)
             form.reset();
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message)
+        } catch (error: unknown) {
+            const err = error as ApiError;
+            toast.error(err?.response?.data?.message || "Something went wrong");
         } finally {
             setloading(false);
 

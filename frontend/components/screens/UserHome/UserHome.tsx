@@ -14,6 +14,7 @@ import saveJobService from '@/services/savedJob.services';
 import toast from 'react-hot-toast';
 import applicantServices from '@/services/Applicants.services';
 import { SavedData, savedJobResponseType, statesTypes } from '@/types/savedJobTypes';
+import { ApiError } from '@/types/Error.type';
 
 const UserHome = () => {
   const [lastIndex, setlastindex] = useState(2);
@@ -25,8 +26,9 @@ const UserHome = () => {
     try {
       const response = await saveJobService.getallSavedJob();
       setJobsData(response?.data)
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message)
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      toast.error(err?.response?.data?.message || "Something went wrong");
     }
   }
 
@@ -34,8 +36,9 @@ const UserHome = () => {
     try {
       const response = await applicantServices.userStats();
       setStatsData(response?.data)
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message)
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      toast.error(err?.response?.data?.message || "Something went wrong");
     }
   }
 

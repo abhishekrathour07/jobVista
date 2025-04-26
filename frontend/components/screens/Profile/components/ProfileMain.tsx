@@ -18,6 +18,7 @@ import profileService from '@/services/Profile.services'
 import toast from 'react-hot-toast'
 import { Textarea } from '@/components/ui/textarea'
 import SelectFile from '@/components/custom/SelectFile/SelectFile'
+import { ApiError } from '@/types/Error.type'
 
 type aboutType = {
     name: string
@@ -52,8 +53,9 @@ const ProfileMain = () => {
                 const response = await profileService.loggedinUserDetail()
                 setData(response?.data)
                 form.reset(response?.data)
-            } catch (error: any) {
-                toast.error(error?.response?.data?.message || "Something went wrong")
+            } catch (error: unknown) {
+                const err = error as ApiError;
+                toast.error(err?.response?.data?.message || "Something went wrong");
             } finally {
                 setLoading(false)
             }
@@ -90,8 +92,9 @@ const ProfileMain = () => {
             setData(response?.data)
             toast.success("Profile updated")
             setIsEditing(false)
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message || "Update failed")
+        } catch (error: unknown) {
+            const err = error as ApiError;
+            toast.error(err?.response?.data?.message || "Something went wrong");
         } finally {
             setLoading(false)
         }

@@ -25,6 +25,7 @@ import { SignupFormValue } from "@/types/Authentication.type"
 import toast from "react-hot-toast"
 import authService from "@/services/Auth.services"
 import { useRouter } from "next/navigation"
+import { ApiError } from "@/types/Error.type"
 
 
 
@@ -48,8 +49,9 @@ const Signup = () => {
             form.reset();
             router.push("/login")
 
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message);
+        } catch (error: unknown) {
+            const err = error as ApiError;
+      toast.error(err?.response?.data?.message || "Something went wrong");
         }
     }
 
@@ -169,7 +171,7 @@ const Signup = () => {
 
                         <div className="flex flex-col gap-2 items-center justify-center">
                             <Link href={"/login"} className="text-sm">
-                                <p> Don't have an account? <span className="hover:underline text-indigo-500 hover:text-indigo-600">Login</span></p>
+                                <p> Don&apos;t have an account? <span className="hover:underline text-indigo-500 hover:text-indigo-600">Login</span></p>
                             </Link>
                             <h1 className="text-2xl  text-indigo-800 font-semibold ">JobVista</h1>
                             {/* Copyright */}

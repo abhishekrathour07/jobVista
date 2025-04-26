@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import EmptyState from '@/components/custom/EmptyState/EmptyState'
 import { getStatusColor } from '@/components/custom/jobCommon/jobStatus'
 import { AppliedJob, appliedJobsResponseTypes } from '@/types/appliedJobs.types'
+import { ApiError } from '@/types/Error.type'
 
 
 const AppliedJobs = () => {
@@ -20,8 +21,9 @@ const AppliedJobs = () => {
     try {
       const response = await applicantServices.getAppliedJobs();
       setData(response?.data)
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message)
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      toast.error(err?.response?.data?.message || "Something went wrong");
     }
   }
   useEffect(() => {
@@ -38,7 +40,7 @@ const AppliedJobs = () => {
           <EmptyState title='No applied job found' subtitle='Please navigate to job section and applied for new job' />
           :
           <div className="space-y-4">
-            {data?.map((job: AppliedJob, index: any) => (
+            {data?.map((job: AppliedJob, index: number) => (
               <div
                 key={index}
                 className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white border rounded-md p-4 shadow-sm"

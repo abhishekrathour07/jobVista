@@ -15,7 +15,7 @@ const AdminPostJob = () => {
                     <div className='text-sm'>
                         <p>1. Go to Admin → Post Job</p>
                         <p>2. Fill in job details & upload logo</p>
-                        <p>3. Click "Post Job" to publish</p>
+                        <p>3. Click Post Job to publish</p>
                     </div>
                 </div>
             </div>

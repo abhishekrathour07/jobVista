@@ -1,8 +1,10 @@
 import UserDashboardHOC from '@/components/screens/UserDashboard/UserDashboardHOC'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const page = () => {
-  return <UserDashboardHOC/>
+  return <Suspense fallback={<div>Loading...</div>}>
+    <UserDashboardHOC />
+  </Suspense>
 }
 
 export default page

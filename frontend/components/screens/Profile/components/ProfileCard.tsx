@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { Mail, Phone, Globe, Heart, DownloadIcon, MapPin } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Mail, Phone, Globe, DownloadIcon, MapPin } from 'lucide-react'
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import Skills from './Skills'
 
 type ProfileCardType = {

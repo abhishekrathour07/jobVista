@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import saveJobService from '@/services/savedJob.services'
 import toast from 'react-hot-toast'
 import { SavedData } from '@/types/savedJobTypes'
+import { ApiError } from '@/types/Error.type'
 
 const SavedJobCards = ({
   jobtitle,
@@ -26,8 +27,9 @@ const SavedJobCards = ({
     try {
       const response = await saveJobService.saveUnsaveJobs(jobId)
       toast.success(response?.message)
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message)
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      toast.error(err?.response?.data?.message || "Something went wrong");
     }
   }
   return (

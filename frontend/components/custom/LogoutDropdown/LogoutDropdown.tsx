@@ -14,6 +14,7 @@ import { LogOutIcon, Mail, Settings, User, User2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { roleEnum } from "../jobCommon/AdminJobCommon"
+import { ApiError } from "@/types/Error.type"
 
 type logoutDropdownTypes = {
     name: string,
@@ -22,15 +23,18 @@ type logoutDropdownTypes = {
 }
 const LogoutDropdown: React.FC<logoutDropdownTypes> = ({ name, email, role }) => {
     const router = useRouter()
+
     const handleLogOut = async () => {
         try {
             const response = await authService.logOut();
             toast.success(response?.message);
             router.push("/login")
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message);
+        } catch (error: unknown) {
+            const err = error as ApiError;
+            toast.error(err?.response?.data?.message || "Something went wrong");
         }
     }
+   
     return (
         <div className="relative">
             <DropdownMenu>

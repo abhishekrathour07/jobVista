@@ -9,11 +9,13 @@ export interface JobDetailTypes {
     _id: string;
     jobtitle: string;
     companyname: string;
-    companyLogo: string;
+    companyLogo: string | File ;
     companyUrl: string;
     companyInfo: string;
     industryType: string;
     workplaceType: string;
+    companySize: string,
+    foundedAt: string,
     location: string;
     status: string;
     jobType: string;

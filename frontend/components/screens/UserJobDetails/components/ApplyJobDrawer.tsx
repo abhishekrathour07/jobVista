@@ -11,11 +11,12 @@ import toast from 'react-hot-toast'
 import applicantServices from '@/services/Applicants.services'
 import SelectFile from '@/components/custom/SelectFile/SelectFile'
 import Loader from '@/components/custom/HashLoader/Loader'
+import { ApiError } from '@/types/Error.type'
 
 
 const ApplyJobDrawer = ({ jobId, onClose, showUserInfo }: { jobId: string; onClose: Dispatch<SetStateAction<boolean>>, showUserInfo: boolean }) => {
 
-    const [selectedFile, setSelectedFile] = useState<File | undefined>()
+    const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const [loading, setloading] = useState<boolean>(false)
     const form = useForm<ApplyFormValues>({
         resolver: yupResolver(applySchema),
@@ -41,8 +42,9 @@ const ApplyJobDrawer = ({ jobId, onClose, showUserInfo }: { jobId: string; onClo
             const response = await applicantServices.applyToJOb(jobId, formData)
             toast.success(response?.message || "Application submitted!")
             onClose(!showUserInfo)
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message || "Something went wrong")
+        } catch (error: unknown) {
+            const err = error as ApiError;
+            toast.error(err?.response?.data?.message || "Something went wrong");
         } finally {
             setloading(false)
         }

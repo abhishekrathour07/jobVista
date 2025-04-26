@@ -15,15 +15,17 @@ import SelectFile from '@/components/custom/SelectFile/SelectFile';
 import { jobFormSchema, JobFormValues } from '../../AdminPostJob/components/validation/Addjob.validation';
 import { Button } from '@/components/ui/button';
 import Loader from '@/components/custom/HashLoader/Loader';
+import { JobDetailTypes } from '@/types/jobDetail.types';
+import { ApiError } from '@/types/Error.type';
 
 type EditJobDrawerProps = {
     setShowUserInfo: Dispatch<SetStateAction<boolean>>,
     showUserInfo: boolean,
-    jobId: string | null,
+    jobId: string | null, 
 }
 const EditJobDrawer: React.FC<EditJobDrawerProps> = ({ jobId, setShowUserInfo, showUserInfo }) => {
 
-    const [jobDetailData, setJobDetailData] = useState<any>()
+    const [jobDetailData, setJobDetailData] = useState<JobDetailTypes>()
     const [steps, setSteps] = useState(1)
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const [loading, setloading] = useState(false)
@@ -33,8 +35,9 @@ const EditJobDrawer: React.FC<EditJobDrawerProps> = ({ jobId, setShowUserInfo, s
         try {
             const response = await jobServices.getJobById(jobId as string)
             setJobDetailData(response?.data?.job);
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message)
+        } catch (error: unknown) {
+            const err = error as ApiError;
+            toast.error(err?.response?.data?.message || "Something went wrong");
         } finally {
             setloading(false)
         }
@@ -76,7 +79,7 @@ const EditJobDrawer: React.FC<EditJobDrawerProps> = ({ jobId, setShowUserInfo, s
 
     const form = useForm<any>({
         defaultValues: jobDetailData || defaultValues,
-        // resolver: yupResolver(jobFormSchema),
+        resolver: yupResolver(jobFormSchema),
     });
     const { control } = form;
 
@@ -305,7 +308,7 @@ const EditJobDrawer: React.FC<EditJobDrawerProps> = ({ jobId, setShowUserInfo, s
                     {steps === 4 && (
                         <div className="flex flex-col gap-6 ">
                             <p>Company Logo <span className='text-red-600'>*</span></p>
-                            <SelectFile id='logo-company' setSelectedFile={setSelectedFile} selectedFile={selectedFile || jobDetailData?.companyLogo} />
+                            <SelectFile id='logo-company' setSelectedFile={setSelectedFile} selectedFile={selectedFile} />
                         </div>
                     )}
 

@@ -35,12 +35,13 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import EditJobDrawer from './EditjobDrawer';
+import { JobTypes, PaginatedJobsResponseTypes } from '@/types/getPaginatedjobTypes';
 
 const AllJobsTable = () => {
     const router = useRouter()
     const [showUserInfo, setShowUserInfo] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState<any>();
+    const [data, setData] = useState<PaginatedJobsResponseTypes>();
     const [currentPage, setCurrentpage] = useState(1);
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
     const jobsPerPage = 7;
@@ -72,7 +73,7 @@ const AllJobsTable = () => {
     useEffect(() => {
         handleGetAllJobs()
     }, [currentPage])
-    
+
     return (
         <div>
             <div className="bg-white rounded-lg overflow-hidden">
@@ -94,7 +95,7 @@ const AllJobsTable = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {data?.jobs?.map((job: any, index: number) => (
+                            {data?.jobs?.map((job: JobTypes, index: number) => (
                                 <TableRow key={index} className="hover:bg-purple-50 dark:hover:bg-gray-700">
                                     <TableCell className="font-medium cursor-pointer" onClick={() => router.push(`/admin/all-jobs/applicants/${job._id}`)}>
                                         {job.companyname}
@@ -105,7 +106,7 @@ const AllJobsTable = () => {
                                     <TableCell>{job?.applicationCount}</TableCell>
                                     <TableCell>{moment(job?.postedAt).format("MMM DD, YYYY")}</TableCell>
                                     <TableCell>
-                                        <span className={`${getStatusColor(job?.deadline < todayDate ? "closed" : job.status)} px-4 py-1 rounded-full`}>{job?.deadline < todayDate ? "closed" : job.status}</span>
+                                        <span className={`${getStatusColor(job?.deadline.toString() < todayDate ? "closed" : job.status)} px-4 py-1 rounded-full`}>{job?.deadline.toString() < todayDate ? "closed" : job.status}</span>
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex gap-2">
@@ -126,7 +127,7 @@ const AllJobsTable = () => {
                                                 >
                                                     <div className="p-4 space-y-4">
                                                         <DialogTitle className="text-xl text-center font-semibold">Edit Job Detail</DialogTitle>
-                                                        <EditJobDrawer jobId={selectedJobId} setShowUserInfo={setShowUserInfo as any} showUserInfo={showUserInfo} />
+                                                        <EditJobDrawer jobId={selectedJobId} setShowUserInfo={setShowUserInfo} showUserInfo={showUserInfo} />
                                                     </div>
                                                 </SheetContent>
                                             </Sheet>
@@ -169,10 +170,10 @@ const AllJobsTable = () => {
                 )}
             </div>
 
-            {!loading && data?.totalPages > 1 && (
+            {!loading && data?.totalJobs as number > 1 && (
                 <div className="flex justify-end mt-4">
                     <CustomPagination
-                        totalPages={data?.totalPages}
+                        totalPages={data?.totalPages as number}
                         currentPage={currentPage}
                         onPageChange={setCurrentpage}
                     />

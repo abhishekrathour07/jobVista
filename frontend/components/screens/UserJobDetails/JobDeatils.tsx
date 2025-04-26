@@ -14,7 +14,8 @@ import moment from 'moment'
 import Skills from '../Profile/components/Skills'
 import Loader from '@/components/custom/HashLoader/Loader'
 import saveJobService from '@/services/savedJob.services'
-import { JobDetailTypes, userJobDetailResponseTypes } from '@/types/jobDetail.types'
+import { userJobDetailResponseTypes } from '@/types/jobDetail.types'
+import { ApiError } from '@/types/Error.type'
 
 const JobDetail = () => {
   const router = useRouter()
@@ -29,8 +30,9 @@ const JobDetail = () => {
       const response = await jobServices.getJobById(id as string)
       setJobDetailData(response?.data);
 
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message)
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      toast.error(err?.response?.data?.message || "Something went wrong");
     } finally {
       setloading(false)
     }
@@ -40,12 +42,16 @@ const JobDetail = () => {
     try {
       const response = await saveJobService.saveUnsaveJobs(id as string)
       toast.success(response?.message)
-      setJobDetailData((prev: any) => ({
-        ...prev,
-        isSaved: !prev.isSaved,
-      }));
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message)
+      setJobDetailData((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          isSaved: !prev.isSaved,
+        };
+      });
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      toast.error(err?.response?.data?.message || "Something went wrong");
     }
   }
   useEffect(() => {
@@ -56,7 +62,7 @@ const JobDetail = () => {
     <div className="p-6 bg-gray-100 min-h-screen">
       <p className='text-indigo-700 cursor-pointer flex items-center gap-1 mb-6' onClick={() => router.back()}><ArrowLeft /> Back to Jobs</p>
 
-      {loading || !jobDetailData? (
+      {loading || !jobDetailData ? (
         <div className="flex justify-center items-center min-h-[50vh]">
           <Loader size={50} color="#0118D8" />
         </div>
@@ -128,7 +134,7 @@ const JobDetail = () => {
                 </SheetContent>
               </Sheet>
               <Button variant="outline" className="w-full flex gap-2 mt-4 items-center" onClick={handlSaveUnsaveJobs}>
-                {jobDetailData?.isSaved?<span className='flex items-center gap-4'><Bookmark className="h-4 w-4" fill='#0118D8'/> Unsave</span>:<span className='flex gap-4 items-center'><Bookmark className="h-4 w-4" /> Save</span>}
+                {jobDetailData?.isSaved ? <span className='flex items-center gap-4'><Bookmark className="h-4 w-4" fill='#0118D8' /> Unsave</span> : <span className='flex gap-4 items-center'><Bookmark className="h-4 w-4" /> Save</span>}
               </Button>
             </div>
 
