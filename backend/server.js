@@ -41,7 +41,7 @@ app.use(cors({
 }));
 
 // Routes
-app.use("/api/v1/auth", authRouter);
+app.use("/api/v1", authRouter);
 app.use("/api/v1", authMiddleware, jobRouter);
 app.use("/api/v1", authMiddleware, applicationRouter);
 app.use("/api/v1", authMiddleware, profileRouter);

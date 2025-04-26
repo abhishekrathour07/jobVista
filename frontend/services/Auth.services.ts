@@ -6,21 +6,21 @@ const authService = {
 
     //this api is used for signup for new user with their role
     signup: async (data: SignupFormValue) => {
-        const response = await axios.post(`${API_URL}/auth/signup`, data, {
+        const response = await axios.post(`${API_URL}/signup`, data, {
             withCredentials: true
         });
         return response.data;
     },
     // this is login route for both user and admin
     login: async (data: any) => {
-        const response = await axios.post(`${API_URL}/auth/login`, data, {
+        const response = await axios.post(`${API_URL}/login`, data, {
             withCredentials: true
         });
         return response.data
     },
     // this is logout routes which remove the auth token from cookies
     logOut: async () => {
-        const response = await axios.post(`${API_URL}/auth/logout`, {}, {
+        const response = await axios.post(`${API_URL}/logout`, {}, {
             withCredentials: true
         });
         return response.data
