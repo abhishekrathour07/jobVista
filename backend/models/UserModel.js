@@ -10,11 +10,13 @@ const userSchema = new mongoose.Schema(
         phone: { type: String },
         skills: [{ type: String }],
         location: { type: String },
+        resetPasswordToken: { type: String, default: null },
+        resetPasswordExpires: { type: String, default: null },
         role: { type: String, enum: ['user', 'admin'], default: 'student' },
         appliedJobs: [{
             jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
             status: { type: String, enum: ['applied', 'accepted', 'rejected'], default: 'applied' },
-            isapplied:{type:Boolean,default:false},
+            isapplied: { type: Boolean, default: false },
             appliedAt: { type: Date, default: Date.now }
         }],
         savedJobs: [{

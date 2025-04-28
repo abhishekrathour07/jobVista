@@ -105,6 +105,8 @@ const userStatsData = async (req, res) => {
 
 }
 
+
+
 const changeApplicantStatus = async (req, res) => {
     try {
         const { jobId } = req.params;
