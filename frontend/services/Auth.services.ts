@@ -24,7 +24,21 @@ const authService = {
             withCredentials: true
         });
         return response.data
+    },
+    // forget password email link
+    forgetPassword: async (data: any) => {
+        const response = await axios.post(`${API_URL}/forgot-password`, data, {
+            withCredentials: true
+        })
+        return response.data
+    },
+    //reset password throught token
+    resetPassword: async (token: string, data: any) => {
+        const response = await axios.post(`${API_URL}/forgot-password/${token}`, data, {
+            withCredentials: true
+        })
+        return response.data
     }
 }
 
-export default authService
+export default authService 
