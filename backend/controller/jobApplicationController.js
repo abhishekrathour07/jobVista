@@ -2,6 +2,8 @@ import { uploadFileToCloudinary } from "../config/cloudanary.js";
 import jobApplicationModel from "../models/jobApplicationModel.js";
 import jobModel from "../models/jobModel.js";
 import userModel from "../models/UserModel.js";
+import { adminEmailforApplyingInJob } from "../template/adminEmailforApplyingInJob.js";
+import { notifyApplicantJobStatusChange } from "../template/notifyApplicantJobStatusChange.js";
 import responseHandler from "../utils/responseHandler.js";
 
 
@@ -26,10 +28,12 @@ const applyToJob = async (req, res) => {
             return responseHandler(res, 403, 'Admin is not allowed to apply for a job')
         }
 
-        const jobExists = await jobModel.findById(jobId)
-        if (!jobExists) {
+        const job = await jobModel.findById(jobId).populate("postedBy", "email")
+
+        if (!job) {
             return responseHandler(res, 404, 'Job not found.')
         }
+
 
         const alreadyApplied = await jobApplicationModel.findOne({ jobId, applicantId: loggedInUserId })
         if (alreadyApplied) {
@@ -53,10 +57,13 @@ const applyToJob = async (req, res) => {
         })
         await loggedInUser.save()
 
+
         await jobModel.findByIdAndUpdate(jobId, {
             $addToSet: { applicants: loggedInUserId },
             $inc: { applicationCount: 1 }
         })
+
+        adminEmailforApplyingInJob(job.postedBy.email, loggedInUser.name, loggedInUser.email, job.jobtitle)
 
         return responseHandler(res, 200, 'Application submitted successfully', application)
     } catch (error) {
@@ -117,11 +124,10 @@ const changeApplicantStatus = async (req, res) => {
             return responseHandler(res, 404, "Job not found");
         }
 
-        const jobApplicationDetail = await jobApplicationModel.findById(applicationId);
+        const jobApplicationDetail = await jobApplicationModel.findById(applicationId).populate("jobId", "jobtitle");
         if (!jobApplicationDetail) {
             return responseHandler(res, 404, "Job application not found");
         }
-
         jobApplicationDetail.status = status;
         await jobApplicationDetail.save();
 
@@ -135,8 +141,9 @@ const changeApplicantStatus = async (req, res) => {
             jobEntry.status = status;
             await user.save();
         }
-
+        notifyApplicantJobStatusChange(user.email, user.name, jobApplicationDetail.jobId.jobtitle, status)
         return responseHandler(res, 200, `Applicant's status changed to ${status}`);
+
     } catch (error) {
         return responseHandler(res, 500, "Error while changing status", error.message);
     }

@@ -96,7 +96,7 @@ const forgotPassword = async (req, res) => {
 
         const resetPasswordToken = crypto.randomBytes(20).toString("hex");
         user.resetPasswordToken = resetPasswordToken;
-        user.resetPasswordExpires = Date.now() + 600000;
+        user.resetPasswordExpires = Date.now() + 600000;//10 min
         await user.save();
 
         await sendforgetPasswordLinkToEmail(user.email, resetPasswordToken);
@@ -116,7 +116,6 @@ const resetPassword = async (req, res) => {
             resetPasswordToken: token,
             resetPasswordExpires: { $gt: Date.now() },
         });
-        console.log(user)
         if (!user) {
             return responseHandler(res, 400, "Token is expired!!");
         }
