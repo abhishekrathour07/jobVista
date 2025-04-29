@@ -7,6 +7,7 @@ export type JobsRequestTypes = {
   location: string;
   description: string;
   isApplied: boolean
+  deadline:Date
 };
 
 export interface PaginatedJobsResponseTypes {

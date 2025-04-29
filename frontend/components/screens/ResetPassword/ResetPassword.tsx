@@ -17,6 +17,7 @@ import { resetPasswordSchema } from "./validation/resetPassword.validation"
 import { useParams } from "next/navigation"
 import toast from "react-hot-toast"
 import authService from "@/services/Auth.services"
+import { useState } from "react"
 
 
 type ForgotPasswordFormValues = {
@@ -29,6 +30,8 @@ const ResetPassword = () => {
     const params = useParams();
     const token = params.token
 
+    const [loading, setLoading] = useState(false)
+
     const form = useForm<ForgotPasswordFormValues>({
         defaultValues: {
             newPassword: "",
@@ -40,10 +43,13 @@ const ResetPassword = () => {
     const onSubmit = async (data: ForgotPasswordFormValues) => {
         console.log("Forgot Password Data:", data);
         try {
+            setLoading(true)
             const response = await authService.resetPassword(token as string, data)
             toast.success(response?.message)
         } catch (error: any) {
             toast.error(error?.resonse?.data?.message)
+        } finally {
+            setLoading(false)
         }
 
     }
@@ -91,6 +97,7 @@ const ResetPassword = () => {
                             label="Update Password"
                             onClick={form.handleSubmit(onSubmit)}
                             className="w-full"
+                            isloading={loading}
                         />
 
                         <div className="flex flex-col gap-2 items-center justify-center">

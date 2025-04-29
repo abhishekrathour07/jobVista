@@ -54,7 +54,7 @@ const ApplicantsTable = () => {
             setLoading(false);
         }
     };
-
+  
     const handleChangeStatus = async (status: string, applicationId: string) => {
         try {
             const data = {

@@ -20,10 +20,13 @@ const JobCards: React.FC<JobsRequestTypes> = ({
   location,
   description,
   jobId,
-  isApplied
+  isApplied,
+  deadline
 }) => {
   const router = useRouter();
   const [showUserInfo, setShowUserInfo] = useState(false);
+  const todayDate = new Date().toISOString();
+
 
   return (
     <div className="flex flex-col  hover:border hover:border-indigo-600 justify-between p-6 border rounded-2xl shadow-md h-full bg-white space-y-4">
@@ -46,9 +49,9 @@ const JobCards: React.FC<JobsRequestTypes> = ({
         </div>
 
         <span
-          className={`px-3 py-1 w-fit text-xs font-medium rounded-full ${getStatusColor(status)}`}
+          className={`px-3 py-1 w-fit text-xs font-medium rounded-full ${getStatusColor(deadline.toString() < todayDate.toString() ? "closed" : status)}`}
         >
-          {status}
+          {deadline.toString() < todayDate.toString() ? "closed" : status}
         </span>
       </div>
 
@@ -72,6 +75,7 @@ const JobCards: React.FC<JobsRequestTypes> = ({
 
         <Sheet open={showUserInfo} onOpenChange={setShowUserInfo}>
           <SheetTrigger asChild>
+
             {isApplied ? (
               <TooltipProvider>
                 <Tooltip>
@@ -87,7 +91,8 @@ const JobCards: React.FC<JobsRequestTypes> = ({
                 </Tooltip>
               </TooltipProvider>
             ) : (
-              <CustomButton label="Apply Now" className="w-full sm:w-auto" />
+              deadline.toString() < todayDate.toString() || status === "closed" ? <Button className='border px-4 py-2 rounded-lg cursor-not-allowed bg-gray-300 text-gray-600 text-sm w-full sm:w-auto'>Window Closed</Button> :
+                < CustomButton label="Apply Now" className="w-full sm:w-auto" />
             )}
           </SheetTrigger>
           <SheetContent

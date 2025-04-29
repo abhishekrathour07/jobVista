@@ -37,6 +37,13 @@ const applicantServices = {
         });
         return response.data
     },
+    downloadApplicantCSV: async (jobId: string) => {
+        const response = await axios.get(`${API_URL}/download/applicant-list/${jobId}`, {
+            withCredentials: true,
+            responseType: "blob",
+        });
+        return response.data
+    },
 
 
 }
