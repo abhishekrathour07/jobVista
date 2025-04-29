@@ -5,6 +5,7 @@ import userModel from "../models/UserModel.js";
 import { adminEmailforApplyingInJob } from "../template/adminEmailforApplyingInJob.js";
 import { notifyApplicantJobStatusChange } from "../template/notifyApplicantJobStatusChange.js";
 import responseHandler from "../utils/responseHandler.js";
+import ExcelJS from "exceljs";
 
 
 const applyToJob = async (req, res) => {
@@ -150,4 +151,66 @@ const changeApplicantStatus = async (req, res) => {
 };
 
 
-export { applyToJob, getApplicationByJobId, userStatsData, changeApplicantStatus }
+
+
+ const downloadApplicantsExcel = async (req, res) => {
+    try {
+        const { jobId } = req.params;
+
+        const job = await jobModel.findById(jobId);
+        if (!job) {
+            return responseHandler(res, 404, "Job not found");
+        }
+
+        const applicants = await jobApplicationModel.find({ jobId })
+            .populate("applicantId", "name email profileImage skills location")
+            .populate("jobId", "jobtitle companyname");
+
+        if (applicants.length === 0) {
+            return responseHandler(res, 404, "No applications found for this job");
+        }
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("Applicants");
+
+        worksheet.columns = [
+            { header: "JobTitle", key: "jobTitle", width: 25 },
+            { header: "CompanyName", key: "companyName", width: 25 },
+            { header: "Name", key: "name", width: 20 },
+            { header: "Email", key: "email", width: 30 },
+            { header: "Location", key: "location", width: 20 },
+            { header: "ResumeURL", key: "resumeUrl", width: 70 },
+            { header: "Status", key: "status", width: 15 },
+        ];
+
+        const rows = applicants.map(app => ({
+            jobTitle: app?.jobId?.jobtitle || "-",
+            companyName: app?.jobId?.companyname || "-",
+            name: app?.applicantId?.name || "-",
+            email: app?.applicantId?.email || "-",
+            location: app?.applicantId?.location || "-",
+            resumeUrl: app?.resumeUrl || "-",
+            status: app?.status || "-",
+        }));
+
+        worksheet.addRows(rows);
+
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.setHeader("Content-Disposition", "attachment; filename=applicants_list.xlsx");
+
+        await workbook.xlsx.write(res);
+        res.end();
+
+    } catch (error) {
+        console.error("Excel export error:", error);
+        return responseHandler(res, 500, "Error while generating Excel file", error.message);
+    }
+};
+
+
+
+
+export { applyToJob, getApplicationByJobId, userStatsData, changeApplicantStatus, downloadApplicantsExcel }
