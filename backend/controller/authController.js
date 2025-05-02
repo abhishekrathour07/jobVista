@@ -51,7 +51,6 @@ const login = async (req, res) => {
         res.cookie('auth_token', token, {
             httpOnly: true,
             secure: isProduction,
-            domain: isProduction ? "job-vista-frontend.vercel.app" : "localhost",
             path: "/",
             sameSite: isProduction ? 'None' : 'Lax',
             maxAge: 24 * 60 * 60 * 1000,

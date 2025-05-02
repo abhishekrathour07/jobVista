@@ -36,15 +36,3 @@ const sendEmail = async (to, subject, body) => {
 
 export default sendEmail
 
-
-// export const sendVerificationToEmail = async (to, token) => {
-//     const verificationUrl = `${process.env.FRONTEND_URL}/verify-email/${token}`;
-//     const html = `
-//     <h1>Welcome To Your CarearView! Verify Your Email</h1>
-//     <p>Thank you for registering. Please click on the link below to verify your email address:</p>
-//     <a href="${verificationUrl}">Verify Email Here</a>
-//     <p>If you didn't request this or have already verified, please ignore this email.</p>
-//   `;
-//     await sendEmail(to, "Please verify your email to access CareerView", html);
-// };
-
