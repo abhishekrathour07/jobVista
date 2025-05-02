@@ -52,7 +52,7 @@ const login = async (req, res) => {
             httpOnly: true,
             secure: isProduction,
             path: "/",
-            sameSite: isProduction ? 'Lax' : 'None',
+            sameSite: isProduction ? 'None' : 'Lax',
             maxAge: 24 * 60 * 60 * 1000,
         });
 

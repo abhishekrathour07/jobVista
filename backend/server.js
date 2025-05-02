@@ -23,13 +23,13 @@ app.use(cookieParser());
 app.use(express.json());
 
 // Correct CORS setup
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://job-vista-frontend.vercel.app"
-];
+// const allowedOrigins = [
+//  "http://localhost:3000",
+//   "https://job-vista-frontend.vercel.app"
+// ]; 
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: process.env.FRONTEND_URL,
   credentials: true
 }));
 
