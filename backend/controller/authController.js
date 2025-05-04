@@ -56,8 +56,6 @@ const login = async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000,
         });
 
-
-
         return responseHandler(res, 200, "Login Successfully", {
             userId: existUser._id,
             name: existUser.name,
