@@ -11,6 +11,12 @@
   scrollbar-width: none; /* Firefox */
 }
 
+#nprogress .bar {
+  background: red !important; 
+  height: 3px;
+}
+
+
 
 @custom-variant dark (&:is(.dark *));
 

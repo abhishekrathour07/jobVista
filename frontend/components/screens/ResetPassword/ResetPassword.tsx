@@ -41,7 +41,6 @@ const ResetPassword = () => {
     });
 
     const onSubmit = async (data: ForgotPasswordFormValues) => {
-        console.log("Forgot Password Data:", data);
         try {
             setLoading(true)
             const response = await authService.resetPassword(token as string, data)

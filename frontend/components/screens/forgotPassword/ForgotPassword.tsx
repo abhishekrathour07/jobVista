@@ -32,7 +32,6 @@ const ForgotPassword = () => {
     })
 
     const onSubmit = async (data: ForgotPasswordFormValues) => {
-        console.log("Forgot Password Data:", data)
         try {
             const response = await authService.forgetPassword(data)
             toast.success(response?.message)
