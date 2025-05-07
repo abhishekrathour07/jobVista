@@ -49,11 +49,11 @@ const login = async (req, res) => {
         res.cookie('auth_token', token, {
             httpOnly: true,
             secure: isProduction,
-            domain:isProduction? "job-vista-frontend.vercel.app" :'localhost' ,
+            domain: isProduction ? 'job-vista-frontend.vercel.app' : undefined, // <--- fix here
             sameSite: isProduction ? 'none' : 'Lax',
             maxAge: 24 * 60 * 60 * 1000,
         });
-        console.log(isProduction)
+
 
         return responseHandler(res, 200, "Login Successfully", {
             userId: existUser._id,
