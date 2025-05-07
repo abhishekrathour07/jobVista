@@ -29,14 +29,15 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const existUser = await userModel.findOne({ email })
+        const existUser = await userModel.findOne({ email });
 
         if (!existUser) {
             return responseHandler(res, 404, "User not found");
         }
+
         const passwordCorrect = await bcrypt.compare(password, existUser.password);
         if (!passwordCorrect) {
-            return responseHandler(res, 401, "Incorrect password")
+            return responseHandler(res, 401, "Incorrect password");
         }
 
         const token = jwt.sign(
@@ -46,14 +47,15 @@ const login = async (req, res) => {
         );
 
         const isProduction = process.env.NODE_ENV === 'production';
+
         res.cookie('auth_token', token, {
             httpOnly: true,
             secure: isProduction,
-            domain: isProduction ? 'https://job-vista-frontend.vercel.app' : undefined,
+            domain: isProduction ? 'job-vista-frontend.vercel.app' : undefined, // ✅ fixed here
             sameSite: isProduction ? 'none' : 'Lax',
+            path: '/',
             maxAge: 24 * 60 * 60 * 1000,
         });
-
 
         return responseHandler(res, 200, "Login Successfully", {
             userId: existUser._id,
@@ -62,12 +64,11 @@ const login = async (req, res) => {
             profileImage: existUser.profileImage
         });
 
-
-
     } catch (error) {
-        responseHandler(res, 500, "Internal server Error", error);
+        responseHandler(res, 500, "Internal server Error", { error: error.message });
     }
 }
+
 
 const logout = async (req, res) => {
     try {
