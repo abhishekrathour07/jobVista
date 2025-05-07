@@ -46,15 +46,14 @@ const login = async (req, res) => {
         );
 
         const isProduction = process.env.NODE_ENV === 'production';
-
-
         res.cookie('auth_token', token, {
             httpOnly: true,
             secure: isProduction,
-            path: "/",
+            domain:isProduction? "job-vista-frontend.vercel.app" :'localhost' ,
             sameSite: isProduction ? 'none' : 'Lax',
             maxAge: 24 * 60 * 60 * 1000,
         });
+        console.log(isProduction)
 
         return responseHandler(res, 200, "Login Successfully", {
             userId: existUser._id,

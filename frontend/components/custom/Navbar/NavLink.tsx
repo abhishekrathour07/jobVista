@@ -22,7 +22,9 @@ const NavLink = ({ href, children, className, onClick }: NavLinkProps) => {
 
     const handleClick = () => {
         NProgress.start();
-        onClick
+        if (onClick) {
+            onClick();
+        }
     };
 
     return (
