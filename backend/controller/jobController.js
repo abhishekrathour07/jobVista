@@ -8,7 +8,7 @@ const postJob = async (req, res) => {
     try {
 
         const loggedInUserId = req.user._id;
-        const { jobtitle, companyname, companyUrl, companyInfo, industryType, workplaceType, foundedYear, location, status, jobType, skills, salaryRange, deadline, experience, jobDescription, requirements, tags } = req.body;
+        const { jobtitle, companyname, companySize, companyUrl, companyInfo, industryType, workplaceType, foundedAt, location, status, jobType, skills, salaryRange, deadline, experience, jobDescription, requirements, tags } = req.body;
 
         const loggedInUser = await userModel.findById(loggedInUserId)
 
@@ -34,7 +34,7 @@ const postJob = async (req, res) => {
             companyInfo,
             industryType,
             workplaceType,
-            foundedYear,
+            foundedAt,
             location,
             status,
             jobType,
@@ -43,6 +43,7 @@ const postJob = async (req, res) => {
             deadline,
             experience,
             jobDescription,
+            companySize,
             requirements,
             postedBy: loggedInUserId,
             tags
