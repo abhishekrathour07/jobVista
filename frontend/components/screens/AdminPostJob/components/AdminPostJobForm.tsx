@@ -32,8 +32,8 @@ const AdminPostJobForm = () => {
             foundedAt: 2012,
             location: '',
             jobType: 'fulltime',
-            status: 'active',           // <-- changed from jobStatus to status
-            workplaceType: 'hybrid',     // <-- changed from workplace to workplaceType
+            status: 'active',
+            workplaceType: 'hybrid',
             salaryRange: '',
             experience: '',
             skills: '',
@@ -54,6 +54,8 @@ const AdminPostJobForm = () => {
             const formData = new FormData();
             if (selectedFile) {
                 formData.append("companyLogo", selectedFile);
+              setSelectedFile(null)
+ 
             }
             // Append the rest of the fields
             for (const [key, value] of Object.entries(data)) {
@@ -63,7 +65,6 @@ const AdminPostJobForm = () => {
             const response = await jobServices.createJob(formData);
             toast.success(response?.message);
             form.reset()
-            setSelectedFile(null)
         } catch (error: any) {
             toast.error(error?.response?.data?.message || "Something went wrong");
         } finally {

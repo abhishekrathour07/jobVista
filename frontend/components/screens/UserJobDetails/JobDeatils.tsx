@@ -125,8 +125,7 @@ const JobDetail = () => {
               <Sheet open={showUserInfo} onOpenChange={setShowUserInfo}>
                 <SheetTrigger asChild>
                   {jobDetailData?.isApplied ? <Button disabled={jobDetailData?.isApplied} className={`w-full bg-slate-400 text-gray-700 cursor-not-allowed`}>Already Applied</Button> : <CustomButton label='Apply Now' className='w-full' />}
-                </SheetTrigger>
-                <SheetContent side="right" className="bg-white text-black sm:w-[400px] w-full overflow-auto">
+                </SheetTrigger>                <SheetContent side="right" className="bg-white text-black sm:w-[400px] w-full overflow-auto">
                   <div className="p-4 space-y-4">
                     <DialogTitle className="text-xl font-semibold">Apply for this Job</DialogTitle>
                     <ApplyJobDrawer jobId={jobDetailData?.job?._id} onClose={setShowUserInfo} showUserInfo={showUserInfo} />

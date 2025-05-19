@@ -29,7 +29,7 @@ const teamMembers: TeamMember[] = [
     {
         name: 'Md. Irfan',
         role: 'API Integration',
-        imageUrl: 'https://randomuser.me/api/portraits/men/28.jpg',
+        imageUrl: '/miya.png',
     },
 ];
 
@@ -39,23 +39,18 @@ const AboutUs = () => {
             <h2 className="text-4xl font-semibold text-center text-indigo-700 mb-12 tracking-tight">
                 Meet Our Team
             </h2>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {teamMembers.map((member, index) => (
-                    <motion.div
+                    <div
                         key={index}
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: index * 0.2 }}
-                        viewport={{ once: true }}
                     >
                         <BackgroundGradient className="flex flex-col items-center p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-2">
-                            <img src={member.imageUrl} alt={member.name} className='object-cover rounded-md mb-6 object-center' />
+                            <img src={member.imageUrl} alt={member.name} className='h-[50vh] rounded-md mb-6' />
 
                             <h3 className="text-xl font-semibold text-center">{member.name}</h3>
                             <p className="text-gray-500 text-center">{member.role}</p>
                         </BackgroundGradient>
-                    </motion.div>
+                    </div>
                 ))}
             </div>
         </section>
