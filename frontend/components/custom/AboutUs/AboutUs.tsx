@@ -1,6 +1,4 @@
 'use client';
-
-import { motion } from 'framer-motion';
 import React from 'react';
 import { BackgroundGradient } from '@/components/ui/background-gradient';
 
