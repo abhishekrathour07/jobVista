@@ -157,22 +157,36 @@ const deleteJobById = async (req, res) => {
     try {
         const { jobId } = req.params;
         const job = await jobModel.findById(jobId);
+        const loggedInUserId = req.user._id;
 
         if (!job) {
             return responseHandler(res, 404, "Job not found");
         }
 
-        await jobModel.findByIdAndDelete(jobId)
-        return responseHandler(res, 200, "Job deleted successfully")
+        if (loggedInUserId.toString() === job.postedBy.toString()) {
+            await jobModel.findByIdAndDelete(jobId);
+
+            // Remove job references from all users' appliedJobs
+            await userModel.updateMany(
+                { "appliedJobs.jobId": jobId },
+                { $pull: { appliedJobs: { jobId: jobId } } }
+            );
+
+            // also remove from savedJobs 
+            await userModel.updateMany(
+                { savedJobs: jobId },
+                { $pull: { savedJobs: jobId } }
+            );
+            return responseHandler(res, 200, "Job deleted successfully");
+        } else {
+            return responseHandler(res, 403, "You are not Authorised to delete the job");
+        }
 
     } catch (error) {
         console.error(error);
         return responseHandler(res, 500, "Failed to delete job", { error: error.message });
     }
 }
-
-
-
 
 const getAllAppliedJob = async (req, res) => {
     try {

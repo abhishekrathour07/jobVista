@@ -113,6 +113,25 @@ const userStatsData = async (req, res) => {
 
 }
 
+const adminDashboardStats = async (req, res) => {
+    try {
+        const totalJobs = await jobModel.countDocuments();
+        const totalApplicants = await userModel.countDocuments({ role: "user" });
+        const totalActiveJobs = await jobModel.countDocuments({ status: "active" })
+
+        const stats = {
+            totalJobs: totalJobs,
+            totalApplicants: totalApplicants,
+            totalActiveJobs: totalActiveJobs
+        }
+        return responseHandler(res, 200, 'Stats data fetched successfully', stats)
+
+    } catch (error) {
+        return responseHandler(res, 500, "Error while applying job", error.message)
+
+    }
+}
+
 
 
 const changeApplicantStatus = async (req, res) => {
@@ -153,7 +172,7 @@ const changeApplicantStatus = async (req, res) => {
 
 
 
- const downloadApplicantsExcel = async (req, res) => {
+const downloadApplicantsExcel = async (req, res) => {
     try {
         const { jobId } = req.params;
 
@@ -213,4 +232,4 @@ const changeApplicantStatus = async (req, res) => {
 
 
 
-export { applyToJob, getApplicationByJobId, userStatsData, changeApplicantStatus, downloadApplicantsExcel }
+export { applyToJob, getApplicationByJobId, userStatsData, adminDashboardStats, changeApplicantStatus, downloadApplicantsExcel }
