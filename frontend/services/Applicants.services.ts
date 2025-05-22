@@ -31,6 +31,12 @@ const applicantServices = {
         });
         return response.data
     },
+    adminStats: async () => {
+        const response = await axios.get(`${API_URL}/admin/stats`, {
+            withCredentials: true,
+        });
+        return response.data
+    },
     changeApplicantStatus: async (jobId: string, data: any) => {
         const response = await axios.put(`${API_URL}/applicants/status/${jobId}`, data, {
             withCredentials: true,

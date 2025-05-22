@@ -22,11 +22,13 @@ const SavedJobCards = ({
   _id
 }: SavedData) => {
   const router = useRouter()
+  const todayDate = new Date().toISOString();
 
   const handlSaveUnsaveJobs = async (jobId: string) => {
     try {
       const response = await saveJobService.saveUnsaveJobs(jobId)
       toast.success(response?.message)
+      router.refresh()
     } catch (error: unknown) {
       const err = error as ApiError;
       toast.error(err?.response?.data?.message || "Something went wrong");
@@ -41,12 +43,17 @@ const SavedJobCards = ({
           <p className="text-sm sm:text-base text-indigo-500 font-bold capitalize mt-2">{companyname}</p>
         </div>
         <div className="flex flex-col  sm:items-end gap-2">
-          <span className={`text-sm sm:text-base w-fit font-medium px-3 py-1 rounded-full ${getStatusColor(status)}`}>
-            {status}
+          <span className={`text-sm sm:text-base w-fit font-medium px-3 py-1 rounded-full ${getStatusColor(deadline.toString() < todayDate.toString() ? "closed" : status)}`}>
+            {deadline.toString() < todayDate.toString() ? "closed" : status}
           </span>
           <div className="flex flex-col md:flex-row  flex-wrap gap-2 mt-2">
             <CustomButton label="View" onClick={() => { router.push(`/user/jobs/${_id}`) }} />
-            <Button className="flex h-10 gap-2" onClick={() => handlSaveUnsaveJobs(_id)}>
+            <Button
+              className="flex h-10 gap-2"
+              onClick={() => {
+                handlSaveUnsaveJobs(_id);
+              }}
+            >
               <X /> Remove
             </Button>
           </div>

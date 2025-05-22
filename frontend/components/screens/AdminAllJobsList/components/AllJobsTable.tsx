@@ -52,8 +52,8 @@ const AllJobsTable = () => {
         try {
             const response = await jobServices.getAllJobs(currentPage, jobsPerPage);
             setData(response?.data || []);
-        } catch (error) {
-            console.error(error);
+        } catch (error: any) {
+            toast.error(error);
         } finally {
             setLoading(false);
         }
@@ -64,9 +64,8 @@ const AllJobsTable = () => {
             const response = await jobServices.deleteJob(jobId);
             toast.success(response?.message);
             handleGetAllJobs();
-        } catch (error) {
-            toast.error("Failed to delete job");
-            console.error(error);
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message);
         }
     }
 
