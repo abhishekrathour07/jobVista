@@ -53,6 +53,7 @@ const login = async (req, res) => {
             sameSite: 'none',
             path: '/',
             maxAge: 24 * 60 * 60 * 1000,
+            domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
         });
 
         return responseHandler(res, 200, "Login Successfully", {
@@ -75,6 +76,7 @@ const logout = async (req, res) => {
             secure: true,
             sameSite: 'none',
             path: '/',
+            domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined
         });
         return responseHandler(res, 200, "Logout Successfully");
 
