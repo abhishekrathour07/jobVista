@@ -25,6 +25,8 @@ export interface JobTypes {
     companyInfo: string;
     location: string;
     status: string;
+    jobType: string;
+    experience: string;
     skills: string[];
     salaryRange: string;
     deadline: Date;

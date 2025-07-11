@@ -4,8 +4,17 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const jobServices = {
     // Fetch all jobs are avilable it shows limited detail about job
-    getAllJobs: async (page: Number, limit: Number) => {
-        const response = await axios.get(`${API_URL}/jobs?page=${page}&limit=${limit}`, {
+    getAllJobs: async (page: Number, limit: Number, filters?: { search?: string, jobType?: string, location?: string, experience?: string }) => {
+        let queryParams = `page=${page}&limit=${limit}`;
+        
+        if (filters) {
+            if (filters.search) queryParams += `&search=${encodeURIComponent(filters.search)}`;
+            if (filters.jobType) queryParams += `&jobType=${filters.jobType}`;
+            if (filters.location) queryParams += `&location=${encodeURIComponent(filters.location)}`;
+            if (filters.experience) queryParams += `&experience=${encodeURIComponent(filters.experience)}`;
+        }
+        
+        const response = await axios.get(`${API_URL}/jobs?${queryParams}`, {
             withCredentials: true
         });
         return response.data;

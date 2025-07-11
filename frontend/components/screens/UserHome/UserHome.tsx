@@ -17,7 +17,7 @@ import { SavedData, savedJobResponseType, statesTypes } from '@/types/savedJobTy
 import { ApiError } from '@/types/Error.type';
 
 const UserHome = () => {
-  const [lastIndex, setlastindex] = useState(2);
+  const [lastIndex, setlastindex] = useState(3);
   const [jobData, setJobsData] = useState<savedJobResponseType>();
   const [statsData, setStatsData] = useState<statesTypes>();
 
