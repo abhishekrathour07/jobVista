@@ -47,13 +47,24 @@ const login = async (req, res) => {
 
         const isProduction = process.env.NODE_ENV === 'production';
 
-        res.cookie('auth_token', token, {
+        // Debug logging
+        console.log('Login attempt:', {
+            email: existUser.email,
+            frontendUrl: process.env.FRONTEND_URL,
+            nodeEnv: process.env.NODE_ENV,
+            origin: req.headers.origin
+        });
+
+        const cookieOptions = {
             httpOnly: true,
             secure: true, // Always true for production deployment
             sameSite: 'none', // Required for cross-origin requests
             path: '/',
             maxAge: 24 * 60 * 60 * 1000,
-        });
+        };
+
+        console.log('Setting cookie with options:', cookieOptions);
+        res.cookie('auth_token', token, cookieOptions);
 
         return responseHandler(res, 200, "Login Successfully", {
             userId: existUser._id,
@@ -134,5 +145,32 @@ const resetPassword = async (req, res) => {
     }
 }
 
+const testCookie = async (req, res) => {
+    try {
+        console.log('Test cookie endpoint called');
+        console.log('Headers:', req.headers);
+        console.log('Origin:', req.headers.origin);
+        console.log('Environment:', {
+            NODE_ENV: process.env.NODE_ENV,
+            FRONTEND_URL: process.env.FRONTEND_URL
+        });
 
-export { login, signup, logout, forgotPassword, resetPassword }
+        res.cookie('test_cookie', 'test_value', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/',
+            maxAge: 60000, // 1 minute
+        });
+
+        return responseHandler(res, 200, "Test cookie set successfully", {
+            origin: req.headers.origin,
+            frontendUrl: process.env.FRONTEND_URL,
+            nodeEnv: process.env.NODE_ENV
+        });
+    } catch (error) {
+        return responseHandler(res, 500, "Test cookie failed", error.message);
+    }
+};
+
+export { login, signup, logout, forgotPassword, resetPassword, testCookie }

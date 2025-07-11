@@ -1,65 +1,81 @@
 # Vercel Deployment Guide for JobVista
 
-## Backend Deployment (Vercel)
+## ⚠️ IMPORTANT: Environment Variables Must Be Set in Vercel Dashboard
 
-### 1. Environment Variables
-Set these environment variables in your Vercel backend project:
+### Backend Deployment (Vercel)
+
+1. **Go to your backend project in Vercel dashboard**
+2. **Settings → Environment Variables**
+3. **Add these variables:**
 
 ```
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_strong_jwt_secret
-FRONTEND_URL=https://your-frontend-domain.vercel.app
+FRONTEND_URL=https://job-vista-frontend.vercel.app
 NODE_ENV=production
 ```
 
-### 2. Important Notes
-- Make sure `FRONTEND_URL` points to your actual frontend Vercel domain
-- The JWT_SECRET should be a strong, unique string
-- NODE_ENV should be set to 'production'
+### Frontend Deployment (Vercel)
 
-## Frontend Deployment (Vercel)
-
-### 1. Environment Variables
-Set these environment variables in your Vercel frontend project:
+1. **Go to your frontend project in Vercel dashboard**
+2. **Settings → Environment Variables** 
+3. **Add this variable:**
 
 ```
-NEXT_PUBLIC_API_URL=https://your-backend-domain.vercel.app/api/v1
+NEXT_PUBLIC_API_URL=https://job-vista-backend.vercel.app/api/v1
 ```
 
-### 2. Important Notes
-- Make sure `NEXT_PUBLIC_API_URL` points to your actual backend Vercel domain
-- Include `/api/v1` at the end as per your backend routes
+## 🔧 Step-by-Step Deployment Process
 
-## Common Issues and Solutions
+### Step 1: Deploy Backend First
+1. Deploy your backend to Vercel
+2. Note the URL (e.g., `https://job-vista-backend.vercel.app`)
+3. Set environment variables in Vercel dashboard (not in code)
 
-### Issue 1: Cookies not being set
-**Solution**: The backend now uses `sameSite: 'none'` and `secure: true` for cross-origin cookie support.
+### Step 2: Deploy Frontend
+1. In Vercel dashboard, set `NEXT_PUBLIC_API_URL` to your backend URL
+2. Deploy your frontend to Vercel
+3. Note the URL (e.g., `https://job-vista-frontend.vercel.app`)
+
+### Step 3: Update Backend Environment
+1. Go back to backend project in Vercel dashboard
+2. Update `FRONTEND_URL` to your frontend URL
+3. Redeploy backend
+
+## 🚨 Common Issues and Solutions
+
+### Issue 1: API calls going to frontend URL instead of backend
+**Cause**: `NEXT_PUBLIC_API_URL` not set correctly in Vercel dashboard
+**Solution**: Set environment variable in Vercel dashboard, not in code files
 
 ### Issue 2: CORS errors
-**Solution**: Backend CORS is configured to accept your frontend domain and credentials.
+**Cause**: Backend `FRONTEND_URL` not matching actual frontend URL
+**Solution**: Ensure exact URL match in backend environment variables
 
-### Issue 3: Authentication failing
-**Solution**: Make sure both frontend and backend URLs are correctly set in environment variables.
+### Issue 3: Cookies not being set
+**Cause**: Fixed in code with `sameSite: 'none'` and `secure: true`
+**Solution**: Already implemented in the code changes
 
-## Testing the Deployment
+## 📋 Verification Checklist
 
-1. Deploy backend first and note the URL
-2. Update frontend `NEXT_PUBLIC_API_URL` with backend URL
-3. Deploy frontend and note the URL
-4. Update backend `FRONTEND_URL` with frontend URL
-5. Test login/logout functionality
+Before testing:
+- [ ] Backend deployed with correct environment variables
+- [ ] Frontend deployed with correct API URL  
+- [ ] Both projects use HTTPS URLs
+- [ ] Environment variables set in Vercel dashboard (not in code)
+- [ ] Both projects redeployed after setting environment variables
 
-## Troubleshooting
+## 🔍 Debugging
 
-If you're still having issues:
+If still having issues:
+1. Check browser Network tab - API calls should go to backend URL
+2. Verify environment variables in Vercel dashboard
+3. Check if cookies are being set in Application tab
+4. Ensure both deployments use HTTPS
 
-1. Check browser developer tools for CORS errors
-2. Verify environment variables are set correctly in both deployments
-3. Make sure both domains are using HTTPS
-4. Check if cookies are being set in browser storage
+## 📝 Key Changes Made
 
-## Key Changes Made
-
-1. **Fixed cookie settings**: Now uses `sameSite: 'none'` and `secure: true` for production
-2. **Improved CORS**: Added more comprehensive CORS configuration
-3. **Proper logout**: Clear cookies with same attributes as when setting them
+1. **Fixed cookie settings**: `sameSite: 'none'` and `secure: true`
+2. **Improved CORS**: Comprehensive CORS configuration
+3. **Environment setup**: Proper environment variable configuration
+4. **Deployment guide**: Step-by-step process for correct deployment
