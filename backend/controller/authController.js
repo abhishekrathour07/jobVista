@@ -20,7 +20,6 @@ const signup = async (req, res) => {
         await newUser.save();
         responseHandler(res, 200, "Account created successfully");
 
-
     } catch (error) {
         responseHandler(res, 500, "Internal server Error", error);
     }
@@ -50,8 +49,8 @@ const login = async (req, res) => {
 
         res.cookie('auth_token', token, {
             httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? 'none' : 'Lax',
+            secure: true, // Always true for production deployment
+            sameSite: 'none', // Required for cross-origin requests
             path: '/',
             maxAge: 24 * 60 * 60 * 1000,
         });
@@ -71,7 +70,12 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        res.clearCookie('auth_token');
+        res.clearCookie('auth_token', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/',
+        });
         return responseHandler(res, 200, "Logout Successfully");
 
     } catch (error) {
