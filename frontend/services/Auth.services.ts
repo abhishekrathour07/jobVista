@@ -34,7 +34,7 @@ const authService = {
     },
     //reset password throught token
     resetPassword: async (token: string, data: any) => {
-        const response = await axios.post(`${API_URL}/reset-password/${token}`, data, {
+        const response = await axios.post(`${API_URL}/forgot-password/${token}`, data, {
             withCredentials: true
         })
         return response.data

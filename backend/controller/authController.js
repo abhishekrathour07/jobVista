@@ -45,10 +45,12 @@ const login = async (req, res) => {
             { expiresIn: "24h" }
         );
 
+        const isProduction = process.env.NODE_ENV === 'production';
+
         res.cookie('auth_token', token, {
             httpOnly: true,
-            secure: true,
-            sameSite: 'none',
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'Lax',
             path: '/',
             maxAge: 24 * 60 * 60 * 1000,
         });
@@ -68,12 +70,7 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        res.clearCookie('auth_token', {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'none',
-            path: '/',
-        });
+        res.clearCookie('auth_token');
         return responseHandler(res, 200, "Logout Successfully");
 
     } catch (error) {

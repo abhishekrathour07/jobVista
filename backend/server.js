@@ -22,18 +22,9 @@ ConnectedDatabase();
 app.use(cookieParser());
 app.use(express.json());
 
-// Simple CORS configuration
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL,
-    'http://localhost:3000',
-    'https://localhost:3000',
-    'https://job-vista-frontend.vercel.app'
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
-  optionsSuccessStatus: 200
+  origin: process.env.FRONTEND_URL,
+  credentials: true
 }));
 
 
