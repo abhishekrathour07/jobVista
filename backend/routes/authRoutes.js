@@ -1,5 +1,5 @@
 import express from 'express'
-import { forgotPassword, login, logout, resetPassword, signup, testCookie } from '../controller/authController.js';
+import { forgotPassword, login, logout, resetPassword, signup } from '../controller/authController.js';
 
 
 const authRouter = express.Router();
@@ -9,6 +9,5 @@ authRouter.post("/login", login);
 authRouter.post("/logout", logout);
 authRouter.post("/forgot-password", forgotPassword);
 authRouter.post("/reset-password/:token", resetPassword);
-authRouter.get("/test-cookie", testCookie);
 
 export default authRouter
