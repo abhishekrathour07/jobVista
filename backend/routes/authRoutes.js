@@ -8,7 +8,7 @@ authRouter.post("/signup", signup);
 authRouter.post("/login", login);
 authRouter.post("/logout", logout);
 authRouter.post("/forgot-password", forgotPassword);
-authRouter.post("/forgot-password/:token", resetPassword);
+authRouter.post("/reset-password/:token", resetPassword);
 authRouter.get("/test-cookie", testCookie);
 
 export default authRouter

@@ -17,19 +17,33 @@ const CookieDebugger = () => {
     
     try {
       addLog(`API URL: ${process.env.NEXT_PUBLIC_API_URL}`)
+      addLog(`Environment: ${process.env.NODE_ENV}`)
+      addLog(`Current Origin: ${window.location.origin}`)
       addLog('Testing cookie endpoint...')
       
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/test-cookie`, {
-        withCredentials: true
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        }
       })
       
       addLog(`Response: ${JSON.stringify(response.data)}`)
       addLog('Check browser Application > Storage > Cookies for test_cookie')
+      
+      // Check if cookie was actually set
+      const cookies = document.cookie
+      addLog(`Current cookies: ${cookies}`)
+      
     } catch (error: any) {
       addLog(`Error: ${error.message}`)
       if (error.response) {
         addLog(`Status: ${error.response.status}`)
         addLog(`Data: ${JSON.stringify(error.response.data)}`)
+        addLog(`Headers: ${JSON.stringify(error.response.headers)}`)
+      }
+      if (error.code) {
+        addLog(`Error Code: ${error.code}`)
       }
     } finally {
       setLoading(false)
@@ -41,30 +55,43 @@ const CookieDebugger = () => {
     addLog('Testing login...')
     
     try {
+      // Use demo admin credentials
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-        email: 'test@example.com',
-        password: 'testpassword'
+        email: 'abhisheksingh24704@gmail.com',
+        password: '12345678'
       }, {
-        withCredentials: true
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        }
       })
       
       addLog(`Login Response: ${JSON.stringify(response.data)}`)
       addLog('Check browser Application > Storage > Cookies for auth_token')
+      
+      // Check if cookie was actually set
+      const cookies = document.cookie
+      addLog(`Current cookies: ${cookies}`)
+      
     } catch (error: any) {
       addLog(`Login Error: ${error.message}`)
       if (error.response) {
         addLog(`Status: ${error.response.status}`)
         addLog(`Data: ${JSON.stringify(error.response.data)}`)
+        addLog(`Headers: ${JSON.stringify(error.response.headers)}`)
+      }
+      if (error.code) {
+        addLog(`Error Code: ${error.code}`)
       }
     } finally {
       setLoading(false)
     }
   }
 
-  // Only show in development or when NODE_ENV is not production
-  if (process.env.NODE_ENV === 'production') {
-    return null
-  }
+  // Show in all environments for testing
+  // if (process.env.NODE_ENV === 'production') {
+  //   return null
+  // }
 
   return (
     <div className="fixed bottom-4 left-4 bg-gray-900 text-white p-4 rounded-lg max-w-md max-h-96 overflow-y-auto z-50">
