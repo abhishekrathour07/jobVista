@@ -62,14 +62,39 @@ const getPaginatedJobs = async (req, res) => {
         const skip = (page - 1) * limit;
         const loggedInUserId = req.user._id;
 
+        // Extract filter parameters
+        const { search, jobType, location, experience } = req.query;
+        
+        // Build filter object
+        let filter = {};
+        
+        // Search filter - search in job title, company name, and skills
+        if (search) {
+            filter.$or = [
+                { jobtitle: { $regex: search, $options: 'i' } },
+                { companyname: { $regex: search, $options: 'i' } },
+                { skills: { $in: [new RegExp(search, 'i')] } },
+                { location: { $regex: search, $options: 'i' } }
+            ];
+        }
+        if (jobType && jobType !== 'all') {
+            filter.jobType = jobType;
+        }
+        if (location && location !== 'all') {
+            filter.location = { $regex: location, $options: 'i' };
+        }
+        if (experience && experience !== 'all') {
+            filter.experience = { $regex: experience, $options: 'i' };
+        }
+
         const jobs = await jobModel
-            .find()
-            .select("companyLogo jobtitle companyname location companyInfo status skills tags salaryRange applicants postedAt applicationCount deadline")
+            .find(filter)
+            .select("companyLogo jobtitle companyname location companyInfo status skills tags salaryRange applicants postedAt applicationCount deadline jobType experience")
             .sort({ postedAt: -1 })
             .skip(skip)
             .limit(limit);
 
-        const totalJobs = await jobModel.countDocuments();
+        const totalJobs = await jobModel.countDocuments(filter);
         const jobApplicants = jobs.map(data => {
             const isApplied = data.applicants.some(id => id.toString() === loggedInUserId.toString());
             return { ...data._doc, isApplied };
