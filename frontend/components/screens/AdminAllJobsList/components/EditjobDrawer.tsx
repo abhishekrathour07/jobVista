@@ -2,7 +2,6 @@
 
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
     Form, FormControl, FormField, FormItem, FormLabel
 } from '@/components/ui/form';
@@ -12,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import jobServices from '@/services/Job.services';
 import toast from 'react-hot-toast';
 import SelectFile from '@/components/custom/SelectFile/SelectFile';
-import { jobFormSchema, JobFormValues } from '../../AdminPostJob/components/validation/Addjob.validation';
+import { JobFormValues } from '../../AdminPostJob/components/validation/Addjob.validation';
 import { Button } from '@/components/ui/button';
 import Loader from '@/components/custom/HashLoader/Loader';
 import { JobDetailTypes } from '@/types/jobDetail.types';
@@ -79,7 +78,7 @@ const EditJobDrawer: React.FC<EditJobDrawerProps> = ({ jobId, setShowUserInfo, s
 
     const form = useForm<any>({
         defaultValues: jobDetailData || defaultValues,
-        resolver: yupResolver(jobFormSchema),
+        // resolver: yupResolver(jobFormSchema),
     });
     const { control } = form;
 

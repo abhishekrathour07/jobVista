@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '@/components/custom/Navbar/Navbar'
 import PreferJobs from './components/PreferJobs'
-import FilterJobs from './components/Filter'
 import JobCards from './components/JobCards'
 import Footer from '@/components/custom/Footer/Footer'
 import CustomPagination from '@/components/custom/Pagination/Pagination'
@@ -15,7 +14,7 @@ const UserJobs = () => {
     const [data, setData] = useState<PaginatedJobsResponseTypes>()
     const [currentPage, setCurrentpage] = useState(1)
     const [loading, setloading] = useState(false)
-    const jobsPerPage = 4;
+    const jobsPerPage = 6;
 
     const handleGetAllJobs = async () => {
         setloading(true)
@@ -42,8 +41,7 @@ const UserJobs = () => {
                 <div>
                     <PreferJobs />
                     <div className='flex flex-col md:flex-row gap-6 p-8'>
-                        <FilterJobs />
-                        <div className='grid grid-cols-1 gap-6'>
+                        <div className='grid grid-cols-2 gap-6'>
                             {data?.jobs?.map((job: JobTypes, index: number) => (
                                 <JobCards key={index}
                                     jobId={job._id}

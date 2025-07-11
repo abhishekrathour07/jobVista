@@ -20,7 +20,7 @@ const ProfileCard: React.FC<ProfileCardType> = ({
     name, email, location, role, profileImage, createdAt, phone, skills
 }) => {
     return (
-        <div className="w-full md:max-w-md h-[80vh] border mx-auto bg-white rounded-2xl p-6 shadow-md">
+        <div className="w-full md:max-w-md h-auto border mx-auto bg-white rounded-2xl p-6 shadow-md">
             <div className="flex flex-col items-center space-y-2">
                 <Avatar className="w-20 h-20">
                     <AvatarImage
@@ -51,7 +51,7 @@ const ProfileCard: React.FC<ProfileCardType> = ({
                 </div>
                 <div className="flex items-center gap-2">
                     <Globe className="w-4 h-4 text-gray-500" />
-                    <span>{createdAt}</span>
+                    <span>{new Date(createdAt).toLocaleDateString()}</span>
                 </div>
                 <div className="flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-gray-500" />

@@ -56,6 +56,15 @@ const Login = () => {
         }
     }
 
+    const handleDemoAdmin = () => {
+        form.setValue("email", "abhisheksingh24704@gmail.com");
+        form.setValue("password", "12345678");
+    }
+    const handleUserAdmin = () => {
+        form.setValue("email", "abhi@gmail.com");
+        form.setValue("password", "12345678");
+    }
+
     return (
         <div className="relative min-h-screen flex items-center justify-center ">
             <BackgroundBeams className="absolute inset-0 -z-10 bg-indigo-950" />
@@ -115,6 +124,12 @@ const Login = () => {
 
 
                         <CustomButton isloading={loading} label="Login" onClick={form.handleSubmit(onSubmit)} className="w-full" />
+
+                        <div className="flex gap-4">
+                            <CustomButton isloading={loading} label="Admin Demo Login" onClick={handleDemoAdmin} className="w-full" />
+                            <CustomButton isloading={loading} label="User Demo Login" onClick={handleUserAdmin} className="w-full" />
+                        </div>
+
                         <div className="flex flex-col gap-2 items-center justify-center">
                             <Link href={"/signup"} className="text-sm">
                                 <p> Don&apos;t have an account? <span className="hover:underline text-indigo-500 hover:text-indigo-600">Signup</span></p>
