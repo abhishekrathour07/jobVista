@@ -123,11 +123,11 @@ const Login = () => {
                         />
 
 
-                        <CustomButton isloading={loading} label="Login" onClick={form.handleSubmit(onSubmit)} className="w-full" />
+                        <CustomButton isloading={loading} label="Login" onClick={form.handleSubmit(onSubmit)} className="w-full " />
 
                         <div className="flex gap-4">
-                            <CustomButton isloading={loading} label="Admin Demo Login" onClick={handleDemoAdmin} className="w-full" />
-                            <CustomButton isloading={loading} label="User Demo Login" onClick={handleUserAdmin} className="w-full" />
+                            <CustomButton  label="Admin Demo Login" onClick={handleDemoAdmin} className="w-full" />
+                            <CustomButton  label="User Demo Login" onClick={handleUserAdmin} className="w-full" />
                         </div>
 
                         <div className="flex flex-col gap-2 items-center justify-center">
