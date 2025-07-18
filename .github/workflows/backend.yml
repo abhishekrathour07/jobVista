@@ -86,20 +86,18 @@ jobs:
             npm install --force
 
             # Create the .env file with the specified environment variables
-            cat > /home/ubuntu/jobvista-backend/.env << 'EOT'
-EMAIL_ID=${{ secrets.EMAIL_ID }}
-EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
-JWT_SECRET=${{ secrets.JWT_SECRET }}
-MONGO_URL=${{ secrets.MONGO_URL }}
-PORT=${{ vars.BACKEND_PORT || '4050' }}
-FRONTEND_URL=${{ vars.FRONTEND_URL }}
-NODE_ENV=production
-CLOUDANARY_CLOUD_NAME=${{ secrets.CLOUDANARY_CLOUD_NAME }}
-CLOUDANARY_APIKEY=${{ secrets.CLOUDANARY_APIKEY }}
-CLOUDANARY_SECRETS=${{ secrets.CLOUDANARY_SECRETS }}
-GOOGLE_APIKEY=${{ secrets.GOOGLE_APIKEY }}
-GOOGLE_CLIENTID=${{ secrets.GOOGLE_CLIENTID }}
-EOT
+            echo "EMAIL_ID=${{ secrets.EMAIL_ID }}" > /home/ubuntu/jobvista-backend/.env
+            echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> /home/ubuntu/jobvista-backend/.env
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> /home/ubuntu/jobvista-backend/.env
+            echo "MONGO_URL=${{ secrets.MONGO_URL }}" >> /home/ubuntu/jobvista-backend/.env
+            echo "PORT=${{ vars.BACKEND_PORT || '4050' }}" >> /home/ubuntu/jobvista-backend/.env
+            echo "FRONTEND_URL=${{ vars.FRONTEND_URL }}" >> /home/ubuntu/jobvista-backend/.env
+            echo "NODE_ENV=production" >> /home/ubuntu/jobvista-backend/.env
+            echo "CLOUDANARY_CLOUD_NAME=${{ secrets.CLOUDANARY_CLOUD_NAME }}" >> /home/ubuntu/jobvista-backend/.env
+            echo "CLOUDANARY_APIKEY=${{ secrets.CLOUDANARY_APIKEY }}" >> /home/ubuntu/jobvista-backend/.env
+            echo "CLOUDANARY_SECRETS=${{ secrets.CLOUDANARY_SECRETS }}" >> /home/ubuntu/jobvista-backend/.env
+            echo "GOOGLE_APIKEY=${{ secrets.GOOGLE_APIKEY }}" >> /home/ubuntu/jobvista-backend/.env
+            echo "GOOGLE_CLIENTID=${{ secrets.GOOGLE_CLIENTID }}" >> /home/ubuntu/jobvista-backend/.env
 
             # Install PM2 globally if not already installed
             if ! command -v pm2 &> /dev/null; then
