@@ -38,7 +38,6 @@ jobs:
             ${{ runner.os }}-nextjs- # Restore key for previous caches
 
       - name: Create .env File for Build
-        # Create a .env file on the GitHub Actions runner for the build process
         run: |
           cd frontend
           printf "NEXT_PUBLIC_NODE_ENV=%s\n" "production" >> .env
