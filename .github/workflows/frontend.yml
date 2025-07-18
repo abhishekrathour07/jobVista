@@ -55,7 +55,9 @@ jobs:
 
       - name: Add EC2 to Known Hosts
         # Add the EC2 instance's host key to known_hosts to prevent SSH warnings
-        run: ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
+        run: |
+          echo "EC2_IP is: ${{ secrets.EC2_IP }}"
+          ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
 
       - name: Upload Artifacts to EC2 using rsync
         env:
