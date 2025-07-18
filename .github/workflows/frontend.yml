@@ -97,8 +97,30 @@ jobs:
           ssh -i /tmp/ec2_key.pem -o StrictHostKeyChecking=no $SCP_USER@$SCP_IP << 'EOF'
             cd /home/ubuntu/jobvista-frontend
             
+            # Update system packages
+            sudo apt-get update
+            
+            # Install Node.js and npm if not already installed
+            if ! command -v node &> /dev/null; then
+              curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+            fi
+            
+            # Install nginx if not already installed
+            if ! command -v nginx &> /dev/null; then
+              sudo apt-get install -y nginx
+              sudo systemctl enable nginx
+              sudo systemctl start nginx
+            fi
+            
             # Ensure npm install only production dependencies
             npm install --force
+            
+            # Install PM2 globally if not already installed
+            if ! command -v pm2 &> /dev/null; then
+              echo "PM2 not found, installing globally..."
+              sudo npm install -g pm2
+            fi
             
             # Create the .env file with the specified environment variables for the application
             # Using cat <<EOT for multi-line string with variable expansion
@@ -108,13 +130,6 @@ jobs:
             NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}
             API_URL=${{ vars.NEXT_PUBLIC_API_URL }}/v1/api
             EOT'
-            
-            # Ensure PM2 is installed globally
-            if ! command -v pm2 &> /dev/null
-            then
-              echo "PM2 not found, installing globally..."
-              npm install -g pm2
-            fi
             
             # Stop and delete the previous application instance (if it exists)
             pm2 stop jobvista-frontend || true
@@ -127,17 +142,15 @@ jobs:
             # Save PM2 process list to be restored on reboot
             pm2 save
             
-            # Generate and enable PM2 startup script for systemd
-            # This command needs to be run as root directly, not piped to tee
-            # The 'systemd -u ubuntu --hp /home/ubuntu' part ensures it's configured for the 'ubuntu' user
-            sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
+            # Generate and enable PM2 startup script for systemd (only if not already set up)
+            if ! sudo systemctl is-enabled pm2-ubuntu &> /dev/null; then
+              sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
+              sudo systemctl daemon-reload
+              sudo systemctl enable pm2-ubuntu
+            fi
             
-            # Reload systemd daemon to recognize the new service
-            sudo systemctl daemon-reload
-            
-            # Enable and start the PM2 service
-            sudo systemctl enable pm2-ubuntu
-            sudo systemctl start pm2-ubuntu
+            # Start the PM2 service
+            sudo systemctl start pm2-ubuntu || true
             
             # Restart Nginx to apply any proxy configuration changes
             sudo systemctl restart nginx
