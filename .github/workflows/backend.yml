@@ -85,7 +85,7 @@ jobs:
             npm install --force
 
             # Create the .env file with the specified environment variables
-            sudo bash -c 'cat <<EOT > /home/ubuntu/jobvista-backend/.env
+            cat > /home/ubuntu/jobvista-backend/.env << EOT
             EMAIL_ID=${{ secrets.EMAIL_ID }}
             EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
@@ -98,7 +98,7 @@ jobs:
             CLOUDANARY_SECRETS=${{ secrets.CLOUDANARY_SECRETS }}
             GOOGLE_APIKEY=${{ secrets.GOOGLE_APIKEY }}
             GOOGLE_CLIENTID=${{ secrets.GOOGLE_CLIENTID }}
-            EOT'
+            EOT
 
             # Install PM2 globally if not already installed
             if ! command -v pm2 &> /dev/null; then
@@ -109,6 +109,16 @@ jobs:
             # Stop and delete the previous application instance (if it exists)
             pm2 stop jobvista-backend 2>/dev/null || echo "No existing backend process to stop"
             pm2 delete jobvista-backend 2>/dev/null || echo "No existing backend process to delete"
+            
+            # Kill any process running on port 4050
+            sudo fuser -k 4050/tcp 2>/dev/null || echo "No process running on port 4050"
+            
+            # Wait a moment for the port to be freed
+            sleep 2
+            
+            # Debug: Check if .env file was created correctly
+            echo "Checking .env file contents:"
+            cat /home/ubuntu/jobvista-backend/.env
 
             # Start the Node.js Express API using PM2
             pm2 start server.js --name "jobvista-backend"
