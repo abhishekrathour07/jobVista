@@ -96,8 +96,6 @@ jobs:
             CLOUDANARY_CLOUD_NAME=${{ secrets.CLOUDANARY_CLOUD_NAME }}
             CLOUDANARY_APIKEY=${{ secrets.CLOUDANARY_APIKEY }}
             CLOUDANARY_SECRETS=${{ secrets.CLOUDANARY_SECRETS }}
-            GOOGLE_APIKEY=${{ secrets.GOOGLE_APIKEY }}
-            GOOGLE_CLIENTID=${{ secrets.GOOGLE_CLIENTID }}
             EOT
 
             # Install PM2 globally if not already installed
