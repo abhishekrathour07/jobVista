@@ -32,7 +32,7 @@ jobs:
       - name: Archive Build Artifacts
         run: |
           cd backend
-          tar -czf ../nodejs-api-build.tar.gz . --exclude=node_modules --exclude=.git
+          tar -czf ../nodejs-api-build.tar.gz --exclude=node_modules --exclude=.git .
 
       # Install SSH Client for uploading build artifacts to EC2
       - name: Install SSH Client
