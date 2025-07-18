@@ -132,8 +132,8 @@ jobs:
             EOT'
             
             # Stop and delete the previous application instance (if it exists)
-            pm2 stop jobvista-frontend || true
-            pm2 delete jobvista-frontend || true
+            pm2 stop jobvista-frontend 2>/dev/null || echo "No existing process to stop"
+            pm2 delete jobvista-frontend 2>/dev/null || echo "No existing process to delete"
             
             # Start the Next.js application on port 3000 with PM2
             # The '--' separates npm arguments from run script arguments
