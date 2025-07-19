@@ -12,15 +12,12 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
     const router = useRouter();
     const pathname = usePathname();
     const [isChecking, setIsChecking] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         const checkAuth = () => {
             const token = TokenManager.getToken();
             const userData = UserDataManager.getUserData();
             const isAuth = !!token && !!userData;
-            
-            setIsAuthenticated(isAuth);
             
             // Define public paths that don't require authentication
             const publicPaths = ['/login', '/signup', '/forgot-password'];
