@@ -20,6 +20,7 @@ import CustomButton from "@/components/custom/CustomButton/CustomButton"
 import Link from "next/link"
 import { LoginFormValue } from "@/types/Authentication.type"
 import authService from "@/services/Auth.services"
+import { TokenManager, UserDataManager } from "@/lib/tokenManager"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { roleEnum } from "@/components/custom/jobCommon/AdminJobCommon"
@@ -42,6 +43,16 @@ const Login = () => {
         setLoading(true)
         try {
             const response = await authService.login(data)
+            
+            // Store token and user data in localStorage
+            TokenManager.setToken(response?.data?.token)
+            UserDataManager.setUserData({
+                userId: response?.data?.userId,
+                name: response?.data?.name,
+                role: response?.data?.role,
+                profileImage: response?.data?.profileImage
+            })
+            
             toast.success(response?.message)
             form.reset();
             if (response?.data?.role === roleEnum.User) {

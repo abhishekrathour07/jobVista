@@ -10,6 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import authService from "@/services/Auth.services"
+import { TokenManager, UserDataManager } from "@/lib/tokenManager"
 import { Bug, LogOutIcon, Mail, Settings, User, User2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
@@ -27,11 +28,20 @@ const LogoutDropdown: React.FC<logoutDropdownTypes> = ({ name, email, role }) =>
     const handleLogOut = async () => {
         try {
             const response = await authService.logOut();
+            
+            // Remove token and user data from localStorage
+            TokenManager.removeToken();
+            UserDataManager.removeUserData();
+            
             toast.success(response?.message);
             router.push("/login")
         } catch (error: unknown) {
             const err = error as ApiError;
-            toast.error(err?.response?.data?.message || "Something went wrong");
+            // Even if the server call fails, clear local storage and redirect
+            TokenManager.removeToken();
+            UserDataManager.removeUserData();
+            toast.error(err?.response?.data?.message || "Logged out successfully");
+            router.push("/login")
         }
     }
 

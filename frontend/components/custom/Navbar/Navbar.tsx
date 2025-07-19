@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import LogoutDropdown from "../LogoutDropdown/LogoutDropdown";
 import profileService from "@/services/Profile.services";
+import { UserDataManager } from "@/lib/tokenManager";
 import toast from "react-hot-toast";
 import { applicantsDetailResponseType } from "@/types/applicantsDetail.types";
 import { ApiError } from "@/types/Error.type";
@@ -27,11 +28,27 @@ const Navbar = () => {
 
   const getUserDetail = async () => {
     try {
+      // First try to get user data from localStorage
+      const localUserData = UserDataManager.getUserData();
+      if (localUserData) {
+        setUserData(localUserData);
+      }
+      
+      // Then fetch fresh data from API to update if needed
       const response = await profileService.loggedinUserDetail();
       setUserData(response?.data);
+      
+      // Update localStorage with fresh data
+      UserDataManager.setUserData(response?.data);
     } catch (error: unknown) {
       const err = error as ApiError;
-      toast.error(err?.response?.data?.message || "Something went wrong");
+      // If API fails but we have local data, use that
+      const localUserData = UserDataManager.getUserData();
+      if (localUserData) {
+        setUserData(localUserData);
+      } else {
+        toast.error(err?.response?.data?.message || "Something went wrong");
+      }
     }
   };
 

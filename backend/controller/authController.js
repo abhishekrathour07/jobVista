@@ -45,18 +45,9 @@ const login = async (req, res) => {
             { expiresIn: "24h" }
         );
 
-        const isProduction = process.env.NODE_ENV === 'production';
-
-        res.cookie('auth_token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'none',
-            path: '/',
-            maxAge: 24 * 60 * 60 * 1000,
-        });
-
         return responseHandler(res, 200, "Login Successfully", {
             userId: existUser._id,
+            token: token,
             name: existUser.name,
             role: existUser.role,
             profileImage: existUser.profileImage
@@ -70,12 +61,8 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        res.clearCookie('auth_token', {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'none',
-            path: '/',
-        });
+        // Since token is stored on client-side, logout just returns success
+        // Client will handle removing the token from browser storage
         return responseHandler(res, 200, "Logout Successfully");
 
     } catch (error) {

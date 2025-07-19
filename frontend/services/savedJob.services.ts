@@ -1,18 +1,13 @@
 
-import axios from "axios"
+import api from "@/lib/api"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const saveJobService = {
     getallSavedJob: async (page?: number, limit?: number) => {
-        const response = await axios.get(`${API_URL}/get/saved-job?page${page}&limit${limit}`, {
-            withCredentials: true
-        })
+        const response = await api.get(`/get/saved-job?page${page}&limit${limit}`)
         return response.data
     },
     saveUnsaveJobs: async (jobId: string) => {
-        const response = await axios.post(`${API_URL}/saved-job`, { jobId }, {
-            withCredentials: true
-        });
+        const response = await api.post(`/saved-job`, { jobId });
         return response.data
     }
 }

@@ -1,6 +1,5 @@
 
-import axios from 'axios';
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import api from '@/lib/api';
 
 const jobServices = {
     // Fetch all jobs are avilable it shows limited detail about job
@@ -14,31 +13,24 @@ const jobServices = {
             if (filters.experience) queryParams += `&experience=${encodeURIComponent(filters.experience)}`;
         }
         
-        const response = await axios.get(`${API_URL}/jobs?${queryParams}`, {
-            withCredentials: true
-        });
+        const response = await api.get(`/jobs?${queryParams}`);
         return response.data;
     },
     //  get job full detail on job detail page 
     getJobById: async (id: string) => {
-        const response = await axios.get(`${API_URL}/jobs/${id}`, {
-            withCredentials: true,
-        });
+        const response = await api.get(`/jobs/${id}`);
         return response.data;
     },
 
     // Accessible by admin only admin can create a new job
     createJob: async (jobData: object) => {
-        const response = await axios.post(`${API_URL}/post-job`, jobData, {
-            withCredentials: true
-        });
+        const response = await api.post(`/post-job`, jobData);
         return response.data;
     },
 
     //    It is used to edit existing jon it open job edit drawer
     editJob: async (id: string, jobData: object) => {
-        const response = await axios.put(`${API_URL}/edit-job/${id}`, jobData, {
-            withCredentials: true,
+        const response = await api.put(`/edit-job/${id}`, jobData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
@@ -48,9 +40,7 @@ const jobServices = {
 
     //   this api is used to delete the posted job either is it active or not 
     deleteJob: async (id: string) => {
-        const response = await axios.delete(`${API_URL}/delete-job/${id}`, {
-            withCredentials: true
-        });
+        const response = await api.delete(`/delete-job/${id}`);
         return response.data;
     },
 
