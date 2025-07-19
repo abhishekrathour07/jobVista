@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
+import NextTopLoader from "nextjs-toploader";
 import AuthGuard from "@/components/custom/AuthGuard/AuthGuard";
 
 const geistSans = Geist({
@@ -16,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "JobVista",
-  icons: "/image.png",
+  icons: "https://res.cloudinary.com/dkndihxkb/image/upload/v1746506542/t1gbxzzo41zrudpjoged.png",
   description: "apply for job | get Your job now | apply for job | job dekho | find career path",
 };
 
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <NextTopLoader showSpinner={false} color="#0CAF60" />
         <AuthGuard>
           {children}
         </AuthGuard>

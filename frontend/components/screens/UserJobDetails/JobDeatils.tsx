@@ -11,7 +11,6 @@ import FAQquestions from './components/FAQquestions'
 import jobServices from '@/services/Job.services'
 import toast from 'react-hot-toast'
 import moment from 'moment'
-import Skills from '../Profile/components/Skills'
 import Loader from '@/components/custom/HashLoader/Loader'
 import saveJobService from '@/services/savedJob.services'
 import { userJobDetailResponseTypes } from '@/types/jobDetail.types'
@@ -93,29 +92,40 @@ const JobDetail = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                 <div>
-                  <h3 className="font-medium text-sm text-indigo-700">Work Mode</h3>
+                  <h3 className="font-bold text-sm text-indigo-700">Work Mode</h3>
                   <p className='capitalize'>{jobDetailData?.job?.workplaceType}</p>
                 </div>
                 <div>
-                  <h3 className="font-medium text-sm text-indigo-700">Experience</h3>
+                  <h3 className="font-bold text-sm text-indigo-700">Experience</h3>
                   <p className='capitalize'>{jobDetailData?.job?.experience}</p>
                 </div>
                 <div>
-                  <h3 className="font-medium text-sm text-indigo-700">Application Deadline</h3>
+                  <h3 className=" text-sm text-indigo-700 font-bold">Application Deadline</h3>
                   <p>{moment(jobDetailData?.job?.deadline).format('MMMM D, YYYY')}</p>
                 </div>
               </div>
 
               <div>
-                <h3 className="font-medium mt-6">Requirements</h3>
+                <h3 className=" mt-6 text-indigo-700 font-bold">Requirements</h3>
                 <ul className="list-disc list-inside text-gray-700 mt-2">
                   {jobDetailData?.job?.requirements?.map((item: string, index: number) => (
                     <li key={index}>{item}</li>
                   ))}
                 </ul>
               </div>
-
-              <Skills skills={jobDetailData?.job?.skills} title='Skills required for this job' />
+              <div>
+                <h3 className='text-indigo-700 font-bold mb-3'>Skills Required</h3>
+                <div className='flex flex-wrap gap-2'>
+                  {jobDetailData?.job.skills[0].split(" ").filter(skill => skill.trim()).map((skill: string, index: number) => (
+                    <span 
+                      key={index} 
+                      className='bg-indigo-100 text-indigo-800 rounded-full px-3 py-1 text-sm font-medium border border-indigo-200 hover:bg-indigo-200 transition-colors'
+                    >
+                      {skill.trim()}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 

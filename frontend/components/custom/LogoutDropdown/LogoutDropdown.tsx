@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import authService from "@/services/Auth.services"
 import { TokenManager, UserDataManager } from "@/lib/tokenManager"
-import { Bug, LogOutIcon, Mail, Settings, User, User2 } from "lucide-react"
+import { LogOutIcon, Mail, Settings, User, User2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { roleEnum } from "../jobCommon/AdminJobCommon"
@@ -29,7 +29,6 @@ const LogoutDropdown: React.FC<logoutDropdownTypes> = ({ name, email, role }) =>
         try {
             const response = await authService.logOut();
             
-            // Remove token and user data from localStorage
             TokenManager.removeToken();
             UserDataManager.removeUserData();
             
@@ -37,7 +36,6 @@ const LogoutDropdown: React.FC<logoutDropdownTypes> = ({ name, email, role }) =>
             router.push("/login")
         } catch (error: unknown) {
             const err = error as ApiError;
-            // Even if the server call fails, clear local storage and redirect
             TokenManager.removeToken();
             UserDataManager.removeUserData();
             toast.error(err?.response?.data?.message || "Logged out successfully");
@@ -68,10 +66,6 @@ const LogoutDropdown: React.FC<logoutDropdownTypes> = ({ name, email, role }) =>
                     <DropdownMenuItem className="cursor-pointer" onClick={() => role === roleEnum.User ? router.push('/user/settings') : router.push('/admin/settings')}>
                         Settings
                         <DropdownMenuShortcut><Settings /></DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer" onClick={() => router.push('/about-us')}>
-                        Creators
-                        <DropdownMenuShortcut><Bug /></DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="text-red-600 cursor-pointer" onClick={handleLogOut}>
